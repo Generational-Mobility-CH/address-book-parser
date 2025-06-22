@@ -1,21 +1,29 @@
 import os
 from enum import Enum
+from typing import TypeVar
 
-from modules.models.person import Person
-from modules.persons_cleaner.src.extract.csv.extractor import CsvExtractor
-from modules.persons_cleaner.src.extract.extractor_strategy import ExtractorStrategy
+from libs.file_handler.src.csv.extractor import CsvExtractor
+from libs.file_handler.src.extractor_strategy import ExtractorStrategy
+from libs.file_handler.src.json.extractor import JsonExtractor
+from libs.file_handler.src.text.extractor import TextExtractor
+
+T = TypeVar("T")
 
 
 class SupportedFileTypes(Enum):
     CSV = ".csv"
+    JSON = ".json"
+    TXT = ".txt"
 
 
 EXTRACTORS: dict[SupportedFileTypes, ExtractorStrategy] = {
     SupportedFileTypes.CSV: CsvExtractor(),
+    SupportedFileTypes.JSON: JsonExtractor(),
+    SupportedFileTypes.TXT: TextExtractor()
 }
 
 
-def extract_data(data_path: str) -> list[Person]:
+def extract_data(data_path: str) -> list[T]:
     all_books_paths = get_sub_paths(data_path)
     extractor = get_extractor_strategy(all_books_paths[0])
 

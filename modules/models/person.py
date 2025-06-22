@@ -4,8 +4,8 @@ import uuid
 
 from modules.common.special_chars import (
     TAG_NONE_FOUND,
-    SPECIAL_LAST_NAMES,
-    SPLIT_MARKERS,
+    KEYWORDS_SPECIAL_LAST_NAMES,
+    KEYWORDS_NAMES_SPLITTING,
 )
 from modules.models.address import Address
 from modules.models.person_names import PersonNames
@@ -124,7 +124,7 @@ class Person:
             name_parts = split_at_marker(self.original_names, found_marker)
             self.last_names, self.first_names = name_parts.last_names, name_parts.first_names
 
-        elif any(substr in self.original_names.lower() for substr in SPECIAL_LAST_NAMES):
+        elif any(substr in self.original_names.lower() for substr in KEYWORDS_SPECIAL_LAST_NAMES):
             name_parts = extract_special_last_names(self.original_names)
             self.last_names, self.first_names = name_parts.last_names, name_parts.first_names
 
@@ -163,7 +163,7 @@ class Person:
 def get_splitting_marker_if_present(data: str) -> str | None:
     found_marker = None
 
-    for marker in SPLIT_MARKERS:
+    for marker in KEYWORDS_NAMES_SPLITTING:
         if marker in data.lower():
             found_marker = marker
             break

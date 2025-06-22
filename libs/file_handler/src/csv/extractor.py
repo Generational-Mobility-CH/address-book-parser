@@ -1,12 +1,12 @@
 import re
 import uuid
 
+from libs.file_handler.src.csv.reader import read_csv
+from libs.file_handler.src.extractor_strategy import ExtractorStrategy
 from modules.common.csv_column_names import COLUMN_NAMES
 from modules.common.special_chars import TAG_NONE_FOUND
 from modules.models.address import Address
 from modules.models.person import Person
-from modules.persons_cleaner.src.extract.csv.reader import read_csv
-from modules.persons_cleaner.src.extract.extractor_strategy import ExtractorStrategy
 
 
 class CsvExtractor(ExtractorStrategy):

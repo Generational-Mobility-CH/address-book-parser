@@ -1,8 +1,8 @@
 import logging
 from datetime import datetime
 
+from libs.file_handler.src.extractor import extract_data
 from modules.common.paths import DATA_PATH, INPUT_PATH, OUTPUT_PATH
-from modules.persons_cleaner.src.extract.extractor import extract_data
 from modules.persons_cleaner.src.load.loader import save_data, SupportedOutputFileTypes
 from modules.persons_cleaner.src.transform.parser import transform
 

@@ -33,4 +33,4 @@ def save_data(
         case SupportedOutputFileTypes.DB:
             save_to_db(input_data, output_file_path)
         case _:
-            logger.error(f"Unsupported output file type: {output_file_type}")
+            logger.error(f"Unsupported output file type: {output_file_type}={output_file_type.value}")
