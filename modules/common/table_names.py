@@ -1,0 +1,2 @@
+PERSONS = "persons"
+ADDRESSES = "addresses"
