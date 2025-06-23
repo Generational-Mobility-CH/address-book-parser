@@ -1,9 +1,9 @@
 import logging
 from datetime import datetime
 
+from libs.db_handler.src.to_db import save_to_db
 from libs.file_handler.src.extractor import extract_data
 from modules.common.paths import DATA_PATH, INPUT_PATH, OUTPUT_PATH
-from modules.persons_cleaner.src.load.loader import save_data, SupportedOutputFileTypes
 from modules.persons_cleaner.src.transform.parser import transform
 
 logger = logging.getLogger(__name__)
@@ -14,7 +14,7 @@ def main(data_path: str, output_path: str) -> None:
 
     raw_persons = extract_data(data_path)
     cleaned_persons = transform(raw_persons)
-    save_data(cleaned_persons, output_path, SupportedOutputFileTypes.CSV)
+    save_to_db(cleaned_persons, output_path)
 
 
 def setup_logging():
@@ -30,7 +30,7 @@ def setup_logging():
 
 
 if __name__ == "__main__":
-    output_type = SupportedOutputFileTypes.CSV.value
+    output_type = "db"
     demo_input_path = f"{INPUT_PATH}/csv"
     demo_output_path = f"{OUTPUT_PATH}/{output_type}/{datetime.now():%m.%d-%H.%M.%S}.{output_type}"
 

@@ -1,8 +1,8 @@
 import logging
 
+from libs.file_handler.src.csv.to_csv import save_to_csv
 from libs.file_handler.src.extractor import extract_data
 from modules.common.paths import DATA_PATH, OUTPUT_PATH, INPUT_PATH
-from modules.persons_parser.src.load.loader import save_data, OutputFileType
 from modules.persons_parser.src.parser.parser import parse_address_book
 
 
@@ -14,7 +14,7 @@ def main(data_path: str, output_path: str) -> None:
 
     for book in all_books:
         persons = parse_address_book(book)
-        save_data(persons, f"{output_path}/{book.year}.csv", OutputFileType.CSV)
+        save_to_csv(persons, f"{output_path}/{book.year}.csv")
 
 
 def setup_logging():
