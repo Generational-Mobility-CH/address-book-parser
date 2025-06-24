@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar
 
-T = TypeVar('T')
+T = TypeVar("T")
 
 
 class ExtractorStrategy(ABC):

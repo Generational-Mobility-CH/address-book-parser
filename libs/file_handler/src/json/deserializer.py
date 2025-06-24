@@ -1,14 +1,26 @@
+from pathlib import Path
+
 from jsonschema import validate, ValidationError
 from dacite import from_dict, Config
 
 from libs.file_handler.src.json.reader import read_json
 from modules.persons.models.addressBookPage import AddressBookPage
-from modules.persons.src.util.get_project_file import get_project_file
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[4]
 
 
 def deserialize_book_page(data: dict) -> AddressBookPage:
-    schema_file = get_project_file("libs", "file_handler", "src", "json", "schemas", "book_page_schema.json")
-    schema = read_json(schema_file)
+    schema_file_path = (
+        PROJECT_ROOT
+        / "libs"
+        / "file_handler"
+        / "src"
+        / "json"
+        / "schemas"
+        / "book_page_schema.json"
+    )
+    schema = read_json(schema_file_path)
 
     try:
         validate(instance=data, schema=schema)
@@ -19,5 +31,5 @@ def deserialize_book_page(data: dict) -> AddressBookPage:
 
 
 def to_camel_case(key: str) -> str:
-    first_part, *remaining_parts = key.split('_')
-    return first_part + ''.join(part.title() for part in remaining_parts)
+    first_part, *remaining_parts = key.split("_")
+    return first_part + "".join(part.title() for part in remaining_parts)

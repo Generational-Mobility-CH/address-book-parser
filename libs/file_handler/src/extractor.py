@@ -1,25 +1,17 @@
 import os
-from enum import Enum
 from typing import TypeVar
 
-from libs.file_handler.src.csv.extractor import CsvExtractor
-from libs.file_handler.src.extractor_strategy import ExtractorStrategy
+from libs.file_handler.src.models.extractor_strategy import ExtractorStrategy
 from libs.file_handler.src.json.extractor import JsonExtractor
+from libs.file_handler.src.models.supported_file_types import SupportedFileTypes
 from libs.file_handler.src.text.extractor import TextExtractor
 
 T = TypeVar("T")
 
 
-class SupportedFileTypes(Enum):
-    CSV = ".csv"
-    JSON = ".json"
-    TXT = ".txt"
-
-
 EXTRACTORS: dict[SupportedFileTypes, ExtractorStrategy] = {
-    SupportedFileTypes.CSV: CsvExtractor(),
     SupportedFileTypes.JSON: JsonExtractor(),
-    SupportedFileTypes.TXT: TextExtractor()
+    SupportedFileTypes.TXT: TextExtractor(),
 }
 
 

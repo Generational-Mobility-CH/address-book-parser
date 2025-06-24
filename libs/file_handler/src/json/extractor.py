@@ -2,7 +2,7 @@ import logging
 import os
 import re
 
-from libs.file_handler.src.extractor_strategy import ExtractorStrategy
+from libs.file_handler.src.models.extractor_strategy import ExtractorStrategy
 from libs.file_handler.src.json.deserializer import deserialize_book_page
 from libs.file_handler.src.json.reader import read_json
 from modules.persons.models.addressBook import AddressBook
@@ -18,14 +18,18 @@ class JsonExtractor(ExtractorStrategy):
             if os.path.isdir(sub_folder_path):
                 year = 0
                 try:
-                    year = int(get_year_from_file_name(os.path.basename(sub_folder_path)))
+                    year = int(
+                        get_year_from_file_name(os.path.basename(sub_folder_path))
+                    )
                 except Exception as e:
-                    logger.warning(f"Failed to extract year from {sub_folder_path}: {e}")
+                    logger.warning(
+                        f"Failed to extract year from {sub_folder_path}: {e}"
+                    )
 
                 book: AddressBook = AddressBook(year=year, pages=[])
 
                 for file in sorted(os.listdir(sub_folder_path)):
-                    if not file.endswith('.json'):
+                    if not file.endswith(".json"):
                         logger.info(f"Skipping '{file}'")
                         continue
                     file_path = os.path.join(sub_folder_path, file)
@@ -33,7 +37,9 @@ class JsonExtractor(ExtractorStrategy):
                     try:
                         book_page = deserialize_book_page(json_data)
                     except Exception as e:
-                        raise ValueError(f"Failed to deserialize address book: {e.__str__()}")
+                        raise ValueError(
+                            f"Failed to deserialize address book: {e.__str__()}"
+                        )
                     book.pages.append(book_page)
                 books_collection.append(book)
             else:
@@ -50,5 +56,5 @@ class JsonExtractor(ExtractorStrategy):
 
 
 def get_year_from_file_name(file_name: str) -> str:
-        match = re.search(r'([19|20]\d{3})', file_name)
-        return match.group(0) if match else "0"
+    match = re.search(r"([19|20]\d{3})", file_name)
+    return match.group(0) if match else "0"
