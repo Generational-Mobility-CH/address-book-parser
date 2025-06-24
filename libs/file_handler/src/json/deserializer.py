@@ -2,8 +2,8 @@ from jsonschema import validate, ValidationError
 from dacite import from_dict, Config
 
 from libs.file_handler.src.json.reader import read_json
-from modules.models.addressBookPage import AddressBookPage
-from modules.persons_parser.src.util.get_project_file import get_project_file
+from modules.persons.models.addressBookPage import AddressBookPage
+from modules.persons.src.util.get_project_file import get_project_file
 
 
 def deserialize_book_page(data: dict) -> AddressBookPage:

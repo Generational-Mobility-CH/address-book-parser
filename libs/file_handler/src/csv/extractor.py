@@ -3,10 +3,10 @@ import uuid
 
 from libs.file_handler.src.csv.reader import read_csv
 from libs.file_handler.src.extractor_strategy import ExtractorStrategy
-from modules.common.csv_column_names import COLUMN_NAMES
-from modules.common.special_chars import TAG_NONE_FOUND
-from modules.models.address import Address
-from modules.models.person import Person
+from modules.persons.common.csv_column_names import COLUMN_NAMES
+from modules.persons.common.special_chars import TAG_NONE_FOUND
+from modules.persons.models.address import Address
+from modules.persons.models.person import Person
 
 
 class CsvExtractor(ExtractorStrategy):

@@ -5,7 +5,7 @@ import re
 from libs.file_handler.src.extractor_strategy import ExtractorStrategy
 from libs.file_handler.src.json.deserializer import deserialize_book_page
 from libs.file_handler.src.json.reader import read_json
-from modules.models.addressBook import AddressBook
+from modules.persons.models.addressBook import AddressBook
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +33,7 @@ class JsonExtractor(ExtractorStrategy):
                     try:
                         book_page = deserialize_book_page(json_data)
                     except Exception as e:
-                        raise ValueError(f"Failed to deserialize address book: {e}")
+                        raise ValueError(f"Failed to deserialize address book: {e.__str__()}")
                     book.pages.append(book_page)
                 books_collection.append(book)
             else:
