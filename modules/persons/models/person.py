@@ -9,18 +9,22 @@ from modules.persons.common.special_chars import (
 )
 from modules.persons.models.address import Address
 from modules.persons.models.person_names import PersonNames
-from modules.persons.src.standardizer.first_names_standardizer import FirstNamesStandardizer
+from modules.persons.src.standardizer.first_names_standardizer import (
+    FirstNamesStandardizer,
+)
 from modules.persons.src.standardizer.job_standardizer import JobStandardizer
-from modules.persons.src.standardizer.last_names_standardizer import LastNamesStandardizer
-from modules.persons.src.standardizer.street_name_standardizer import StreetNameStandardizer
+from modules.persons.src.standardizer.last_names_standardizer import (
+    LastNamesStandardizer,
+)
+from modules.persons.src.standardizer.street_name_standardizer import (
+    StreetNameStandardizer,
+)
 
 logger = logging.getLogger(__name__)
 
 
 class Person:
-    def __init__(
-        self, original_names: str, job: str, address: Address
-    ) -> None:
+    def __init__(self, original_names: str, job: str, address: Address) -> None:
         self.last_names: str = ""
         self.first_names: str = ""
         self.original_names = original_names
@@ -97,9 +101,7 @@ class Person:
         self._pdf_page_number = value
 
     def __repr__(self) -> str:
-        return (
-            f"Person(Full name={self.last_names} {self.first_names}, job={self.job}, address={repr(self.address)}, year={self.year}, id={self.person_id})"
-        )
+        return f"Person(Full name={self.last_names} {self.first_names}, job={self.job}, address={repr(self.address)}, year={self.year}, id={self.person_id})"
 
     def __str__(self) -> str:
         return f"Vollständiger Name: {self.last_names} {self.first_names}\nJob: {self.job}\nAddresse: {self.address}\nJahr: {self.year}"
@@ -121,20 +123,30 @@ class Person:
         self.last_names = LastNamesStandardizer().standardize(self.last_names)
         self.first_names = FirstNamesStandardizer().standardize(self.first_names)
         self.job = JobStandardizer().standardize(self.job)
-        self.address.street_name = StreetNameStandardizer().standardize(self.address.street_name)
+        self.address.street_name = StreetNameStandardizer().standardize(
+            self.address.street_name
+        )
 
         return self
 
-
     def separate_names(self) -> None:
-        found_marker = get_splitting_marker_if_present(self.original_names)
+        found_marker = get_splitting_marker(self.original_names)
         if found_marker:
             name_parts = split_at_marker(self.original_names, found_marker)
-            self.last_names, self.first_names = name_parts.last_names, name_parts.first_names
+            self.last_names, self.first_names = (
+                name_parts.last_names,
+                name_parts.first_names,
+            )
 
-        elif any(substr in self.original_names.lower() for substr in KEYWORDS_SPECIAL_LAST_NAMES):
+        elif any(
+            substr in self.original_names.lower()
+            for substr in KEYWORDS_SPECIAL_LAST_NAMES
+        ):
             name_parts = extract_special_last_names(self.original_names)
-            self.last_names, self.first_names = name_parts.last_names, name_parts.first_names
+            self.last_names, self.first_names = (
+                name_parts.last_names,
+                name_parts.first_names,
+            )
 
         else:
             parts = self.original_names.split(" ")
@@ -168,7 +180,7 @@ class Person:
                     self.first_names = "<TODO>"
 
 
-def get_splitting_marker_if_present(data: str) -> str | None:
+def get_splitting_marker(data: str) -> str | None:
     found_marker = None
 
     for marker in KEYWORDS_NAMES_SPLITTING:
@@ -189,12 +201,13 @@ def split_at_marker(data: str, marker: str) -> PersonNames:
     s = data.lower()
     parts = s.split(marker, 1)
 
-    name_parts = PersonNames(
-        last_names="",
-        first_names=marker.strip().capitalize()
+    name_parts = PersonNames(last_names="", first_names=marker.strip().capitalize())
+    name_parts.last_names += " ".join(
+        word.capitalize().strip() for word in parts[0].split(" ")
     )
-    name_parts.last_names += " ".join(word.capitalize().strip() for word in parts[0].split(" "))
-    name_parts.first_names += " ".join(word.capitalize().strip() for word in parts[1].split(" "))
+    name_parts.first_names += " ".join(
+        word.capitalize().strip() for word in parts[1].split(" ")
+    )
 
     return name_parts
 
@@ -210,6 +223,8 @@ def unmerge_name_parts(data: str) -> str:
     s = re.split(r"(?<![ -])(?=[A-ZÄÖÜẞ])", data)
     s = " ".join([part.strip() for part in s if part.strip()])
 
+    # TODO: check if this is adding parentheses where it shouldn't
+    # Abom( Helene
     s = s.replace(")", f"){marker}")
     s = s.replace("(", " (")
 

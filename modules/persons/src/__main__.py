@@ -1,9 +1,11 @@
 import logging
+import os
+
 from datetime import datetime
 
 from libs.db_handler.src.to_db import save_to_db
 from libs.file_handler.src.csv.to_csv import save_to_csv
-from libs.file_handler.src.extractor import extract_data
+from libs.file_handler.src.json.extractor import JsonExtractor
 from libs.file_handler.src.models.supported_file_types import SupportedFileTypes
 from modules.persons.common.logger import setup_logging
 from modules.persons.common.paths import OUTPUT_PATH, INPUT_PATH
@@ -18,19 +20,29 @@ def main(
     output_path: str,
     output_type: SupportedFileTypes = SupportedFileTypes.DB,
 ) -> None:
-    address_books = extract_data(data_path)
-    raw_persons = [
-        person for book in address_books for person in parse_address_book(book)
-    ]
-    standardized_persons = [p.standardize_attributes() for p in raw_persons]
+    extractor = JsonExtractor()
+    all_paths = get_all_data_paths(data_path)
 
-    match output_type:
-        case SupportedFileTypes.DB:
-            logger.info(f"Saving persons to database at {output_path}")
-            save_to_db(standardized_persons, output_path)
-        case SupportedFileTypes.CSV:
-            logger.info(f"Saving persons to .csv at {output_path}")
-            save_to_csv(standardized_persons, output_path)
+    for path in all_paths:
+        book = extractor.extract(path)
+        raw_persons = parse_address_book(book)
+        standardized_persons = [p.standardize_attributes() for p in raw_persons]
+
+        match output_type:
+            case SupportedFileTypes.DB:
+                save_to_db(standardized_persons, output_path)
+            case SupportedFileTypes.CSV:
+                save_to_csv(standardized_persons, output_path)
+
+        logger.info(f"Saved persons to {output_type.value} at {output_path}")
+
+
+def get_all_data_paths(base_path: str) -> list[str]:
+    result = []
+    for folder in os.listdir(base_path):
+        if os.path.isdir(os.path.join(base_path, folder)):
+            result.append(os.path.join(base_path, folder))
+    return result
 
 
 if __name__ == "__main__":

@@ -4,7 +4,6 @@ from modules.persons.models.addressBook import AddressBook
 from modules.persons.models.addressBookPage import AddressBookPage
 from modules.persons.models.person import Person
 from modules.persons.src.parser.company_parser import is_company
-from modules.persons.src.parser.data_grouper import group_data
 from modules.persons.src.parser.person_parser.names_parser import (
     starts_with_surname_placeholder,
     is_valid_next_surname_legacy,
@@ -12,12 +11,16 @@ from modules.persons.src.parser.person_parser.names_parser import (
     extract_other_names,
     is_valid_next_surname,
 )
-from modules.persons.src.parser.person_parser.person_parser import extract_person_information
+from modules.persons.src.parser.person_parser.person_parser import (
+    extract_person_information,
+)
 from modules.persons.src.parser.person_parser.widow_parser import (
     is_widow,
     extract_widow,
 )
-from modules.persons.src.text_sanitizer.text_cleaner import clean_text_columns_and_split_into_lines
+from modules.persons.src.parser.text_sanitizer import (
+    clean_text_columns_and_split_into_lines,
+)
 
 
 def parse_address_book(address_book: AddressBook) -> list[Person]:
@@ -35,7 +38,7 @@ def parse_address_book(address_book: AddressBook) -> list[Person]:
 def parse_address_book_page(page: AddressBookPage) -> list[Person]:
     page = clean_text_columns_and_split_into_lines(page)
     text = chain.from_iterable(page.text_columns.values())
-    grouped_information = group_data(text)  # TODO: see if casting really necessary list(text) cause of chain
+    grouped_information = group_data(text)
     persons = parse_persons(grouped_information, page)
 
     for p in persons:
@@ -104,5 +107,25 @@ def get_next_surname(
         current_surname = parse_surname(all_names)
     elif is_valid_next_surname(all_names, surname_range):
         current_surname = parse_surname(all_names)
+    else:
+        all_names = f"{current_surname} {all_names}"
 
     return all_names, current_surname
+
+
+def group_data(text: list[str]) -> list[list[str]]:
+    """
+    Separate each string into substrings containing information bits.
+    Afterward these information bits will be checked and parsed into:
+    Names, address, job
+    """
+    result = []
+
+    for line in text:
+        content = line.split(",")
+        content = [item for item in content if item != ""]
+
+        if len(content) in (2, 3):
+            result.append(content)
+
+    return result

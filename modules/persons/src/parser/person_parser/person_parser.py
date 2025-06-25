@@ -19,6 +19,7 @@ def extract_person_information(
             address = extract_address(e)
         else:
             continue
+
         remaining_content.remove(e)
 
     remaining_content = list(filter(lambda x: x != "", remaining_content))

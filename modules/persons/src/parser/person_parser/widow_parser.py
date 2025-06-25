@@ -6,6 +6,7 @@ from modules.persons.models.address import Address
 from modules.persons.models.person import Person
 from modules.persons.src.parser.address_parser import extract_address, is_address
 
+
 logger = logging.getLogger(__name__)
 
 
