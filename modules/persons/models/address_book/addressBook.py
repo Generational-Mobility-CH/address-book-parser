@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from modules.persons.models.addressBookPage import AddressBookPage
+from modules.persons.models.address_book.addressBookPage import AddressBookPage
 
 
 @dataclass

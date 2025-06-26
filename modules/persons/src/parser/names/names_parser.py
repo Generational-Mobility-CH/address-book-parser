@@ -74,3 +74,18 @@ def is_valid_next_surname_legacy(current: str, previous: str) -> bool:
         return True
 
     return False
+
+
+def get_next_surname(
+    all_names: str, current_surname: str, surname_range
+) -> tuple[str, str]:
+    if starts_with_surname_placeholder(all_names):
+        all_names = current_surname + extract_other_names(all_names)
+    elif not current_surname:
+        current_surname = parse_surname(all_names)
+    elif is_valid_next_surname(all_names, surname_range):
+        current_surname = parse_surname(all_names)
+    else:
+        all_names = f"{current_surname} {all_names}"
+
+    return all_names, current_surname

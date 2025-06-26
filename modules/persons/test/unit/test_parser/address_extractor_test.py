@@ -1,6 +1,6 @@
 import unittest
 
-from modules.persons.models.address import Address
+from modules.persons.models.person.address import Address
 from modules.persons.src.parser.address_parser import extract_address
 
 

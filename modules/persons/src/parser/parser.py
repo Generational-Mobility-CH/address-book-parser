@@ -1,23 +1,17 @@
 from itertools import chain
 
-from modules.persons.models.addressBook import AddressBook
-from modules.persons.models.addressBookPage import AddressBookPage
-from modules.persons.models.person import Person
+from modules.persons.models.address_book.addressBook import AddressBook
+from modules.persons.models.address_book.addressBookPage import AddressBookPage
+from modules.persons.models.person.person import Person
 from modules.persons.src.parser.company_parser import is_company
-from modules.persons.src.parser.person_parser.names_parser import (
+from modules.persons.src.parser.names.names_parser import (
     starts_with_surname_placeholder,
     is_valid_next_surname_legacy,
     parse_surname,
     extract_other_names,
-    is_valid_next_surname,
+    get_next_surname,
 )
-from modules.persons.src.parser.person_parser.person_parser import (
-    extract_person_information,
-)
-from modules.persons.src.parser.person_parser.widow_parser import (
-    is_widow,
-    extract_widow,
-)
+from modules.persons.src.parser.person_parser import parse_person
 from modules.persons.src.parser.text_sanitizer import (
     clean_text_columns_and_split_into_lines,
 )
@@ -47,40 +41,28 @@ def parse_address_book_page(page: AddressBookPage) -> list[Person]:
     return persons
 
 
-def parse_persons(grouped_information, page: AddressBookPage) -> list[Person]:
+def parse_persons(
+    grouped_information: list[list[str]], page: AddressBookPage
+) -> list[Person]:
     output = []
-    current_surname = previous_surname = ""
+    current_surname = ""
+    previous_surname = ""
     no_name_range = not page.surname_range or len(page.surname_range) != 2
 
     for group in grouped_information:
-        if len(group) not in (2, 3):
-            continue
-
         if is_company(group):
             continue
 
-        if is_widow(group):
-            if no_name_range:
-                group[0], current_surname, previous_surname = parse_legacy(
-                    group[0], current_surname, previous_surname
-                )
-            else:
-                group[0], current_surname = get_next_surname(
-                    group[0], current_surname, page.surname_range
-                )
-            output.append(extract_widow(group))
-        elif len(group) == 3:
-            if no_name_range:
-                group[0], current_surname, previous_surname = parse_legacy(
-                    group[0], current_surname, previous_surname
-                )
-            else:
-                group[0], current_surname = get_next_surname(
-                    group[0], current_surname, page.surname_range
-                )
-            output.append(extract_person_information(group, current_surname))
+        if no_name_range:
+            group[0], current_surname, previous_surname = parse_legacy(
+                group[0], current_surname, previous_surname
+            )
+        else:
+            group[0], current_surname = get_next_surname(
+                group[0], current_surname, page.surname_range
+            )
 
-    output = [element for element in output if element is not None]
+        output.append(parse_person(group, current_surname))
 
     return output
 
@@ -96,21 +78,6 @@ def parse_legacy(
         previous_surname, current_surname = current_surname, parse_surname(all_names)
 
     return all_names, current_surname, previous_surname
-
-
-def get_next_surname(
-    all_names: str, current_surname: str, surname_range
-) -> tuple[str, str]:
-    if starts_with_surname_placeholder(all_names):
-        all_names = current_surname + extract_other_names(all_names)
-    elif not current_surname:
-        current_surname = parse_surname(all_names)
-    elif is_valid_next_surname(all_names, surname_range):
-        current_surname = parse_surname(all_names)
-    else:
-        all_names = f"{current_surname} {all_names}"
-
-    return all_names, current_surname
 
 
 def group_data(text: list[str]) -> list[list[str]]:

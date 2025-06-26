@@ -1,6 +1,6 @@
 import re
 
-from modules.persons.models.addressBookPage import AddressBookPage
+from modules.persons.models.address_book.addressBookPage import AddressBookPage
 from modules.persons.common.special_chars import (
     ALLOWED_SPECIAL_CHARS,
     UNALLOWED_STRINGS,
