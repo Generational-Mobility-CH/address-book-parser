@@ -1,5 +1,6 @@
 import logging
 import os
+import time
 
 from datetime import datetime
 
@@ -20,6 +21,7 @@ def main(
     output_path: str,
     output_type: SupportedFileTypes = SupportedFileTypes.DB,
 ) -> None:
+    start_time = time.time()
     extractor = JsonExtractor()
     all_paths = get_all_data_paths(data_path)
 
@@ -35,6 +37,9 @@ def main(
                 save_to_csv(standardized_persons, output_path)
 
         logger.info(f"Saved persons to {output_type.value} at {output_path}")
+
+    elapsed = time.time() - start_time
+    logger.info(f"Execution time: {elapsed:.2f} seconds")
 
 
 def get_all_data_paths(base_path: str) -> list[str]:

@@ -11,6 +11,9 @@ from modules.persons.src.parser.names.names_parser import (
     extract_other_names,
     get_next_surname,
 )
+from modules.persons.src.parser.names.special_last_names_parser import (
+    handle_special_last_names_if_present,
+)
 from modules.persons.src.parser.person_parser import parse_person
 from modules.persons.src.parser.text_sanitizer import (
     clean_text_columns_and_split_into_lines,
@@ -47,19 +50,22 @@ def parse_persons(
     output = []
     current_surname = ""
     previous_surname = ""
+    # TODO: add check to see im name range makes sense, e.g.: ["Montmollin", "Dettwiler"] (should be "de montmollin")
     no_name_range = not page.surname_range or len(page.surname_range) != 2
 
     for group in grouped_information:
         if is_company(group):
             continue
 
+        names = handle_special_last_names_if_present(group[0])
+
         if no_name_range:
             group[0], current_surname, previous_surname = parse_legacy(
-                group[0], current_surname, previous_surname
+                names, current_surname, previous_surname
             )
         else:
             group[0], current_surname = get_next_surname(
-                group[0], current_surname, page.surname_range
+                names, current_surname, page.surname_range
             )
 
         output.append(parse_person(group, current_surname))

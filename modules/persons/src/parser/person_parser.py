@@ -1,4 +1,7 @@
-from modules.persons.common.special_chars import TAG_NONE_FOUND, TAG_NO_JOB
+from modules.persons.common.special_chars import (
+    TAG_NONE_FOUND,
+    TAG_NO_JOB,
+)
 from modules.persons.models.person.address import Address
 from modules.persons.models.person.person import Person
 from modules.persons.src.parser.address_parser import is_address, extract_address
