@@ -3,6 +3,7 @@ import unittest
 from modules.persons.src.parser.text_sanitizer import (
     clean_text_lines,
     clean_up_parenthesis,
+    has_line_break,
 )
 
 
@@ -21,7 +22,7 @@ class TextSanitizerTestCase(unittest.TestCase):
                 self.assertEqual(
                     actual,
                     expected,
-                    f"Mismatch at case #{i + 1}: '{actual}' != '{expected}'",
+                    f"\n\nMismatch at case #{i + 1}:\n'{actual}' != '{expected}'",
                 )
 
     def test_clean_up_parenthesis(self):
@@ -43,7 +44,7 @@ class TextSanitizerTestCase(unittest.TestCase):
                 self.assertEqual(
                     actual,
                     expected,
-                    f"Mismatch at case #{i + 1}: '{actual}' != '{expected}'",
+                    f"\n\nMismatch at case #{i + 1}:\n'{actual}' != '{expected}'",
                 )
 
     def test_line_breaks_merging(self):
@@ -64,5 +65,29 @@ class TextSanitizerTestCase(unittest.TestCase):
                 self.assertEqual(
                     actual_output[0],
                     expected,
-                    f"Mismatch at case #{i + 1}: '{actual_output[0]}' != '{expected}'",
+                    f"\n\nMismatch at case #{i + 1}:\n'{actual_output[0]}' != '{expected}'",
+                )
+
+    def test_check_if_has_line_break(self):
+        test_cases = [
+            (("Struchen Emanuel, Schuhmacherstr., 93", "Elsässerstr."), True),
+            (("Struchen Emanuel, Schuhmacherstr.,", "93 Elsässerstr."), True),
+            (("Struchen Emanuel, Schuhmacher-", "str.,93 Elsässerstr."), True),
+            (("", ""), False),
+            (
+                (
+                    "Struchen E., Prokurist, 93 Elsässerstr.",
+                    "Struchen E., Prokurist, 93 Elsässerstr.",
+                ),
+                False,
+            ),
+        ]
+
+        for i, (input_lines, expected) in enumerate(test_cases):
+            with self.subTest(i=i, input=input_lines):
+                actual_output = has_line_break(input_lines[0], input_lines[1])
+                self.assertEqual(
+                    actual_output,
+                    expected,
+                    f"\n\nMismatch at case #{i + 1}:\n'{actual_output}' != '{expected}'",
                 )

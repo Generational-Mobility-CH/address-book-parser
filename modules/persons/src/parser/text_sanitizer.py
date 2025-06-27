@@ -21,9 +21,10 @@ def clean_text_lines(text: list[str]) -> list[str]:
     result = []
 
     for i, line in enumerate(text):
-        if has_line_break(line) and i + 1 < len(text):
-            line = merge_line_break(line, text[i + 1].strip())
-            text[i + 1] = ""
+        if i + 1 < len(text):
+            if has_line_break(line, text[i + 1]):
+                line = merge_line_break(line, text[i + 1].strip())
+                text[i + 1] = ""
 
         line = sanitize_line(line)
 
@@ -33,8 +34,21 @@ def clean_text_lines(text: list[str]) -> list[str]:
     return result
 
 
-def has_line_break(line: str) -> bool:
-    return bool(line) and (line.endswith("-") or line[-1].isnumeric())
+def has_line_break(line: str, next_line: str) -> bool:
+    line_ends_with_dash_or_number = bool(line) and (
+        line.endswith("-") or line[-1].isnumeric()
+    )
+
+    return line_ends_with_dash_or_number or next_line.startswith(tuple("0123456789"))
+
+
+def merge_line_break(current_line: str, next_line: str) -> str:
+    if next_line.lower().startswith("und"):
+        next_line = next_line.replace("und", " und")
+
+    line = current_line + " " + next_line
+
+    return line.replace("- ", "")
 
 
 def sanitize_line(line: str) -> str:
@@ -86,12 +100,3 @@ def clean_up_parenthesis(line: str) -> str:
         )
 
     return line
-
-
-def merge_line_break(current_line: str, next_line: str) -> str:
-    if next_line.lower().startswith("und"):
-        next_line = next_line.replace("und", " und")
-
-    line = current_line + " " + next_line
-
-    return line.replace("- ", "")
