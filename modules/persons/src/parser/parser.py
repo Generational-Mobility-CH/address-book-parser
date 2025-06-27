@@ -50,7 +50,7 @@ def parse_persons(
     output = []
     current_surname = ""
     previous_surname = ""
-    # TODO: add check to see im name range makes sense, e.g.: ["Montmollin", "Dettwiler"] (should be "de montmollin")
+    # TODO: add check to see if name range makes sense, e.g.: ["Montmollin", "Dettwiler"] (should be "de montmollin")
     no_name_range = not page.surname_range or len(page.surname_range) != 2
 
     for group in grouped_information:

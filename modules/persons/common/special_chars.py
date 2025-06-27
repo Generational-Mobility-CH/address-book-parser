@@ -1,6 +1,5 @@
-# TODO: use set() instead of list for faster look-up
-ALLOWED_SPECIAL_CHARS = [",", ".", "-", "—", " ", "(", ")", "ß"]
-KEYWORDS_NAMES_SEPARATOR = ["wittwe", "ww.", "wwe", "prof.", " dr.", "frau"]
+ALLOWED_SPECIAL_CHARS = (",", ".", "-", "—", " ", "(", ")", "ß")
+KEYWORDS_NAMES_SEPARATOR = ("wittwe", "ww.", "wwe", "prof.", " dr.", "frau")
 SPECIAL_LAST_NAMES_MAP = {
     " van der ": "VanDer",
     " von der ": "VonDer",
@@ -17,12 +16,12 @@ SPECIAL_LAST_NAMES_MAP = {
     " von ": "Von",
     " zum ": "Zum",
 }
-KEYWORDS_STREET_NAME = ["gass", "gaß", "platz", "allee"]
-PLACEHOLDERS_SURNAME = ["—", "-"]
+KEYWORDS_STREET_NAME = ("gass", "gaß", "platz", "allee")
+PLACEHOLDERS_SURNAME = ("—", "-")
 PLACEHOLDER_WIDOW = "ww"
 TAG_NONE_FOUND = "<KEINE ANGABE GEFUNDEN>"
 TAG_NO_JOB = "<KEINEN JOB GEFUNDEN>"
-UNALLOWED_STRINGS = [
+UNALLOWED_STRINGS = (
     "fractext",
     "f text",
     "f text f",
@@ -44,6 +43,6 @@ UNALLOWED_STRINGS = [
     "@",
     "diamond",
     "()",
-]
-UNALLOWED_AT_START_OF_STRING = ["of ", "ž", "Š", "ß", ")"]
-UNALLOWED_WORDS = ["fracmath", "bullet"]
+)
+UNALLOWED_AT_START_OF_STRING = ("of ", "ž", "Š", "ß", ")")
+UNALLOWED_WORDS = ("fracmath", "bullet")
