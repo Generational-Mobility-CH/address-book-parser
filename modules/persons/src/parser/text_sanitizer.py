@@ -14,6 +14,7 @@ def clean_text_columns_and_split_into_lines(page: AddressBookPage) -> AddressBoo
         col_id: clean_text_lines(col_text.split("\n"))
         for col_id, col_text in page.text_columns.items()
     }
+
     return page
 
 
@@ -21,9 +22,10 @@ def clean_text_lines(text: list[str]) -> list[str]:
     result = []
 
     for i, line in enumerate(text):
-        if has_line_break(line) and i + 1 < len(text):
-            line = merge_line_break(line, text[i + 1].strip())
-            text[i + 1] = ""
+        if i + 1 < len(text):
+            if has_line_break(line, text[i + 1]):
+                line = merge_line_break(line, text[i + 1].strip())
+                text[i + 1] = ""
 
         line = sanitize_line(line)
 
@@ -33,17 +35,32 @@ def clean_text_lines(text: list[str]) -> list[str]:
     return result
 
 
-def has_line_break(line: str) -> bool:
-    return bool(line) and (line.endswith("-") or line[-1].isnumeric())
+def has_line_break(line: str, next_line: str) -> bool:
+    ends_with_dash_or_number = bool(line) and (
+        line.endswith("-") or line[-1].isnumeric()
+    )
+    next_line_starts_with_number = next_line.strip()[:1].isdigit()
+
+    return ends_with_dash_or_number or next_line_starts_with_number
+
+
+def merge_line_break(current_line: str, next_line: str) -> str:
+    if next_line.lower().startswith("und"):
+        next_line = " und" + next_line[3:]
+
+    line = current_line + " " + next_line
+
+    return line.replace("- ", "")
 
 
 def sanitize_line(line: str) -> str:
-    line = clean_line(line)
+    line = remove_unallowed_keywords(line)
     line = clean_up_parenthesis(line)
+
     return line.strip()
 
 
-def clean_line(
+def remove_unallowed_keywords(
     line: str,
     allowed_chars: list = ALLOWED_SPECIAL_CHARS,
     disallowed_strings: list = UNALLOWED_STRINGS,
@@ -65,33 +82,36 @@ def clean_line(
 
 
 def clean_up_parenthesis(line: str) -> str:
-    line = re.sub(r"\(\s*\)", "", line)
+    line = remove_empty_parenthesis(line)
+    line = remove_unmatched_parenthesis(line)
 
-    unmatched_opening_parenthesis_positions = set()
+    return line.strip()
+
+
+def remove_empty_parenthesis(line: str) -> str:
+    return re.sub(r"\(\s*\)", "", line)
+
+
+def remove_unmatched_parenthesis(line: str) -> str:
+    unmatched_parenthesis_positions = set()
 
     for index, char in enumerate(line):
         if char == "(":
-            unmatched_opening_parenthesis_positions.add(index)
+            unmatched_parenthesis_positions.add(index)
         elif char == ")":
-            if unmatched_opening_parenthesis_positions:
-                unmatched_opening_parenthesis_positions.pop()
+            if unmatched_parenthesis_positions:
+                for i in unmatched_parenthesis_positions:
+                    if line[i] == "(":
+                        unmatched_parenthesis_positions.remove(i)
+                        break
             else:
-                pass
+                unmatched_parenthesis_positions.add(index)
 
-    if unmatched_opening_parenthesis_positions:
+    if unmatched_parenthesis_positions:
         line = "".join(
             char
             for index, char in enumerate(line)
-            if index not in unmatched_opening_parenthesis_positions
+            if index not in unmatched_parenthesis_positions
         )
 
     return line
-
-
-def merge_line_break(current_line: str, next_line: str) -> str:
-    if next_line.lower().startswith("und"):
-        next_line = next_line.replace("und", " und")
-
-    line = current_line + " " + next_line
-
-    return line.replace("- ", "")
