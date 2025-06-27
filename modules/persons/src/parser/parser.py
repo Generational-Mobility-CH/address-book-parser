@@ -106,9 +106,9 @@ def group_data(text: list[str]) -> list[list[str]]:
 
     for line in text:
         content = line.split(",")
-        content = [item for item in content if item != ""]
+        striped_content = [e for element in content if (e := element.strip())]
 
-        if len(content) in (2, 3):
-            result.append(content)
+        if len(striped_content) in (2, 3):
+            result.append(striped_content)
 
     return result
