@@ -1,6 +1,7 @@
 from modules.persons.common.special_chars import (
     TAG_NONE_FOUND,
     TAG_NO_JOB,
+    PLACEHOLDER_WIDOW,
 )
 from modules.persons.models.person.address import Address
 from modules.persons.models.person.person import Person
@@ -38,3 +39,7 @@ def parse_person(content: list[str], current_surname: str) -> Person:
         person.first_names = separated_names.first_names
 
     return person
+
+
+def is_widow(content: list[str]) -> bool:
+    return any(item.lower().__contains__(PLACEHOLDER_WIDOW) for item in content)

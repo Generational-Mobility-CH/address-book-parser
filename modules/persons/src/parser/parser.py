@@ -14,7 +14,7 @@ from modules.persons.src.parser.names.names_parser import (
 from modules.persons.src.parser.names.special_last_names_parser import (
     handle_special_last_names_if_present,
 )
-from modules.persons.src.parser.person_parser import parse_person
+from modules.persons.src.parser.person_parser import parse_person, is_widow
 from modules.persons.src.parser.text_sanitizer import (
     clean_text_columns_and_split_into_lines,
 )
@@ -59,16 +59,26 @@ def parse_persons(
 
         names = handle_special_last_names_if_present(group[0])
 
-        if no_name_range:
-            group[0], current_surname, previous_surname = parse_legacy(
-                names, current_surname, previous_surname
-            )
-        else:
-            group[0], current_surname = get_next_surname(
-                names, current_surname, page.surname_range
-            )
-
-        output.append(parse_person(group, current_surname))
+        if len(group) == 2 and is_widow(group):
+            if no_name_range:
+                group[0], current_surname, previous_surname = parse_legacy(
+                    names, current_surname, previous_surname
+                )
+            else:
+                group[0], current_surname = get_next_surname(
+                    names, current_surname, page.surname_range
+                )
+            output.append(parse_person(group, current_surname))
+        elif len(group) == 3:
+            if no_name_range:
+                group[0], current_surname, previous_surname = parse_legacy(
+                    names, current_surname, previous_surname
+                )
+            else:
+                group[0], current_surname = get_next_surname(
+                    names, current_surname, page.surname_range
+                )
+            output.append(parse_person(group, current_surname))
 
     return output
 
