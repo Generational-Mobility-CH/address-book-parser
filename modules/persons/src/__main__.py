@@ -3,13 +3,14 @@ import os
 import time
 
 from datetime import datetime
+from time import strftime
 
 from libs.db_handler.src.to_db import save_to_db
 from libs.file_handler.src.csv.to_csv import save_to_csv
 from libs.file_handler.src.json.extractor import JsonExtractor
 from libs.file_handler.src.models.supported_file_types import SupportedFileTypes
-from modules.persons.src.common import setup_logging
-from modules.persons.src.common import OUTPUT_PATH, INPUT_PATH
+from modules.persons.src.common.logger import setup_logging
+from modules.persons.src.common.paths import INPUT_PATH, OUTPUT_PATH
 from modules.persons.src.parser.parser import parse_address_book
 
 
@@ -21,7 +22,6 @@ def main(
     output_path: str,
     output_type: SupportedFileTypes = SupportedFileTypes.DB,
 ) -> None:
-    start_time = time.time()
     extractor = JsonExtractor()
     all_paths = get_all_data_paths(data_path)
 
@@ -38,9 +38,6 @@ def main(
 
         logger.info(f"Saved persons to {output_type.value} at {output_path}")
 
-    elapsed = time.time() - start_time
-    logger.info(f"Execution time: {elapsed:.2f} seconds")
-
 
 def get_all_data_paths(base_path: str) -> list[str]:
     result = []
@@ -51,8 +48,15 @@ def get_all_data_paths(base_path: str) -> list[str]:
 
 
 if __name__ == "__main__":
-    setup_logging()
     demo_output_type = SupportedFileTypes.DB
     demo_input_path = f"{INPUT_PATH}/json"
     demo_output_path = f"{OUTPUT_PATH}/{demo_output_type.value}/{datetime.now():%m.%d-%H.%M.%S}.{demo_output_type.value}"
+
+    setup_logging()
+    start_time = time.time()
+
     main(demo_input_path, demo_output_path)
+
+    logger.info(
+        strftime("Execution time: %M min %S s", time.gmtime(time.time() - start_time))
+    )
