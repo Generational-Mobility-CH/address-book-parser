@@ -76,17 +76,11 @@ def split_at_marker(data: str, marker: str) -> PersonNames:
 
 
 def unmerge_name_parts(data: str) -> str:
-    # marker = "|"
-
+    """
+    Separate names by looking at changes from lower-case to upper-case within the string.
+    E.g.: 'MüllerMeier' -> 'Müller Meier'
+    """
     s = re.split(r"(?<![ -])(?=[A-ZÄÖÜẞ])", data)
     s = " ".join([part.strip() for part in s if part.strip()])
 
-    # TODO: check if this is adding parentheses where it shouldn't
-    # Abom( Helene
-    # s = s.replace(")", f") ")
-    # s = s.replace("(", " (")
-
-    # s = s.replace("—", marker)
-    # s = s.replace("-", marker)
-
-    return s  # .replace(marker, " ").strip()
+    return s
