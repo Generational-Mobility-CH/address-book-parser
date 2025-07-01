@@ -1,4 +1,4 @@
-from modules.persons.src.common import SPECIAL_LAST_NAMES_MAP
+from modules.persons.src.common.special_chars import SPECIAL_LAST_NAMES_MAP
 
 
 def handle_special_last_names_if_present(names: str) -> str:

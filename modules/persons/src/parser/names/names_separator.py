@@ -1,7 +1,7 @@
 import logging
 import re
 
-from modules.persons.src.common import (
+from modules.persons.src.common.special_chars import (
     TAG_NONE_FOUND,
     KEYWORDS_NAMES_SEPARATOR,
 )
@@ -30,7 +30,7 @@ def separate_names(original_names: str) -> PersonNames:
             else:
                 return separate_names(
                     unmerged_names
-                )  # TODO: implement precaution meassures for recurssion
+                )  # TODO: implement precaution measures for recursion
         case 2:
             separated_names.last_names = name_parts[0]
             separated_names.first_names = name_parts[1]
@@ -76,17 +76,17 @@ def split_at_marker(data: str, marker: str) -> PersonNames:
 
 
 def unmerge_name_parts(data: str) -> str:
-    marker = "|"
+    # marker = "|"
 
     s = re.split(r"(?<![ -])(?=[A-ZÄÖÜẞ])", data)
     s = " ".join([part.strip() for part in s if part.strip()])
 
     # TODO: check if this is adding parentheses where it shouldn't
     # Abom( Helene
-    s = s.replace(")", f"){marker}")
-    s = s.replace("(", " (")
+    # s = s.replace(")", f") ")
+    # s = s.replace("(", " (")
 
-    s = s.replace("—", marker)
-    s = s.replace("-", marker)
+    # s = s.replace("—", marker)
+    # s = s.replace("-", marker)
 
-    return s.replace(marker, " ").strip()
+    return s  # .replace(marker, " ").strip()

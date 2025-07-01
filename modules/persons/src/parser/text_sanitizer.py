@@ -1,12 +1,12 @@
 import re
 
-from modules.persons.src.models.address_book import AddressBookPage
-from modules.persons.src.common import (
+from modules.persons.src.common.special_chars import (
     ALLOWED_SPECIAL_CHARS,
     UNALLOWED_STRINGS,
     UNALLOWED_AT_START_OF_STRING,
     UNALLOWED_WORDS,
 )
+from modules.persons.src.models.address_book.addressBookPage import AddressBookPage
 
 
 def clean_text_columns_and_split_into_lines(page: AddressBookPage) -> AddressBookPage:
