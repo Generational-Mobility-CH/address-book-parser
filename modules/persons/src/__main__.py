@@ -1,8 +1,8 @@
-import logging
 import os
 import time
 
 from datetime import datetime
+from logging import getLogger
 from time import strftime
 
 from libs.db_handler.src.to_db import save_to_db
@@ -14,7 +14,7 @@ from modules.persons.src.common.paths import INPUT_PATH, OUTPUT_PATH
 from modules.persons.src.parser.parser import parse_address_book
 
 
-logger = logging.getLogger(__name__)
+logger = getLogger(__name__)
 
 
 def main(
@@ -22,7 +22,7 @@ def main(
     output_path: str,
     output_type: SupportedFileTypes = SupportedFileTypes.DB,
 ) -> None:
-    extractor = JsonExtractor()
+    extractor = JsonExtractor()  # TODO: make this better
     all_paths = get_all_data_paths(data_path)
 
     for path in all_paths:
@@ -36,23 +36,28 @@ def main(
             case SupportedFileTypes.CSV:
                 save_to_csv(standardized_persons, output_path)
 
-        logger.info(f"Saved persons to {output_type.value} at {output_path}")
+        logger.info(
+            f"Saved persons from year '{book.year}' to {output_type.value} at {output_path}"
+        )
 
 
 def get_all_data_paths(base_path: str) -> list[str]:
     result = []
+
     for folder in os.listdir(base_path):
         if os.path.isdir(os.path.join(base_path, folder)):
             result.append(os.path.join(base_path, folder))
+
     return result
 
 
 if __name__ == "__main__":
     demo_output_type = SupportedFileTypes.DB
     demo_input_path = f"{INPUT_PATH}/json"
-    demo_output_path = f"{OUTPUT_PATH}/{demo_output_type.value}/{datetime.now():%m.%d-%H.%M.%S}.{demo_output_type.value}"
+    demo_output_path = f"{OUTPUT_PATH}/{demo_output_type.value}/{datetime.now():%m.%d-%H:%M:%S}.{demo_output_type.value}"
 
     setup_logging()
+
     start_time = time.time()
 
     main(demo_input_path, demo_output_path)

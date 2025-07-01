@@ -1,8 +1,8 @@
-import logging
-
-from modules.persons.src.common.special_chars import PLACEHOLDERS_SURNAME
-
-GERMAN_UMLAUTE = {"ä": "a", "ö": "o", "ü": "u"}
+from modules.persons.src.common.special_chars import (
+    PLACEHOLDERS_SURNAME,
+    GERMAN_UMLAUTE,
+)
+from modules.persons.src.models.address_book.name_range import NameRange
 
 
 def extract_other_names(text: str) -> str:
@@ -30,53 +30,36 @@ def is_name(text: str, surname: str) -> bool:
     )
 
 
-def is_valid_next_surname(current: str, surname_range: list[str]) -> bool:
-    if len(surname_range) != 2:
-        logging.error(surname_range)
-        return True
+def prepare_str_for_comparison(text: str) -> str:
+    text = text.strip()
+    text = replace_if_contains_umlaute(text)
+    text = text.lower()
 
-    current, surname_range[0], surname_range[1] = replace_if_contains_umlaute(
-        current, surname_range[0], surname_range[1]
-    )
-
-    if surname_range[0].lower() <= current.lower() <= surname_range[1].lower():
-        return True
-
-    return False
+    return text
 
 
-def contains_umlaute(input_string: str) -> bool:
-    return any(char in GERMAN_UMLAUTE for char in input_string.lower())
+def is_valid_next_surname(current: str, surname_range: NameRange) -> bool:
+    current = prepare_str_for_comparison(current)
+    start = prepare_str_for_comparison(surname_range.start)
+    end = prepare_str_for_comparison(surname_range.end)
 
-
-def replace_umlaute(text: str) -> str:
-    return "".join(GERMAN_UMLAUTE.get(char, char) for char in text.lower())
-
-
-def replace_if_contains_umlaute(*args) -> list[str]:
-    return [replace_umlaute(arg) if contains_umlaute(arg) else arg for arg in args]
-
-
-def starts_with_surname_placeholder(text: str) -> bool:
-    return bool(text and text[0] in PLACEHOLDERS_SURNAME)
+    return start <= current <= end
 
 
 def is_valid_next_surname_legacy(current: str, previous: str) -> bool:
-    """Check if 'current' starts with the same letter as 'previous'
-    or if it starts with the next letter in alphabetical order"""
+    current = prepare_str_for_comparison(current)
+    previous = prepare_str_for_comparison(previous)
 
-    current, previous = replace_if_contains_umlaute(current, previous)
-
-    if current[0].lower() == previous[0].lower():
+    if current <= previous:
         return True
-    elif ord(current[0].lower()) == ord(previous[0].lower()) + 1:
+    elif ord(current[0]) == ord(previous[0]) + 1:
         return True
 
     return False
 
 
-def get_next_surname(
-    all_names: str, current_surname: str, surname_range
+def get_next_surname_in_range(
+    all_names: str, current_surname: str, surname_range: NameRange
 ) -> tuple[str, str]:
     if starts_with_surname_placeholder(all_names):
         all_names = current_surname + extract_other_names(all_names)
@@ -88,3 +71,19 @@ def get_next_surname(
         all_names = f"{current_surname} {all_names}"
 
     return all_names, current_surname
+
+
+def contains_umlaute(input_string: str) -> bool:
+    return any(char in GERMAN_UMLAUTE for char in input_string.lower())
+
+
+def replace_umlaute(text: str) -> str:
+    return "".join(GERMAN_UMLAUTE.get(char, char) for char in text.lower()).title()
+
+
+def replace_if_contains_umlaute(text: str) -> str:
+    return replace_umlaute(text) if contains_umlaute(text) else text
+
+
+def starts_with_surname_placeholder(text: str) -> bool:
+    return bool(text) and text[0] in PLACEHOLDERS_SURNAME

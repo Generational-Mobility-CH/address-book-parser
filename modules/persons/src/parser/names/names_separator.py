@@ -41,7 +41,7 @@ def separate_names(original_names: str) -> PersonNames:
             separated_names.last_names = f"{name_parts[0]} {name_parts[1]}"
             separated_names.first_names = f"{name_parts[2]} {name_parts[3]}"
         case _:
-            logger.error(f"Could not parse name: {original_names}")
+            logger.warning(f"Could not parse name: {original_names}")
             separated_names.last_names = original_names
 
     return separated_names

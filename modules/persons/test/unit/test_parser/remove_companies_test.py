@@ -5,7 +5,7 @@ from modules.persons.src.parser.company_parser import is_company
 
 class MyTestCase(unittest.TestCase):
     def test_remove_companies(self):
-        test_file = "fixtures/test_input.txt"
+        test_file = "unit/test_parser/fixtures/test_input.txt"
 
         expected_remaining_lines = [
             "— -Neukomm Emil, Kfm., 44 Elisabethenstr. (Frau: Damenschneiderin.)\n",

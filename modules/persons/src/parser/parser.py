@@ -1,7 +1,13 @@
-from itertools import chain
+from logging import getLogger
 
-from modules.persons.src.models.address_book.addressBook import AddressBook
-from modules.persons.src.models.address_book.addressBookPage import AddressBookPage
+from modules.persons.src.common.special_chars import (
+    SPECIAL_NAME_RANGE_LETTERS,
+    GERMAN_VOWELS,
+)
+from modules.persons.src.models.address_book.address_book import AddressBook
+from modules.persons.src.models.address_book.address_book_page import AddressBookPage
+from modules.persons.src.models.person.person_data_parts import PersonDataParts
+from modules.persons.src.models.address_book.name_range import NameRange
 from modules.persons.src.models.person.person import Person
 from modules.persons.src.parser.company_parser import is_company
 from modules.persons.src.parser.names.names_parser import (
@@ -9,81 +15,151 @@ from modules.persons.src.parser.names.names_parser import (
     is_valid_next_surname_legacy,
     parse_surname,
     extract_other_names,
-    get_next_surname,
+    get_next_surname_in_range,
+    prepare_str_for_comparison,
 )
 from modules.persons.src.parser.names.special_last_names_parser import (
-    handle_special_last_names_if_present,
+    find_special_last_name_keyword,
+    handle_special_last_names,
 )
 from modules.persons.src.parser.person_parser import parse_person, is_widow
 from modules.persons.src.parser.text_sanitizer import (
-    clean_text_columns_and_split_into_lines,
+    clean_text_lines,
 )
 
 
+logger = getLogger(__name__)
+
+
 def parse_address_book(address_book: AddressBook) -> list[Person]:
+    if len(address_book.pages) < 1:
+        raise ValueError(f"No pages to parse for year {address_book.year}")
+
     persons_collection: list[Person] = []
+    pages_collection = address_book.pages
+    first_page = address_book.pages[0]
 
-    for page in address_book.pages:
+    first_page.surname_range = NameRange(
+        start="A", end=get_next_valid_name_range(pages_collection, 1)
+    )
+
+    persons_collection.extend(parse_address_book_page(first_page))
+
+    for page_index, page in enumerate(pages_collection, start=1):
+        if not is_valid_surname_range(page.surname_range):
+            if starts_with_i_or_j_and_vowel(page.surname_range):
+                new_range = NameRange(start="H", end="K")
+            else:
+                new_range = NameRange(
+                    start=get_next_valid_name_range(
+                        pages_collection, page_index - 1, -1
+                    ),
+                    end=get_next_valid_name_range(pages_collection, page_index + 1),
+                )
+
+            if is_valid_surname_range(new_range):
+                page.surname_range = new_range
+            else:
+                logger.error(
+                    f"Could not approximate 'NameRange' for {address_book.year}-page_{page.pdf_page_number}"
+                )
+
         persons_collection.extend(parse_address_book_page(page))
-
-    for person in persons_collection:
-        person.year = address_book.year
 
     return persons_collection
 
 
 def parse_address_book_page(page: AddressBookPage) -> list[Person]:
-    page = clean_text_columns_and_split_into_lines(page)
-    text = chain.from_iterable(page.text_columns.values())
-    grouped_information = group_data(text)
-    persons = parse_persons(grouped_information, page)
+    splitted_lines = [line for text in page.text_content for line in text.split("\n")]
+    cleaned_lines = clean_text_lines(splitted_lines)
+    page.text_content = cleaned_lines
 
-    for p in persons:
-        p.pdf_page_number = page.pdf_page_number
-
-    return persons
+    return parse_persons(page)
 
 
-def parse_persons(
-    grouped_information: list[list[str]], page: AddressBookPage
-) -> list[Person]:
+def parse_persons(page: AddressBookPage) -> list[Person]:
     output = []
     current_surname = ""
     previous_surname = ""
-    # TODO: add check to see if name range makes sense, e.g.: ["Montmollin", "Dettwiler"] (should be "de montmollin")
-    no_name_range = not page.surname_range or len(page.surname_range) != 2
+    grouped_information = group_data(page.text_content)
+    has_valid_surname_range = is_valid_surname_range(page.surname_range)
 
     for group in grouped_information:
         if is_company(group):
             continue
 
-        names = handle_special_last_names_if_present(group[0])
+        if special_last_name_keyword := find_special_last_name_keyword(group.first):
+            group.first = handle_special_last_names(
+                group.first, special_last_name_keyword
+            )
 
-        if len(group) == 2 and is_widow(group):
-            if no_name_range:
-                group[0], current_surname, previous_surname = parse_legacy(
-                    names, current_surname, previous_surname
+        if len(group) == 3 or (len(group) == 2 and is_widow(group)):
+            if has_valid_surname_range:
+                group.first, current_surname = get_next_surname_in_range(
+                    group.first, current_surname, page.surname_range
                 )
             else:
-                group[0], current_surname = get_next_surname(
-                    names, current_surname, page.surname_range
+                group.first, current_surname, previous_surname = get_next_surname(
+                    group.first, current_surname, previous_surname
                 )
-            output.append(parse_person(group, current_surname))
-        elif len(group) == 3:
-            if no_name_range:
-                group[0], current_surname, previous_surname = parse_legacy(
-                    names, current_surname, previous_surname
-                )
-            else:
-                group[0], current_surname = get_next_surname(
-                    names, current_surname, page.surname_range
-                )
-            output.append(parse_person(group, current_surname))
+
+            person = parse_person(group, current_surname)
+            person.year = page.year
+            person.pdf_page_number = page.pdf_page_number
+
+            output.append(person)
 
     return output
 
 
-def parse_legacy(
+def is_valid_surname_range(name_range: NameRange) -> bool:
+    has_correct_length = bool(name_range) and len(name_range) == 2
+    start = prepare_str_for_comparison(name_range.start)
+    end = prepare_str_for_comparison(name_range.end)
+
+    return has_correct_length and start <= end
+
+
+def starts_with_i_or_j_and_vowel(name_range: NameRange) -> bool:
+    """
+    Because of linguistic reasons ranges like these or similar are OK:
+    ["Itin", "Jungck"] or ["Jenny", "Iffenthaler"]
+    (this is the way they are written in the original address book).
+    """
+    start = name_range.start
+    end = name_range.end
+
+    if len(start) < 2 or len(end) < 2:
+        logger.error(
+            f"Could not compare '{start}' and '{end}' to see if name range is valid."
+        )
+        return False
+
+    if (
+        start[0].lower() in SPECIAL_NAME_RANGE_LETTERS
+        and end[0].lower() in SPECIAL_NAME_RANGE_LETTERS
+    ):
+        if start[1].lower() in GERMAN_VOWELS or end[1].lower() in GERMAN_VOWELS:
+            return True
+
+    return False
+
+
+def get_next_valid_name_range(
+    collection: list[AddressBookPage], start: int, direction: int = 1
+) -> str:
+    result = ""
+    end = len(collection) if direction == 1 else -1
+
+    for i in range(start, end, direction):
+        name_range = collection[i].surname_range
+        if is_valid_surname_range(name_range):
+            return name_range.start if direction == 1 else name_range.end
+
+    return result
+
+
+def get_next_surname(
     all_names: str, current_surname: str, previous_surname: str
 ) -> tuple[str, str, str]:
     if starts_with_surname_placeholder(all_names):
@@ -96,19 +172,14 @@ def parse_legacy(
     return all_names, current_surname, previous_surname
 
 
-def group_data(text: list[str]) -> list[list[str]]:
-    """
-    Separate each string into substrings containing information bits.
-    Afterward these information bits will be checked and parsed into:
-    Names, address, job
-    """
-    result = []
+def group_data(data: list[str]) -> list[PersonDataParts]:
+    result: list[PersonDataParts] = []
 
-    for line in text:
+    for line in data:
         content = line.split(",")
         striped_content = [e for element in content if (e := element.strip())]
 
         if len(striped_content) in (2, 3):
-            result.append(striped_content)
+            result.append(PersonDataParts.from_list(striped_content))
 
     return result

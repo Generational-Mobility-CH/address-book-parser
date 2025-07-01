@@ -1,14 +1,32 @@
+from logging import getLogger
+
 from modules.persons.src.common.special_chars import SPECIAL_LAST_NAMES_MAP
 
 
-def handle_special_last_names_if_present(names: str) -> str:
-    for key in SPECIAL_LAST_NAMES_MAP:
-        if key in names.lower():
-            return merge_special_last_names(names, key)
-        if names.lower().startswith(key[1:]):
-            return merge_special_last_names_at_start(names, key)
+logger = getLogger(__name__)
 
-    return names
+
+def find_special_last_name_keyword(data: str) -> str | None:
+    for keyword in SPECIAL_LAST_NAMES_MAP:
+        if keyword in data.lower():
+            return keyword
+
+        if data.lower().startswith(keyword[1:]):
+            return keyword
+
+    return None
+
+
+def handle_special_last_names(data: str, keyword: str) -> str:
+    if keyword in data.lower():
+        return merge_special_last_names(data, keyword)
+
+    if data.lower().startswith(keyword[1:]):
+        return merge_special_last_names_at_start(data, keyword)
+
+    logger.error(f"Could not find '{keyword}' in '{data.lower()}'")
+
+    return data
 
 
 def merge_special_last_names(original_names: str, keyword: str) -> str:
@@ -24,6 +42,9 @@ def merge_special_last_names(original_names: str, keyword: str) -> str:
 def merge_special_last_names_at_start(names: str, keyword: str) -> str:
     name_parts = names.lower().split(keyword[1:], 1)
     name_parts = [part.strip() for part in name_parts if part != ""]
+
+    if len(keyword.strip().split(" ")) > 1:
+        return f"{SPECIAL_LAST_NAMES_MAP[keyword]} {name_parts[0].title()}"
 
     return f"{SPECIAL_LAST_NAMES_MAP[keyword]}{name_parts[0].title()}"
 

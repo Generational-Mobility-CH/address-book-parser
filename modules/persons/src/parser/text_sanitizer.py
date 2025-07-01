@@ -6,16 +6,6 @@ from modules.persons.src.common.special_chars import (
     UNALLOWED_AT_START_OF_STRING,
     UNALLOWED_WORDS,
 )
-from modules.persons.src.models.address_book.addressBookPage import AddressBookPage
-
-
-def clean_text_columns_and_split_into_lines(page: AddressBookPage) -> AddressBookPage:
-    page.text_columns = {
-        col_id: clean_text_lines(col_text.split("\n"))
-        for col_id, col_text in page.text_columns.items()
-    }
-
-    return page
 
 
 def clean_text_lines(text: list[str]) -> list[str]:

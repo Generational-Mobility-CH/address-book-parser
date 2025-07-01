@@ -1,8 +1,12 @@
 ALLOWED_SPECIAL_CHARS = (",", ".", "-", "—", " ", "(", ")", "ß")
+GERMAN_UMLAUTE = {"ä": "ae", "ö": "oe", "ü": "ue"}
+GERMAN_VOWELS = set("aeiouäöü")
 KEYWORDS_NAMES_SEPARATOR = ("wittwe", "ww.", "wwe", "prof.", " dr.", "frau")
 SPECIAL_LAST_NAMES_MAP = {
     " van der ": "VanDer",
     " von der ": "VonDer",
+    " de la roche ": "DeLaRoche",
+    " la roche ": "LaRoche",
     " de la ": "DeLa",
     " de ": "De",
     " dal ": "Dal",
@@ -46,3 +50,4 @@ UNALLOWED_STRINGS = (
 )
 UNALLOWED_AT_START_OF_STRING = ("of ", "ž", "Š", "ß", ")")
 UNALLOWED_WORDS = ("fracmath", "bullet")
+SPECIAL_NAME_RANGE_LETTERS = set("ij")
