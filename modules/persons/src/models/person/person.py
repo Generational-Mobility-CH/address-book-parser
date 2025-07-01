@@ -2,7 +2,7 @@ import logging
 import uuid
 
 
-from modules.persons.models.person.address import Address
+from modules.persons.src.models.person.address import Address
 from modules.persons.src.standardizer.first_names_standardizer import (
     FirstNamesStandardizer,
 )

@@ -1,7 +1,7 @@
 import re
 
-from modules.persons.models.address_book.addressBookPage import AddressBookPage
-from modules.persons.common.special_chars import (
+from modules.persons.src.models.address_book import AddressBookPage
+from modules.persons.src.common import (
     ALLOWED_SPECIAL_CHARS,
     UNALLOWED_STRINGS,
     UNALLOWED_AT_START_OF_STRING,

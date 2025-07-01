@@ -1,6 +1,6 @@
 import logging
 
-from modules.persons.common.special_chars import PLACEHOLDERS_SURNAME
+from modules.persons.src.common import PLACEHOLDERS_SURNAME
 
 
 GERMAN_UMLAUTE = {"ä": "a", "ö": "o", "ü": "u"}

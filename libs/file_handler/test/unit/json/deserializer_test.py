@@ -1,7 +1,7 @@
 import unittest
 
 from libs.file_handler.src.json.deserializer import deserialize_book_page
-from modules.persons.models.address_book.addressBookPage import AddressBookPage
+from modules.persons.src.models.address_book import AddressBookPage
 
 
 class MyTestCase(unittest.TestCase):

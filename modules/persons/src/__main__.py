@@ -8,8 +8,8 @@ from libs.db_handler.src.to_db import save_to_db
 from libs.file_handler.src.csv.to_csv import save_to_csv
 from libs.file_handler.src.json.extractor import JsonExtractor
 from libs.file_handler.src.models.supported_file_types import SupportedFileTypes
-from modules.persons.common.logger import setup_logging
-from modules.persons.common.paths import OUTPUT_PATH, INPUT_PATH
+from modules.persons.src.common import setup_logging
+from modules.persons.src.common import OUTPUT_PATH, INPUT_PATH
 from modules.persons.src.parser.parser import parse_address_book
 
 

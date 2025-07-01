@@ -1,7 +1,7 @@
 import re
 
-from modules.persons.models.person.address import Address
-from modules.persons.common.special_chars import KEYWORDS_STREET_NAME, TAG_NONE_FOUND
+from modules.persons.src.models.person.address import Address
+from modules.persons.src.common import KEYWORDS_STREET_NAME, TAG_NONE_FOUND
 
 
 def extract_address(content: str) -> Address:

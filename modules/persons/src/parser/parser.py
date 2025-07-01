@@ -1,8 +1,8 @@
 from itertools import chain
 
-from modules.persons.models.address_book.addressBook import AddressBook
-from modules.persons.models.address_book.addressBookPage import AddressBookPage
-from modules.persons.models.person.person import Person
+from modules.persons.src.models.address_book import AddressBook
+from modules.persons.src.models.address_book import AddressBookPage
+from modules.persons.src.models.person import Person
 from modules.persons.src.parser.company_parser import is_company
 from modules.persons.src.parser.names.names_parser import (
     starts_with_surname_placeholder,

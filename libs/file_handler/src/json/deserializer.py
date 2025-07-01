@@ -4,7 +4,7 @@ from jsonschema import validate, ValidationError
 from dacite import from_dict, Config
 
 from libs.file_handler.src.json.reader import read_json
-from modules.persons.models.address_book.addressBookPage import AddressBookPage
+from modules.persons.src.models.address_book import AddressBookPage
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[4]

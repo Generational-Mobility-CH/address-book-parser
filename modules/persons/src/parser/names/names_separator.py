@@ -1,11 +1,11 @@
 import logging
 import re
 
-from modules.persons.common.special_chars import (
+from modules.persons.src.common import (
     TAG_NONE_FOUND,
     KEYWORDS_NAMES_SEPARATOR,
 )
-from modules.persons.models.person.person_names import PersonNames
+from modules.persons.src.models.person.person_names import PersonNames
 
 
 logger = logging.getLogger(__name__)

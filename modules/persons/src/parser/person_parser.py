@@ -1,10 +1,10 @@
-from modules.persons.common.special_chars import (
+from modules.persons.src.common import (
     TAG_NONE_FOUND,
     TAG_NO_JOB,
     PLACEHOLDER_WIDOW,
 )
-from modules.persons.models.person.address import Address
-from modules.persons.models.person.person import Person
+from modules.persons.src.models.person.address import Address
+from modules.persons.src.models.person import Person
 from modules.persons.src.parser.address_parser import is_address, extract_address
 from modules.persons.src.parser.names.names_parser import is_name
 from modules.persons.src.parser.names.names_separator import separate_names

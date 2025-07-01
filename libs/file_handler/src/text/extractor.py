@@ -1,7 +1,7 @@
 from libs.file_handler.src.models.extractor_strategy import ExtractorStrategy
 from libs.file_handler.src.text.reader import read_text
-from modules.persons.models.address_book.addressBook import AddressBook
-from modules.persons.models.address_book.addressBookPage import AddressBookPage
+from modules.persons.src.models.address_book import AddressBook
+from modules.persons.src.models.address_book import AddressBookPage
 
 
 class TextExtractor(ExtractorStrategy):
