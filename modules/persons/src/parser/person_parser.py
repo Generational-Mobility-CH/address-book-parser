@@ -18,18 +18,21 @@ def parse_person(data: PersonDataParts, current_surname: str) -> Person:
         job=TAG_NO_JOB,
     )
 
-    for e in data:
-        if is_name(e, current_surname):
-            person.original_names = e
-        elif is_address(e):
-            person.address = extract_address(e)
-        else:
-            person.job = e  # TODO: implement is_job() -> bool
-
-    if person.original_names != TAG_NONE_FOUND:
+    if (name := data.first) and is_name(name, current_surname):
+        person.original_names = name
         separated_names = separate_names(person.original_names)
         person.last_names = separated_names.last_names
         person.first_names = separated_names.first_names
+
+    if len(data) == 2:
+        is_address(data.second) and setattr(
+            person, "address", extract_address(data.second)
+        )
+    elif len(data) == 3:
+        is_address(data.third) and setattr(
+            person, "address", extract_address(data.third)
+        )
+        person.job = data.second
 
     return person
 

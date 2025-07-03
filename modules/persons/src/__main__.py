@@ -22,7 +22,7 @@ def main(
     output_path: str,
     output_type: SupportedFileTypes = SupportedFileTypes.DB,
 ) -> None:
-    extractor = JsonExtractor()  # TODO: make this better
+    extractor = JsonExtractor()
     all_paths = get_all_data_paths(data_path)
 
     for path in all_paths:

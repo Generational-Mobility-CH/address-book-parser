@@ -9,12 +9,14 @@ from modules.persons.src.parser.names.special_last_names_parser import (
 class MyTestCase(unittest.TestCase):
     def test_handle_special_last_names_if_present(self):
         test_cases = [
-            # ("Abt von der Bach Fritz", "Abt VonDerBach Fritz"),
-            # ("Abt von Der Bach Fritz", "Abt VonDerBach Fritz"),
-            # ("Abt Van Der Bach Fritz", "Abt VanDerBach Fritz"),
-            # ("Abt De la Bach Fritz", "Abt DeLaBach Fritz"),
+            ("Abt von der Bach Fritz", "Abt VonDerBach Fritz"),
+            ("Abt von Der Bach Fritz", "Abt VonDerBach Fritz"),
+            ("Abt Van Der Bach Fritz", "Abt VanDerBach Fritz"),
+            ("Abt De la Bach Fritz", "Abt DeLaBach Fritz"),
             ("von Bach Fritz", "VonBach Fritz"),
             ("La Roche Müller Fritz", "LaRoche Müller Fritz"),
+            ("La Müller Fritz", "LaMüller Fritz"),
+            ("Müller La Roche Fritz", "Müller LaRoche Fritz"),
             ("De la Roche Fritz", "DeLaRoche Fritz"),
             ("Von Karol", "VonKarol"),
             ("Karol Von Abc", "Karol VonAbc"),

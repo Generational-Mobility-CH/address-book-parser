@@ -28,9 +28,7 @@ def separate_names(original_names: str) -> PersonNames:
             if len(unmerged_names.split(" ")) == 1:
                 separated_names.last_names = unmerged_names.strip()
             else:
-                return separate_names(
-                    unmerged_names
-                )  # TODO: implement precaution measures for recursion
+                return separate_names(unmerged_names)
         case 2:
             separated_names.last_names = name_parts[0]
             separated_names.first_names = name_parts[1]
