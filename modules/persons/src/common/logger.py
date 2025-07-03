@@ -3,10 +3,12 @@ import logging
 from modules.persons.src.common.paths import DATA_PATH
 
 
-def setup_logging():
+def setup_logging(log_file_name: str = "app"):
+    log_file = f"{DATA_PATH}/{log_file_name}.log"
+
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s-%(name)s-%(levelname)s: %(message)s",
         datefmt="%Y.%m.%d %H:%M",
-        handlers=[logging.StreamHandler(), logging.FileHandler(f"{DATA_PATH}/app.log")],
+        handlers=[logging.StreamHandler(), logging.FileHandler(log_file)],
     )

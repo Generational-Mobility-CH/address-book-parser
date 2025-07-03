@@ -54,9 +54,12 @@ def get_all_data_paths(base_path: str) -> list[str]:
 if __name__ == "__main__":
     demo_output_type = SupportedFileTypes.DB
     demo_input_path = f"{INPUT_PATH}/json"
-    demo_output_path = f"{OUTPUT_PATH}/{demo_output_type.value}/{datetime.now():%m.%d-%H:%M:%S}.{demo_output_type.value}"
+    time_stamp = f"{datetime.now():%b %d. - %H:%M}"
+    demo_output_path = (
+        f"{OUTPUT_PATH}/{demo_output_type.value}/{time_stamp}.{demo_output_type.value}"
+    )
 
-    setup_logging()
+    setup_logging(time_stamp)
 
     start_time = time.time()
 
