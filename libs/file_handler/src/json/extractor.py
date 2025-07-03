@@ -28,7 +28,8 @@ class JsonExtractor(ExtractorStrategy):
             except Exception as e:
                 raise ValueError(f"Failed to deserialize address book: {e}")
 
-            book_page.year = year
-            book.pages.append(book_page)
+            if len(book_page.text_content) > 0:
+                book_page.year = year
+                book.pages.append(book_page)
 
         return book

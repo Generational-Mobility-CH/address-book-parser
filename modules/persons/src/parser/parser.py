@@ -32,10 +32,12 @@ logger = getLogger(__name__)
 
 
 def parse_address_book(address_book: AddressBook) -> list[Person]:
-    if len(address_book.pages) < 1:
-        raise ValueError(f"No pages to parse for year {address_book.year}")
-
     persons_collection: list[Person] = []
+
+    if len(address_book.pages) < 1:
+        logger.warning(f"No pages found. Skipping book for year {address_book.year}.")
+        return persons_collection
+
     pages_collection = address_book.pages
     first_page = address_book.pages[0]
 
