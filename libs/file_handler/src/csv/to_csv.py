@@ -5,7 +5,9 @@ from typing import TypeVar
 T = TypeVar("T")
 
 
-def save_to_csv(input_data: list[T], output_file_path: str, column_names: list[str] = None) -> None:
+def save_to_csv(
+    input_data: list[T], output_file_path: str, column_names: list[str] = None
+) -> None:
     if not input_data:
         raise ValueError("input_data must not be empty.")
 
@@ -16,7 +18,11 @@ def save_to_csv(input_data: list[T], output_file_path: str, column_names: list[s
         if isinstance(first, dict):
             fieldnames = list(first.keys())
         else:
-            fieldnames = [attr for attr in dir(first) if not attr.startswith("_") and not callable(getattr(first, attr))]
+            fieldnames = [
+                attr
+                for attr in dir(first)
+                if not attr.startswith("_") and not callable(getattr(first, attr))
+            ]
     else:
         fieldnames = input_data[0]
 
@@ -25,7 +31,8 @@ def save_to_csv(input_data: list[T], output_file_path: str, column_names: list[s
         writer.writeheader()
         for obj in input_data:
             row = (
-                obj if isinstance(obj, dict)
+                obj
+                if isinstance(obj, dict)
                 else {name: getattr(obj, name, None) for name in fieldnames}
             )
             writer.writerow(row)
