@@ -6,7 +6,7 @@ from modules.persons.src.parser.names.special_last_names_parser import (
 )
 
 
-class MyTestCase(unittest.TestCase):
+class HandleSpecialLasNamesTest(unittest.TestCase):
     def test_handle_special_last_names_if_present(self):
         test_cases = [
             ("Abt von der Bach Fritz", "Abt VonDerBach Fritz"),

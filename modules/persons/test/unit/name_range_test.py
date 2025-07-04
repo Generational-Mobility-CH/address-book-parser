@@ -2,7 +2,7 @@ import unittest
 
 from modules.persons.src.models.address_book.address_book_page import AddressBookPage
 from modules.persons.src.models.address_book.name_range import NameRange
-from modules.persons.src.parser.parser import get_next_valid_name_range
+from modules.persons.src.parser.parser import find_next_valid_name_range_start_or_end
 
 
 class NameRangeTest(unittest.TestCase):
@@ -85,7 +85,7 @@ class NameRangeTest(unittest.TestCase):
             test_cases
         ):
             with self.subTest(i=i, input=input_collection):
-                actual = get_next_valid_name_range(
+                actual = find_next_valid_name_range_start_or_end(
                     input_collection, page_index, direction
                 )
                 self.assertEqual(
