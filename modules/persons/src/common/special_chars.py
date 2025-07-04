@@ -1,7 +1,16 @@
 ALLOWED_SPECIAL_CHARS = (",", ".", "-", "—", " ", "(", ")", "ß")
 GERMAN_UMLAUTE = {"ä": "ae", "ö": "oe", "ü": "ue"}
 GERMAN_VOWELS = set("aeiouäöü")
-KEYWORDS_NAMES_SEPARATOR = ("wittwe", "ww.", "wwe", "prof.", " dr.", "frau")
+KEYWORDS_NAMES_SEPARATOR = (
+    "wittwe",
+    "ww.",
+    "wwe",
+    "prof.",
+    " dr. phil.",
+    " dr.",
+    "frau",
+    "gent.",
+)
 SPECIAL_LAST_NAMES_MAP = {
     " van der ": "VanDer",
     " von der ": "VonDer",
@@ -22,11 +31,13 @@ SPECIAL_LAST_NAMES_MAP = {
 }
 KEYWORDS_STREET_NAME = ("gass", "gaß", "platz", "allee")
 PLACEHOLDERS_SURNAME = ("—", "-")
+PLACEHOLDER_GESCHIEDEN = ("gesc.", "gesch.")
 PLACEHOLDER_WIDOW = "ww"
 TAG_NONE_FOUND = "<KEINE ANGABE GEFUNDEN>"
 TAG_NO_JOB = "<KEINEN JOB GEFUNDEN>"
 UNALLOWED_STRINGS = (
     "fractext",
+    "frac ",
     "f text",
     "f text f",
     "text",
