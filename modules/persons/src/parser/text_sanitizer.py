@@ -4,7 +4,6 @@ from modules.persons.src.common.special_chars import (
     ALLOWED_SPECIAL_CHARS,
     UNALLOWED_STRINGS,
     UNALLOWED_AT_START_OF_STRING,
-    UNALLOWED_WORDS,
 )
 
 
@@ -12,14 +11,15 @@ def clean_text_lines(text: list[str]) -> list[str]:
     result = []
 
     for i, line in enumerate(text):
-        if i + 1 < len(text):
-            if has_line_break(line, text[i + 1]):
-                line = merge_line_break(line, text[i + 1].strip())
-                text[i + 1] = ""
-
         line = sanitize_line(line)
 
-        if any(char.isalnum() for char in line):
+        if i + 1 < len(text):
+            next_line = sanitize_line(text[i + 1])
+            if has_line_break(line, next_line):
+                line = merge_line_break(line, next_line)
+                text[i + 1] = ""
+
+        if line.strip():
             result.append(line)
 
     return result
@@ -44,29 +44,41 @@ def merge_line_break(current_line: str, next_line: str) -> str:
 
 
 def sanitize_line(line: str) -> str:
-    line = remove_unallowed_keywords(line)
+    line = clean_up_white_space(line)
+    line = remove_unallowed_strings(line)
     line = clean_up_parenthesis(line)
+    line = clean_up_dashes(line)
+    line = clean_up_white_space(line)
 
-    return line.strip()
+    if not any(
+        char.isalpha() for char in line
+    ):  # TODO: check whats better isalpha() or isalnum()
+        return ""
+
+    return line
 
 
-def remove_unallowed_keywords(
-    line: str,
-    allowed_chars: list = ALLOWED_SPECIAL_CHARS,
-    disallowed_strings: list = UNALLOWED_STRINGS,
-    disallowed_prefixes: list = UNALLOWED_AT_START_OF_STRING,
-    disallowed_words: list = UNALLOWED_WORDS,
-) -> str:
-    for prefix in disallowed_prefixes:
+def clean_up_white_space(line: str) -> str:
+    return " ".join(line.strip().split())
+
+
+def remove_unallowed_strings(line: str) -> str:
+    for prefix in UNALLOWED_AT_START_OF_STRING:
         if line.startswith(prefix):
-            line = line[len(prefix) :].lstrip()
+            line = line[len(prefix) :]
 
-    for substring in disallowed_strings:
-        line = line.replace(substring, "")
+    line = remove_partial_matches(line)
 
-    line = " ".join(word for word in line.split() if word not in disallowed_words)
+    line = "".join(
+        char for char in line if char in ALLOWED_SPECIAL_CHARS or char.isalnum()
+    )
 
-    line = "".join(char for char in line if char in allowed_chars or char.isalnum())
+    return line
+
+
+def remove_partial_matches(line: str) -> str:
+    for keyword in UNALLOWED_STRINGS:
+        line = line.replace(keyword, "")
 
     return line.strip()
 
@@ -74,8 +86,15 @@ def remove_unallowed_keywords(
 def clean_up_parenthesis(line: str) -> str:
     line = remove_empty_parenthesis(line)
     line = remove_unmatched_parenthesis(line)
+    line = clean_whitespace_inside_parentheses(line)
 
     return line.strip()
+
+
+def clean_whitespace_inside_parentheses(line: str) -> str:
+    line = line.replace("(- ", "(-")
+
+    return re.sub(r"\(\s*(.*?)\s*\)", r"(\1)", line)
 
 
 def remove_empty_parenthesis(line: str) -> str:
@@ -105,3 +124,25 @@ def remove_unmatched_parenthesis(line: str) -> str:
         )
 
     return line
+
+
+def clean_up_dashes(line: str) -> str:
+    line = line.replace("—", "-")
+    line = line.replace(" - ", "-")
+    line = line.replace("- ", "-")
+    line = line.replace(" -", "-")
+
+    result = ""
+    previous_was_dash = False
+
+    for char in line:
+        if char == "-":
+            if not previous_was_dash:
+                result += "-"
+                previous_was_dash = True
+            # else: skip repeated dash
+        else:
+            result += char
+            previous_was_dash = False
+
+    return result

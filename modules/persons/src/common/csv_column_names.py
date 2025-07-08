@@ -1,4 +1,4 @@
-COLUMN_NAMES = ["names", "job", "address", "year", "pdf_page_number", "person_id"]
+COLUMN_NAMES = ["names", "job", "address", "year", "pdf_page_number"]
 CLEANED_PERSON_COLUMN_NAMES = [
     "last_names",
     "first_names",
@@ -7,5 +7,4 @@ CLEANED_PERSON_COLUMN_NAMES = [
     "original_names",
     "year",
     "pdf_page_number",
-    "person_id",
 ]

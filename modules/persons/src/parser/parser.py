@@ -22,7 +22,7 @@ from modules.persons.src.parser.names.special_last_names_parser import (
     find_special_last_name_keyword,
     handle_special_last_names,
 )
-from modules.persons.src.parser.person_parser import parse_person, is_widow
+from modules.persons.src.parser.person_parser import parse_person
 from modules.persons.src.parser.text_sanitizer import (
     clean_text_lines,
 )
@@ -47,7 +47,10 @@ def parse_address_book(address_book: AddressBook) -> list[Person]:
 
     persons_collection.extend(parse_address_book_page(first_page))
 
-    for page_index, page in enumerate(pages_collection, start=1):
+    for page_index in range(1, len(pages_collection)):
+        page = address_book.pages[page_index]
+        logger.debug(f"Parsing page {page.pdf_page_number} from year {page.year}...")
+
         if not is_valid_surname_range(page.surname_range):
             if starts_with_i_or_j_and_vowel(page.surname_range):
                 page.surname_range = NameRange("H", "K")
@@ -123,7 +126,7 @@ def parse_persons(page: AddressBookPage) -> list[Person]:
                 group.first, special_last_name_keyword
             )
 
-        if len(group) == 3 or (len(group) == 2 and is_widow(group)):
+        if len(group) in (2, 3):  # or (len(group) == 2 and is_widow(group)):
             if has_valid_surname_range:
                 group.first, current_surname = get_next_surname_given_range(
                     group.first, current_surname, page.surname_range
@@ -205,9 +208,13 @@ def group_data(data: list[str]) -> list[PersonDataParts]:
 
     for line in data:
         content = line.split(",")
-        striped_content = [e for element in content if (e := element.strip())]
+        stripped_content = []
+        for e in content:
+            e = e.strip()
+            if e and any(char.isalnum() for char in e):
+                stripped_content.append(e)
 
-        if len(striped_content) in (2, 3):
-            result.append(PersonDataParts.from_list(striped_content))
+        if len(stripped_content) in (2, 3):
+            result.append(PersonDataParts.from_list(stripped_content))
 
     return result

@@ -22,7 +22,7 @@ SPECIAL_LAST_NAMES_MAP = {
     " del ": "Del",
     " della ": "Della",
     " des ": "Des",
-    # " la ": "La",  # TODO: implement handling later (la roche, de la roche...)
+    " la ": "La",
     " le ": "Le",
     " van ": "Van",
     " vom ": "Vom",
@@ -36,18 +36,31 @@ PLACEHOLDER_WIDOW = "ww"
 TAG_NONE_FOUND = "<KEINE ANGABE GEFUNDEN>"
 TAG_NO_JOB = "<KEINEN JOB GEFUNDEN>"
 UNALLOWED_STRINGS = (
+    "$\\S$ text ",
+    "text ",
+    " text",
+    " f ",
     "fractext",
+    " fractext",
+    "fractext ",
+    "fracmathfrakfmathfrakf",
+    "fracmath",
+    " fracmath",
+    "fracmath ",
+    "fracmathfrakf",
+    "frac",
+    " frac",
     "frac ",
-    "f text",
-    "f text f",
-    "text",
+    "frakf",
+    " frakf",
+    "frakf ",
+    "bullet",
     "therefore",
     "otimes",
     "oplus",
     "odot",
     "|",
     "½",
-    "bullet",
     "circ",
     "Dagger",
     "dagger",
@@ -60,5 +73,14 @@ UNALLOWED_STRINGS = (
     "()",
 )
 UNALLOWED_AT_START_OF_STRING = ("of ", "ž", "Š", "ß", ")")
-UNALLOWED_WORDS = ("fracmath", "bullet")
 SPECIAL_NAME_RANGE_LETTERS = set("ij")
+COMPANY_KEYWORDS = (
+    "konsulat",
+    "aktiengesel",
+    "verein",
+    "conférence",
+    "textil",
+    "handel",
+    "geschäft",
+    "börse",
+)

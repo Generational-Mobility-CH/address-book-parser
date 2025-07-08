@@ -36,6 +36,9 @@ def merge_special_last_names(original_names: str, keyword: str) -> str:
     if len(name_parts) == 1:
         return f"{SPECIAL_LAST_NAMES_MAP[keyword]}{name_parts[0].title()}"
 
+    if keyword.__contains__("roche"):
+        return f"{name_parts[0].title()} {SPECIAL_LAST_NAMES_MAP[keyword]} {name_parts[1].title()}"
+
     return f"{name_parts[0].title()} {SPECIAL_LAST_NAMES_MAP[keyword]}{name_parts[1].title()}"
 
 
