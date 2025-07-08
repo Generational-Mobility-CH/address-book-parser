@@ -83,4 +83,6 @@ COMPANY_KEYWORDS = (
     "handel",
     "geschäft",
     "börse",
+    "mechan",
+    "werkstatt",
 )
