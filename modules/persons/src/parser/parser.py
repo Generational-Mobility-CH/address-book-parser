@@ -23,7 +23,7 @@ from modules.persons.src.parser.names.special_last_names_parser import (
     handle_special_last_names,
 )
 from modules.persons.src.parser.person_parser import parse_person
-from modules.persons.src.parser.text_sanitizer import (
+from modules.persons.src.cleaner.text_sanitizer import (
     clean_text_lines,
 )
 
@@ -126,7 +126,7 @@ def parse_persons(page: AddressBookPage) -> list[Person]:
                 group.first, special_last_name_keyword
             )
 
-        if len(group) in (2, 3):  # or (len(group) == 2 and is_widow(group)):
+        if len(group) in (2, 3):
             if has_valid_surname_range:
                 group.first, current_surname = get_next_surname_given_range(
                     group.first, current_surname, page.surname_range
