@@ -11,9 +11,10 @@ from modules.persons.src.parser.text_sanitizer import (
 class TextSanitizerTestCase(unittest.TestCase):
     def test_clean_text_lines(self):
         test_cases = [
-            ("Siegmann-| Höfer Trangott\n", "Siegmann- Höfer Trangott"),
-            ("½ — Suppiger ", "— Suppiger"),
-            ("fractext  f text  f -Vischer Theod.", "f -Vischer Theod."),
+            ("Siegmann-| Höfer Trangott\n", "Siegmann-Höfer Trangott"),
+            ("½ — Suppiger ", "-Suppiger"),
+            ("fractext  f text  f -Vischer Theod.", "f-Vischer Theod."),
+            ("Märklin fractext text — Jaecck Alfr.", "Märklin-Jaecck Alfr."),
         ]
 
         actual_output = clean_text_lines([tc[0] for tc in test_cases])
@@ -104,7 +105,8 @@ class TextSanitizerTestCase(unittest.TestCase):
             ("( )Gottlieb", "Gottlieb"),
             ("( ()Gottlieb", "Gottlieb"),
             ("G(ot(tli)eb", "G(ottli)eb"),
-            ("( ()Go(((())ttlieb", "( Go)ttlieb"),
+            ("( ()Go(((())ttlieb", "(Go)ttlieb"),
+            ("Wyss (- Schumacher) Fritz", "Wyss (-Schumacher) Fritz"),
             ("Gottlieb (Müller)", "Gottlieb (Müller)"),
         ]
 

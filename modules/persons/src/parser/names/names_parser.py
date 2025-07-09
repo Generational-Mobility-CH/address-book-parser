@@ -21,7 +21,11 @@ def extract_other_names(text: str) -> str:
 
 
 def parse_surname(text: str) -> str:
-    return text.split(" ")[0].split("-")[0]
+    main_surname = text.split(" ")[0]
+    main_surname.replace("—", "-")
+    main_surname = main_surname.split("-")[0]
+
+    return main_surname
 
 
 def is_name(text: str, surname: str) -> bool:
@@ -58,7 +62,7 @@ def is_valid_next_surname_legacy(current: str, previous: str) -> bool:
     return False
 
 
-def get_next_surname_in_range(
+def get_next_surname_given_range(
     all_names: str, current_surname: str, surname_range: NameRange
 ) -> tuple[str, str]:
     if starts_with_surname_placeholder(all_names):

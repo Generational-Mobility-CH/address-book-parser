@@ -1,6 +1,7 @@
 from typing import Optional, Iterator, List
 
 
+# TODO: add __str__ and __repr__
 class PersonDataParts:
     def __init__(self, first: str, second: str, third: Optional[str] = None):
         self.first = first
@@ -9,6 +10,12 @@ class PersonDataParts:
 
     def __len__(self) -> int:
         return sum(bool(x) for x in (self.first, self.second, self.third))
+
+    def __str__(self) -> str:
+        return f"first={self.first},  second={self.second}, third={self.third}"
+
+    def __repr__(self):
+        return f"first={self.first},  second={self.second}, third={self.third}"
 
     @classmethod
     def from_list(cls, parts: List[str]) -> "PersonDataParts":

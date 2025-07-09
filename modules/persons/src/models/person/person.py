@@ -1,5 +1,4 @@
 import logging
-import uuid
 
 
 from modules.persons.src.models.person.address import Address
@@ -27,7 +26,6 @@ class Person:
         self.address = address
         self.year: int = 0
         self.pdf_page_number: int | None = None
-        self.person_id = uuid.uuid4()
 
     @property
     def original_names(self) -> str:
@@ -80,14 +78,6 @@ class Person:
         self._year = value
 
     @property
-    def person_id(self) -> uuid.uuid4():
-        return self._person_id
-
-    @person_id.setter
-    def person_id(self, value: uuid.uuid4()) -> None:
-        self._person_id = value
-
-    @property
     def pdf_page_number(self) -> int | None:
         return self._pdf_page_number
 
@@ -96,7 +86,7 @@ class Person:
         self._pdf_page_number = value
 
     def __repr__(self) -> str:
-        return f"Person(Full name={self.last_names} {self.first_names}, job={self.job}, address={repr(self.address)}, year={self.year}, id={self.person_id})"
+        return f"Person(Full name={self.last_names} {self.first_names}, job={self.job}, address={repr(self.address)}, year={self.year})"
 
     def __str__(self) -> str:
         return f"Vollständiger Name: {self.last_names} {self.first_names}\nJob: {self.job}\nAddresse: {self.address}\nJahr: {self.year}"
@@ -109,7 +99,6 @@ class Person:
                 and self.job == other.job
                 and self.address == other.address
                 and self.year == other.year
-                and self.person_id == other.person_id
             )
         return False
 

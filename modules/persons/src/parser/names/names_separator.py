@@ -4,6 +4,7 @@ import re
 from modules.persons.src.common.special_chars import (
     TAG_NONE_FOUND,
     KEYWORDS_NAMES_SEPARATOR,
+    PLACEHOLDER_GESCHIEDEN,
 )
 from modules.persons.src.models.person.person_names import PersonNames
 
@@ -46,6 +47,13 @@ def separate_names(original_names: str) -> PersonNames:
 
 
 def get_separation_marker(data: str) -> str | None:
+    for marker in PLACEHOLDER_GESCHIEDEN:
+        if marker in data.lower():
+            pattern = rf"^.*?{re.escape(marker)}\s+(?:\(\S+\)|\S+)\s+(.*)$"
+            match = re.match(pattern, data.lower())
+            if match:
+                return match.group(1).strip()
+
     for marker in KEYWORDS_NAMES_SEPARATOR:
         if marker in data.lower():
             return marker
@@ -62,12 +70,14 @@ def split_at_marker(data: str, marker: str) -> PersonNames:
     s = data.lower()
     parts = s.split(marker, 1)
 
-    name_parts = PersonNames(last_names="", first_names=marker.strip().capitalize())
-    name_parts.last_names += " ".join(
-        word.capitalize().strip() for word in parts[0].split(" ")
+    name_parts = PersonNames(last_names="", first_names=marker.strip().title())
+
+    name_parts.last_names += (
+        " ".join(word for word in parts[0].split(" ")).title().strip()
     )
-    name_parts.first_names += " ".join(
-        word.capitalize().strip() for word in parts[1].split(" ")
+
+    name_parts.first_names += (
+        " ".join(word for word in parts[1].split(" ")).title().strip()
     )
 
     return name_parts
