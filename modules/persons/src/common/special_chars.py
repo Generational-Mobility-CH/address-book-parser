@@ -10,25 +10,8 @@ KEYWORDS_NAMES_SEPARATOR = (
     " dr.",
     "frau",
     "gent.",
+    "dit",
 )
-SPECIAL_LAST_NAMES_MAP = {
-    " van der ": "VanDer",
-    " von der ": "VonDer",
-    " de la roche ": "DeLaRoche",
-    " la roche ": "LaRoche",
-    " de la ": "DeLa",
-    " de ": "De",
-    " dal ": "Dal",
-    " del ": "Del",
-    " della ": "Della",
-    " des ": "Des",
-    " la ": "La",
-    " le ": "Le",
-    " van ": "Van",
-    " vom ": "Vom",
-    " von ": "Von",
-    " zum ": "Zum",
-}
 KEYWORDS_STREET_NAME = ("gass", "gaß", "platz", "allee")
 PLACEHOLDERS_LAST_NAME = ("—", "-")
 PLACEHOLDER_GESCHIEDEN = ("gesc.", "gesch.")
@@ -48,6 +31,7 @@ UNALLOWED_STRINGS = (
     " fracmath",
     "fracmath ",
     "fracmathfrakf",
+    "mathfrakf",
     "frac",
     " frac",
     "frac ",
@@ -75,6 +59,7 @@ UNALLOWED_STRINGS = (
 UNALLOWED_AT_START_OF_STRING = ("of ", "ž", "Š", "ß", ")")
 SPECIAL_NAME_RANGE_LETTERS = set("ij")
 COMPANY_KEYWORDS = (
+    "company",
     "konsulat",
     "aktiengesel",
     "verein",
