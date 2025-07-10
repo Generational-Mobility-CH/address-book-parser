@@ -6,6 +6,7 @@ COMPANY_KEYWORDS = (
     "company",
     "conférence",
     "genossenschaft",
+    "gesellschaft",
     "geschäft",
     "handel",
     "konsulat",
