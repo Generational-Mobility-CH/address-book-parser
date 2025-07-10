@@ -11,6 +11,7 @@ from modules.persons.src.cleaner.constants.unallowed_strings import (
 
 def clean_text_lines(text: list[str]) -> list[str]:
     result = []
+    text = list(filter(None, text))
 
     for i, line in enumerate(text):
         line = sanitize_line(line)
@@ -52,9 +53,7 @@ def sanitize_line(line: str) -> str:
     line = clean_up_dashes(line)
     line = clean_up_white_space(line)
 
-    if not any(
-        char.isalpha() for char in line
-    ):  # TODO: check whats better isalpha() or isalnum()
+    if not any(char.isalpha() for char in line):
         return ""
 
     return line
@@ -139,12 +138,12 @@ def clean_up_dashes(line: str) -> str:
 
     for char in line:
         if char == "-":
-            if not previous_was_dash:
-                result += "-"
-                previous_was_dash = True
-            # else: skip repeated dash
+            if previous_was_dash:
+                continue
+            previous_was_dash = True
         else:
-            result += char
             previous_was_dash = False
+
+        result += char
 
     return result

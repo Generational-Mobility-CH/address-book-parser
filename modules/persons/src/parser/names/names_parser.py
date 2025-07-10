@@ -1,6 +1,6 @@
 from modules.persons.src.models.address_book.name_range import NameRange
 from modules.persons.src.parser.names.constants.german_vowels import GERMAN_UMLAUTE
-from modules.persons.src.parser.names.constants.names_keywords import (
+from modules.persons.src.parser.names.constants.names_special_keywords import (
     PLACEHOLDERS_LAST_NAME,
 )
 

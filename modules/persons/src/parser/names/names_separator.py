@@ -3,7 +3,7 @@ import re
 
 from modules.persons.src.models.person.person_names import PersonNames
 from modules.persons.src.parser.constants.tags import TAG_NONE_FOUND
-from modules.persons.src.parser.names.constants.names_keywords import (
+from modules.persons.src.parser.names.constants.names_special_keywords import (
     KEYWORDS_DIVORCED,
     KEYWORDS_NAMES_SEPARATOR,
 )

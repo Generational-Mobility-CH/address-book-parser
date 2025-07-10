@@ -3,6 +3,7 @@ import time
 
 from datetime import datetime
 from logging import getLogger
+from pathlib import Path
 from time import strftime
 
 from libs.db_handler.src.to_db import save_to_db
@@ -11,7 +12,7 @@ from libs.file_handler.src.json.extractor import JsonExtractor
 from libs.file_handler.src.models.supported_file_types import SupportedFileTypes
 from modules.persons.src.cleaner.cleaner import clean_person
 from modules.persons.src.common.logger import setup_logging
-from modules.persons.src.common.paths import INPUT_PATH, OUTPUT_PATH
+from modules.persons.src.common.paths import INPUT_PATH, OUTPUT_PATH, DATA_PATH
 from modules.persons.src.parser.parser import parse_address_book
 
 
@@ -56,6 +57,7 @@ def get_all_data_paths(base_path: str) -> list[str]:
 
 if __name__ == "__main__":
     demo_output_type = SupportedFileTypes.DB
+    Path(DATA_PATH).mkdir(parents=True, exist_ok=True)
     demo_input_path = f"{INPUT_PATH}/json"
     time_stamp = f"{datetime.now():%b %d. - %H.%M}"
     demo_output_path = (
@@ -63,7 +65,6 @@ if __name__ == "__main__":
     )
 
     setup_logging(time_stamp)
-
     start_time = time.time()
 
     main(demo_input_path, demo_output_path)
