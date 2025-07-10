@@ -46,6 +46,7 @@ class SpecialLasNamesParserTest(unittest.TestCase):
         test_cases = [
             ("-Van der Mälen Heinr.", "-VanDerMälen Heinr."),
             ("- Van der Mälen Heinr.", "- VanDerMälen Heinr."),
+            ("de paris-Mälen Heinr.", "DeParis-Mälen Heinr."),
             ("Müller-Van der Mälen Heinr.", "Müller-VanDerMälen Heinr."),
             ("Müller-de Mälen Heinr.", "Müller-DeMälen Heinr."),
             ("de Mälen-Müller Heinr.", "DeMälen-Müller Heinr."),

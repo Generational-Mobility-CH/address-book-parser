@@ -36,7 +36,7 @@ def handle_special_last_names(data: str, keyword: str) -> str:
     if data.startswith(keyword[1:]):
         return merge_multi_part_last_names_at_start(data, keyword)
 
-    if data.__contains__("-") and data.replace("-", " ").__contains__(keyword):
+    if data.__contains__("-") and data.replace("-", " ").__contains__(keyword.strip()):
         return merge_multi_part_last_names_with_dash(data, keyword)
 
     logger.error(f"Could not find '{keyword}' in '{data}'")
@@ -99,6 +99,12 @@ def merge_multi_part_last_names_with_dash(data: str, keyword: str) -> str:
             + camel_cased_keyword
             + data[keyword_position + len(keyword) :].strip().title()
         )
+    elif data[keyword_position + len(keyword)] == "-":
+        data = data.replace(keyword + "-", camel_cased_keyword)
+        start = data[:keyword_position].title()
+        mid = camel_cased_keyword + "-"
+        end = data[keyword_position + len(keyword) - 1 :].strip().title()
+        data = f"{start}{mid}{end}"
     else:
         logger.error(
             f"Error while parsing special last name with dash for '{keyword}' in '{data}'"

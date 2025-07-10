@@ -1,5 +1,6 @@
 from logging import getLogger
 
+from modules.persons.src.cleaner.text_sanitizer import clean_text_lines
 from modules.persons.src.common.special_chars import (
     SPECIAL_NAME_RANGE_LETTERS,
     GERMAN_VOWELS,
@@ -23,9 +24,6 @@ from modules.persons.src.parser.names.special_last_names_parser import (
     handle_special_last_names,
 )
 from modules.persons.src.parser.person_parser import parse_person
-from modules.persons.src.parser.text_sanitizer import (
-    clean_text_lines,
-)
 
 
 logger = getLogger(__name__)
