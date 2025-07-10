@@ -20,7 +20,7 @@ def extract_other_names(text: str) -> str:
     return result
 
 
-def parse_last_name(text: str) -> str:
+def get_last_name(text: str) -> str:
     main_last_name = text.split(" ")[0]
     main_last_name.replace("—", "-")
     main_last_name = main_last_name.split("-")[0]
@@ -44,6 +44,7 @@ def prepare_str_for_comparison(text: str) -> str:
 
 def is_valid_next_last_name(current: str, last_name_range: NameRange) -> bool:
     current = prepare_str_for_comparison(current)
+    current = get_last_name(current)
     start = prepare_str_for_comparison(last_name_range.start)
     end = prepare_str_for_comparison(last_name_range.end)
 
@@ -52,6 +53,7 @@ def is_valid_next_last_name(current: str, last_name_range: NameRange) -> bool:
 
 def is_valid_next_last_name_legacy(current: str, previous: str) -> bool:
     current = prepare_str_for_comparison(current)
+    current = get_last_name(current)
     previous = prepare_str_for_comparison(previous)
 
     if current <= previous:
@@ -65,12 +67,18 @@ def is_valid_next_last_name_legacy(current: str, previous: str) -> bool:
 def get_next_last_name_given_range(
     all_names: str, current_last_name: str, last_names_range: NameRange
 ) -> tuple[str, str]:
+    if not current_last_name:
+        found_last_name = get_last_name(all_names)
+        current_last_name = (
+            found_last_name
+            if is_valid_next_last_name(found_last_name, last_names_range)
+            else last_names_range.start
+        )
+
     if starts_with_last_name_placeholder(all_names):
         all_names = current_last_name + extract_other_names(all_names)
-    elif not current_last_name:
-        current_last_name = parse_last_name(all_names)
     elif is_valid_next_last_name(all_names, last_names_range):
-        current_last_name = parse_last_name(all_names)
+        current_last_name = get_last_name(all_names)
     else:
         all_names = f"{current_last_name} {all_names}"
 

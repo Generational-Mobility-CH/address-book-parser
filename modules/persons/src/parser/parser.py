@@ -13,7 +13,7 @@ from modules.persons.src.parser.company_parser import is_company
 from modules.persons.src.parser.names.names_parser import (
     starts_with_last_name_placeholder,
     is_valid_next_last_name_legacy,
-    parse_last_name,
+    get_last_name,
     extract_other_names,
     get_next_last_name_given_range,
     prepare_str_for_comparison,
@@ -193,14 +193,15 @@ def find_next_valid_name_range_start_or_end(
 def get_next_last_name(
     all_names: str, current_last_name: str, previous_last_name: str
 ) -> tuple[str, str, str]:
+    if not current_last_name and not previous_last_name:
+        previous_last_name = current_last_name = get_last_name(all_names)
+
     if starts_with_last_name_placeholder(all_names):
         all_names = current_last_name + extract_other_names(all_names)
-    elif not current_last_name and not previous_last_name:
-        previous_last_name = current_last_name = parse_last_name(all_names)
     elif is_valid_next_last_name_legacy(all_names, previous_last_name):
         previous_last_name, current_last_name = (
             current_last_name,
-            parse_last_name(all_names),
+            get_last_name(all_names),
         )
 
     return all_names, current_last_name, previous_last_name
