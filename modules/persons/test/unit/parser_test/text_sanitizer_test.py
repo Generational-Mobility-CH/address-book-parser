@@ -1,6 +1,6 @@
 import unittest
 
-from modules.persons.src.cleaner.text_sanitizer import (
+from modules.persons.src.cleaner.text_cleaner import (
     clean_text_lines,
     remove_unmatched_parenthesis,
     has_line_break,

@@ -9,7 +9,6 @@ logger = getLogger(__name__)
 
 
 def find_special_last_name_keyword(data: str) -> str | None:
-    # TODO: add handling for names containing multiple special LN -> im Last names cleaner
     data = data.lower()
     data = data.replace("-", " ")
 
@@ -81,7 +80,7 @@ def merge_special_last_names(data: str, keyword: str) -> str:
 
 def merge_multi_part_last_names_with_dash(data: str, keyword: str) -> str:
     camel_cased_keyword = spaced_word_to_camel_case(keyword)
-    keyword = keyword.strip()
+    keyword = keyword.lstrip()
     data = data.strip()
 
     if data.startswith("-"):
@@ -91,26 +90,29 @@ def merge_multi_part_last_names_with_dash(data: str, keyword: str) -> str:
             return f"-{camel_cased_keyword}{data.title()}"
 
     keyword_position = data.find(keyword)
+    if keyword_position == -1:
+        logger.error(f"Keyword '{keyword}' not found in '{data}'")
+        return data
 
-    if data[keyword_position - 1] == "-":
-        data = data.replace("-" + keyword, "-" + camel_cased_keyword)
-        data = (
+    before = data[keyword_position - 1] if keyword_position > 0 else ""
+    after = (
+        data[keyword_position + len(keyword)]
+        if keyword_position + len(keyword) < len(data)
+        else ""
+    )
+
+    if before == "-" or after == "-":
+        updated = (
             data[:keyword_position].title()
             + camel_cased_keyword
-            + data[keyword_position + len(keyword) :].strip().title()
+            + data[keyword_position + len(keyword) :].title()
         )
-    elif data[keyword_position + len(keyword)] == "-":
-        data = data.replace(keyword + "-", camel_cased_keyword)
-        start = data[:keyword_position].title()
-        mid = camel_cased_keyword + "-"
-        end = data[keyword_position + len(keyword) - 1 :].strip().title()
-        data = f"{start}{mid}{end}"
+        return updated
     else:
-        logger.error(
-            f"Error while parsing special last name with dash for '{keyword}' in '{data}'"
+        logger.warning(
+            f"Problem while parsing special last name with dash for '{keyword}' in '{data}'"
         )
-
-    return data
+        return data
 
 
 def merge_multi_part_last_names(data: str, keyword: str) -> str:
