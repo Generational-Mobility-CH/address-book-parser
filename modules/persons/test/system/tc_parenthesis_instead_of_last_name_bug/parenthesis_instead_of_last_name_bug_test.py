@@ -7,10 +7,10 @@ from modules.persons.src.__main__ import main
 
 
 class ParenthesisBugTestCase(unittest.TestCase):
-    def test_parenthesis_instead_of_surname_bug(self):
-        test_input = "../test/system/tc_parenthesis_instead_of_surname_bug/fixtures"
-        test_output = "system/tc_parenthesis_instead_of_surname_bug/test_output.csv"
-        expected_file = "system/tc_parenthesis_instead_of_surname_bug/fixtures/expected_test_output.csv"
+    def test_parenthesis_instead_of_last_name_bug(self):
+        test_input = "../test/system/tc_parenthesis_instead_of_last_name_bug/fixtures"
+        test_output = "system/tc_parenthesis_instead_of_last_name_bug/test_output.csv"
+        expected_file = "system/tc_parenthesis_instead_of_last_name_bug/fixtures/expected_test_output.csv"
 
         main(test_input, test_output, SupportedFileTypes.CSV)
 

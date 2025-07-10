@@ -1,5 +1,5 @@
 from modules.persons.src.common.special_chars import (
-    PLACEHOLDERS_SURNAME,
+    PLACEHOLDERS_LAST_NAME,
     GERMAN_UMLAUTE,
 )
 from modules.persons.src.models.address_book.name_range import NameRange
@@ -10,7 +10,7 @@ def extract_other_names(text: str) -> str:
         case _ if text[1].isalpha():
             result = " " + text[1:]
         case " ":
-            if text[2] in PLACEHOLDERS_SURNAME:
+            if text[2] in PLACEHOLDERS_LAST_NAME:
                 result = text[2:]
             else:
                 result = text[1:]
@@ -20,17 +20,17 @@ def extract_other_names(text: str) -> str:
     return result
 
 
-def parse_surname(text: str) -> str:
-    main_surname = text.split(" ")[0]
-    main_surname.replace("—", "-")
-    main_surname = main_surname.split("-")[0]
+def parse_last_name(text: str) -> str:
+    main_last_name = text.split(" ")[0]
+    main_last_name.replace("—", "-")
+    main_last_name = main_last_name.split("-")[0]
 
-    return main_surname
+    return main_last_name
 
 
-def is_name(text: str, surname: str) -> bool:
-    return surname in text or any(
-        placeholder in text for placeholder in PLACEHOLDERS_SURNAME
+def is_name(text: str, last_name: str) -> bool:
+    return last_name in text or any(
+        placeholder in text for placeholder in PLACEHOLDERS_LAST_NAME
     )
 
 
@@ -42,15 +42,15 @@ def prepare_str_for_comparison(text: str) -> str:
     return text
 
 
-def is_valid_next_surname(current: str, surname_range: NameRange) -> bool:
+def is_valid_next_last_name(current: str, last_name_range: NameRange) -> bool:
     current = prepare_str_for_comparison(current)
-    start = prepare_str_for_comparison(surname_range.start)
-    end = prepare_str_for_comparison(surname_range.end)
+    start = prepare_str_for_comparison(last_name_range.start)
+    end = prepare_str_for_comparison(last_name_range.end)
 
     return start <= current <= end
 
 
-def is_valid_next_surname_legacy(current: str, previous: str) -> bool:
+def is_valid_next_last_name_legacy(current: str, previous: str) -> bool:
     current = prepare_str_for_comparison(current)
     previous = prepare_str_for_comparison(previous)
 
@@ -62,19 +62,19 @@ def is_valid_next_surname_legacy(current: str, previous: str) -> bool:
     return False
 
 
-def get_next_surname_given_range(
-    all_names: str, current_surname: str, surname_range: NameRange
+def get_next_last_name_given_range(
+    all_names: str, current_last_name: str, last_names_range: NameRange
 ) -> tuple[str, str]:
-    if starts_with_surname_placeholder(all_names):
-        all_names = current_surname + extract_other_names(all_names)
-    elif not current_surname:
-        current_surname = parse_surname(all_names)
-    elif is_valid_next_surname(all_names, surname_range):
-        current_surname = parse_surname(all_names)
+    if starts_with_last_name_placeholder(all_names):
+        all_names = current_last_name + extract_other_names(all_names)
+    elif not current_last_name:
+        current_last_name = parse_last_name(all_names)
+    elif is_valid_next_last_name(all_names, last_names_range):
+        current_last_name = parse_last_name(all_names)
     else:
-        all_names = f"{current_surname} {all_names}"
+        all_names = f"{current_last_name} {all_names}"
 
-    return all_names, current_surname
+    return all_names, current_last_name
 
 
 def contains_umlaute(input_string: str) -> bool:
@@ -89,5 +89,5 @@ def replace_if_contains_umlaute(text: str) -> str:
     return replace_umlaute(text) if contains_umlaute(text) else text
 
 
-def starts_with_surname_placeholder(text: str) -> bool:
-    return bool(text) and text[0] in PLACEHOLDERS_SURNAME
+def starts_with_last_name_placeholder(text: str) -> bool:
+    return bool(text) and text[0] in PLACEHOLDERS_LAST_NAME

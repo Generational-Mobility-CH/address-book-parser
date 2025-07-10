@@ -21,6 +21,7 @@ def main(
     data_path: str,
     output_path: str,
     output_type: SupportedFileTypes = SupportedFileTypes.DB,
+    csv_column_names: list[str] = None,
 ) -> None:
     extractor = JsonExtractor()
     all_paths = get_all_data_paths(data_path)
@@ -34,7 +35,7 @@ def main(
             case SupportedFileTypes.DB:
                 save_to_db(standardized_persons, output_path)
             case SupportedFileTypes.CSV:
-                save_to_csv(standardized_persons, output_path)
+                save_to_csv(standardized_persons, output_path, csv_column_names)
 
         logger.info(
             f"Saved persons from year '{book.year}' to {output_type.value} at {output_path}"

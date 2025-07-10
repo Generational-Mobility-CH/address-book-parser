@@ -30,7 +30,7 @@ SPECIAL_LAST_NAMES_MAP = {
     " zum ": "Zum",
 }
 KEYWORDS_STREET_NAME = ("gass", "gaß", "platz", "allee")
-PLACEHOLDERS_SURNAME = ("—", "-")
+PLACEHOLDERS_LAST_NAME = ("—", "-")
 PLACEHOLDER_GESCHIEDEN = ("gesc.", "gesch.")
 PLACEHOLDER_WIDOW = "ww"
 TAG_NONE_FOUND = "<KEINE ANGABE GEFUNDEN>"

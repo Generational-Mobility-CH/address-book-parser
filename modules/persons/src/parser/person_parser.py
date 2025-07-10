@@ -11,14 +11,14 @@ from modules.persons.src.parser.names.names_parser import is_name
 from modules.persons.src.parser.names.names_separator import separate_names
 
 
-def parse_person(data: PersonDataParts, current_surname: str) -> Person:
+def parse_person(data: PersonDataParts, current_last_name: str) -> Person:
     person: Person = Person(
         original_names=TAG_NONE_FOUND,
         address=Address(street_name=TAG_NONE_FOUND, house_number=TAG_NONE_FOUND),
         job=TAG_NO_JOB,
     )
 
-    if (name := data.first) and is_name(name, current_surname):
+    if (name := data.first) and is_name(name, current_last_name):
         person.original_names = name
         separated_names = separate_names(person.original_names)
         person.last_names = separated_names.last_names

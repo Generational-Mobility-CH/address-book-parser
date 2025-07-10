@@ -39,7 +39,7 @@ def deserialize_book_page(data: dict) -> AddressBookPage:
         logger.error("Missing 'pdfPageNumber' in data")
 
     return AddressBookPage(
-        surname_range=list_to_name_range_object(data.get("surnameRange", [])),
+        last_names_range=list_to_name_range_object(data.get("surnameRange", [])),
         text_content=list(data.get("textColumns", {}).values()),
         pdf_page_number=data.get("pdfPageNumber", 0),
     )

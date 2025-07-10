@@ -16,7 +16,7 @@ class MyTestCase(unittest.TestCase):
 
         self.assertIsInstance(result, AddressBookPage)
         self.assertEqual(result.pdf_page_number, 1)
-        self.assertEqual(result.surname_range, ["A", "B"])
+        self.assertEqual(result.last_names_range, ["A", "B"])
         self.assertEqual(result.text_content, {"left": "content"})
 
     def test_missing_required_field(self):
