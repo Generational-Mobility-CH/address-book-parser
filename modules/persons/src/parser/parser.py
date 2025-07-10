@@ -47,19 +47,14 @@ def parse_address_book(address_book: AddressBook) -> list[Person]:
         logger.debug(f"Parsing page {page.pdf_page_number} from year {page.year}...")
 
         if not is_valid_last_name_range(page.last_names_range):
-            if starts_with_i_or_j_and_vowel(page.last_names_range):
-                page.last_names_range = NameRange("H", "K")
+            if found_next_valid_range := find_next_valid_name_range(
+                pages_collection, page_index
+            ):
+                page.last_names_range = found_next_valid_range
             else:
-                new_range = find_next_valid_name_range(pages_collection, page_index)
-
-                if new_range and is_valid_last_name_range(new_range):
-                    page.last_names_range = new_range
-                elif starts_with_i_or_j_and_vowel(page.last_names_range):
-                    page.last_names_range = NameRange("H", "K")
-                else:
-                    logger.error(
-                        f"Could not approximate 'NameRange' for {address_book.year}-page_{page.pdf_page_number}"
-                    )
+                logger.warning(
+                    f"Could not approximate 'NameRange' for {address_book.year}-page_{page.pdf_page_number}"
+                )
 
         persons_collection.extend(parse_address_book_page(page))
 
@@ -73,6 +68,9 @@ def find_next_valid_name_range(
     Go a maximum of 3 pages back/forward in order to find a new valid range.
     A broader range does not bring additional benefits for this application.
     """
+    if starts_with_i_or_j_and_vowel(collection[page_index].last_names_range):
+        return NameRange("H", "K")
+
     s_i = page_index
     e_i = page_index
 
