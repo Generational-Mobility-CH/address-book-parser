@@ -1,6 +1,6 @@
-from modules.persons.src.common.special_chars import COMPANY_KEYWORDS
 from modules.persons.src.models.person.person_data_parts import PersonDataParts
 from modules.persons.src.parser.address_parser import is_address
+from modules.persons.src.parser.constants.company_keywords import COMPANY_KEYWORDS
 
 
 def is_company(data: PersonDataParts) -> bool:

@@ -1,7 +1,7 @@
 from modules.persons.src.cleaner.last_names_cleaner import clean_last_names
-from modules.persons.src.common.special_chars import TAG_NONE_FOUND
 from modules.persons.src.models.person.person import Person
 from modules.persons.src.models.person.person_names import PersonNames
+from modules.persons.src.parser.constants.tags import TAG_NONE_FOUND
 from modules.persons.src.parser.names.names_separator import separate_names
 
 

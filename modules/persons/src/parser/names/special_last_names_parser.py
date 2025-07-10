@@ -91,7 +91,7 @@ def merge_multi_part_last_names_with_dash(data: str, keyword: str) -> str:
 
     keyword_position = data.find(keyword)
     if keyword_position == -1:
-        logger.error(f"Keyword '{keyword}' not found in '{data}'")
+        logger.warning(f"Keyword '{keyword}' not found in '{data}'")
         return data
 
     before = data[keyword_position - 1] if keyword_position > 0 else ""

@@ -1,9 +1,11 @@
 import re
 
-from modules.persons.src.common.special_chars import (
-    ALLOWED_SPECIAL_CHARS,
-    UNALLOWED_STRINGS,
+from modules.persons.src.cleaner.constants.allowed_special_characters import (
+    ALLOWED_SPECIAL_CHARACTERS,
+)
+from modules.persons.src.cleaner.constants.unallowed_strings import (
     UNALLOWED_AT_START_OF_STRING,
+    UNALLOWED_STRINGS,
 )
 
 
@@ -70,7 +72,7 @@ def remove_unallowed_strings(line: str) -> str:
     line = remove_partial_matches(line)
 
     line = "".join(
-        char for char in line if char in ALLOWED_SPECIAL_CHARS or char.isalnum()
+        char for char in line if char in ALLOWED_SPECIAL_CHARACTERS or char.isalnum()
     )
 
     return line

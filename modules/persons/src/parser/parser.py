@@ -1,16 +1,13 @@
 from logging import getLogger
 
 from modules.persons.src.cleaner.text_cleaner import clean_text_lines
-from modules.persons.src.common.special_chars import (
-    SPECIAL_NAME_RANGE_LETTERS,
-    GERMAN_VOWELS,
-)
 from modules.persons.src.models.address_book.address_book import AddressBook
 from modules.persons.src.models.address_book.address_book_page import AddressBookPage
 from modules.persons.src.models.person.person_data_parts import PersonDataParts
 from modules.persons.src.models.address_book.name_range import NameRange
 from modules.persons.src.models.person.person import Person
 from modules.persons.src.parser.company_parser import is_company
+from modules.persons.src.parser.names.constants.german_vowels import GERMAN_VOWELS
 from modules.persons.src.parser.names.names_parser import (
     starts_with_last_name_placeholder,
     is_valid_next_last_name_legacy,
@@ -57,6 +54,8 @@ def parse_address_book(address_book: AddressBook) -> list[Person]:
 
                 if new_range and is_valid_last_name_range(new_range):
                     page.last_names_range = new_range
+                elif starts_with_i_or_j_and_vowel(page.last_names_range):
+                    page.last_names_range = NameRange("H", "K")
                 else:
                     logger.error(
                         f"Could not approximate 'NameRange' for {address_book.year}-page_{page.pdf_page_number}"
@@ -163,10 +162,7 @@ def starts_with_i_or_j_and_vowel(name_range: NameRange) -> bool:
     if len(start) < 2 or len(end) < 2:
         return False
 
-    if (
-        start[0].lower() in SPECIAL_NAME_RANGE_LETTERS
-        and end[0].lower() in SPECIAL_NAME_RANGE_LETTERS
-    ):
+    if start[0].lower() in set("ij") and end[0].lower() in set("ij"):
         if start[1].lower() in GERMAN_VOWELS or end[1].lower() in GERMAN_VOWELS:
             return True
 

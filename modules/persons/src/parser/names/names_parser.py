@@ -1,8 +1,8 @@
-from modules.persons.src.common.special_chars import (
-    PLACEHOLDERS_LAST_NAME,
-    GERMAN_UMLAUTE,
-)
 from modules.persons.src.models.address_book.name_range import NameRange
+from modules.persons.src.parser.names.constants.german_vowels import GERMAN_UMLAUTE
+from modules.persons.src.parser.names.constants.names_keywords import (
+    PLACEHOLDERS_LAST_NAME,
+)
 
 
 def extract_other_names(text: str) -> str:

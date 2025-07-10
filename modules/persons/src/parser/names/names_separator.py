@@ -1,13 +1,12 @@
 import logging
 import re
 
-from modules.persons.src.common.special_chars import (
-    TAG_NONE_FOUND,
-    KEYWORDS_NAMES_SEPARATOR,
-    PLACEHOLDER_GESCHIEDEN,
-)
 from modules.persons.src.models.person.person_names import PersonNames
-
+from modules.persons.src.parser.constants.tags import TAG_NONE_FOUND
+from modules.persons.src.parser.names.constants.names_keywords import (
+    KEYWORDS_DIVORCED,
+    KEYWORDS_NAMES_SEPARATOR,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +46,7 @@ def separate_names(original_names: str) -> PersonNames:
 
 
 def get_separation_marker(data: str) -> str | None:
-    for marker in PLACEHOLDER_GESCHIEDEN:
+    for marker in KEYWORDS_DIVORCED:
         if marker in data.lower():
             pattern = rf"^.*?{re.escape(marker)}\s+(?:\(\S+\)|\S+)\s+(.*)$"
             match = re.match(pattern, data.lower())

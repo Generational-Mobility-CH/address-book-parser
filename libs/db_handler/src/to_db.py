@@ -2,7 +2,7 @@ import sqlite3
 from pathlib import Path
 from typing import TypeVar
 
-from modules.persons.src.common.csv_column_names import CLEANED_PERSON_COLUMN_NAMES
+from libs.db_handler.src.constants.csv_column_names import CLEANED_PERSON_COLUMN_NAMES
 
 T = TypeVar("T")
 

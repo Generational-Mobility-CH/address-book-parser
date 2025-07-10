@@ -1,10 +1,11 @@
 import re
 
-from modules.persons.src.common.special_chars import (
-    TAG_NONE_FOUND,
+
+from modules.persons.src.models.person.address import Address
+from modules.persons.src.parser.constants.street_name_keywords import (
     KEYWORDS_STREET_NAME,
 )
-from modules.persons.src.models.person.address import Address
+from modules.persons.src.parser.constants.tags import TAG_NONE_FOUND
 
 
 def extract_address(content: str) -> Address:
