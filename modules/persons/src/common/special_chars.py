@@ -2,35 +2,19 @@ ALLOWED_SPECIAL_CHARS = (",", ".", "-", "—", " ", "(", ")", "ß")
 GERMAN_UMLAUTE = {"ä": "ae", "ö": "oe", "ü": "ue"}
 GERMAN_VOWELS = set("aeiouäöü")
 KEYWORDS_NAMES_SEPARATOR = (
+    "dit",
+    " dr.",
+    " dr ",
+    " dr med  dr. phil.",
+    "frau",
+    "gent.",
+    "prof.",
     "wittwe",
     "ww.",
     "wwe",
-    "prof.",
-    " dr. phil.",
-    " dr.",
-    "frau",
-    "gent.",
 )
-SPECIAL_LAST_NAMES_MAP = {
-    " van der ": "VanDer",
-    " von der ": "VonDer",
-    " de la roche ": "DeLaRoche",
-    " la roche ": "LaRoche",
-    " de la ": "DeLa",
-    " de ": "De",
-    " dal ": "Dal",
-    " del ": "Del",
-    " della ": "Della",
-    " des ": "Des",
-    " la ": "La",
-    " le ": "Le",
-    " van ": "Van",
-    " vom ": "Vom",
-    " von ": "Von",
-    " zum ": "Zum",
-}
 KEYWORDS_STREET_NAME = ("gass", "gaß", "platz", "allee")
-PLACEHOLDERS_SURNAME = ("—", "-")
+PLACEHOLDERS_LAST_NAME = ("—", "-")
 PLACEHOLDER_GESCHIEDEN = ("gesc.", "gesch.")
 PLACEHOLDER_WIDOW = "ww"
 TAG_NONE_FOUND = "<KEINE ANGABE GEFUNDEN>"
@@ -48,6 +32,7 @@ UNALLOWED_STRINGS = (
     " fracmath",
     "fracmath ",
     "fracmathfrakf",
+    "mathfrak",
     "frac",
     " frac",
     "frac ",
@@ -75,14 +60,22 @@ UNALLOWED_STRINGS = (
 UNALLOWED_AT_START_OF_STRING = ("of ", "ž", "Š", "ß", ")")
 SPECIAL_NAME_RANGE_LETTERS = set("ij")
 COMPANY_KEYWORDS = (
-    "konsulat",
     "aktiengesel",
-    "verein",
-    "conférence",
-    "textil",
-    "handel",
-    "geschäft",
+    "aufbewahrung",
     "börse",
+    "compagnie",
+    "company",
+    "conférence",
+    "genossenschaft",
+    "geschäft",
+    "handel",
+    "konsulat",
+    "lager",
+    "maschinen",
     "mechan",
+    "société",
+    "textil",
+    "verein",
+    "versicherung",
     "werkstatt",
 )

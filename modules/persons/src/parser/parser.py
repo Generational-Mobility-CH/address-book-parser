@@ -1,5 +1,6 @@
 from logging import getLogger
 
+from modules.persons.src.cleaner.text_sanitizer import clean_text_lines
 from modules.persons.src.common.special_chars import (
     SPECIAL_NAME_RANGE_LETTERS,
     GERMAN_VOWELS,
@@ -11,11 +12,11 @@ from modules.persons.src.models.address_book.name_range import NameRange
 from modules.persons.src.models.person.person import Person
 from modules.persons.src.parser.company_parser import is_company
 from modules.persons.src.parser.names.names_parser import (
-    starts_with_surname_placeholder,
-    is_valid_next_surname_legacy,
-    parse_surname,
+    starts_with_last_name_placeholder,
+    is_valid_next_last_name_legacy,
+    get_last_name,
     extract_other_names,
-    get_next_surname_given_range,
+    get_next_last_name_given_range,
     prepare_str_for_comparison,
 )
 from modules.persons.src.parser.names.special_last_names_parser import (
@@ -23,9 +24,6 @@ from modules.persons.src.parser.names.special_last_names_parser import (
     handle_special_last_names,
 )
 from modules.persons.src.parser.person_parser import parse_person
-from modules.persons.src.parser.text_sanitizer import (
-    clean_text_lines,
-)
 
 
 logger = getLogger(__name__)
@@ -41,7 +39,7 @@ def parse_address_book(address_book: AddressBook) -> list[Person]:
     pages_collection = address_book.pages
     first_page = address_book.pages[0]
 
-    first_page.surname_range = NameRange(
+    first_page.last_names_range = NameRange(
         start="A", end=find_next_valid_name_range_start_or_end(pages_collection, 1)
     )
 
@@ -51,14 +49,14 @@ def parse_address_book(address_book: AddressBook) -> list[Person]:
         page = address_book.pages[page_index]
         logger.debug(f"Parsing page {page.pdf_page_number} from year {page.year}...")
 
-        if not is_valid_surname_range(page.surname_range):
-            if starts_with_i_or_j_and_vowel(page.surname_range):
-                page.surname_range = NameRange("H", "K")
+        if not is_valid_last_name_range(page.last_names_range):
+            if starts_with_i_or_j_and_vowel(page.last_names_range):
+                page.last_names_range = NameRange("H", "K")
             else:
                 new_range = find_next_valid_name_range(pages_collection, page_index)
 
-                if new_range and is_valid_surname_range(new_range):
-                    page.surname_range = new_range
+                if new_range and is_valid_last_name_range(new_range):
+                    page.last_names_range = new_range
                 else:
                     logger.error(
                         f"Could not approximate 'NameRange' for {address_book.year}-page_{page.pdf_page_number}"
@@ -84,15 +82,15 @@ def find_next_valid_name_range(
         e_i += 1
 
         if 0 <= s_i < len(collection) and 0 <= e_i < len(collection):
-            start_range = collection[s_i].surname_range
-            end_range = collection[e_i].surname_range
+            start_range = collection[s_i].last_names_range
+            end_range = collection[e_i].last_names_range
 
             new_range = NameRange(
-                start=collection[s_i].surname_range.end.strip(),
-                end=collection[e_i].surname_range.start.strip(),
+                start=collection[s_i].last_names_range.end.strip(),
+                end=collection[e_i].last_names_range.start.strip(),
             )
 
-            if is_valid_surname_range(start_range) and is_valid_surname_range(
+            if is_valid_last_name_range(start_range) and is_valid_last_name_range(
                 end_range
             ):
                 return new_range
@@ -112,10 +110,10 @@ def parse_address_book_page(page: AddressBookPage) -> list[Person]:
 
 def parse_persons(page: AddressBookPage) -> list[Person]:
     output = []
-    current_surname = ""
-    previous_surname = ""
+    current_last_name = ""
+    previous_last_name = ""
     grouped_information = group_data(page.text_content)
-    has_valid_surname_range = is_valid_surname_range(page.surname_range)
+    has_valid_last_names_range = is_valid_last_name_range(page.last_names_range)
 
     for group in grouped_information:
         if is_company(group):
@@ -127,16 +125,16 @@ def parse_persons(page: AddressBookPage) -> list[Person]:
             )
 
         if len(group) in (2, 3):  # or (len(group) == 2 and is_widow(group)):
-            if has_valid_surname_range:
-                group.first, current_surname = get_next_surname_given_range(
-                    group.first, current_surname, page.surname_range
+            if has_valid_last_names_range:
+                group.first, current_last_name = get_next_last_name_given_range(
+                    group.first, current_last_name, page.last_names_range
                 )
             else:
-                group.first, current_surname, previous_surname = get_next_surname(
-                    group.first, current_surname, previous_surname
+                group.first, current_last_name, previous_last_name = get_next_last_name(
+                    group.first, current_last_name, previous_last_name
                 )
 
-            person = parse_person(group, current_surname)
+            person = parse_person(group, current_last_name)
             person.year = page.year
             person.pdf_page_number = page.pdf_page_number
 
@@ -145,7 +143,7 @@ def parse_persons(page: AddressBookPage) -> list[Person]:
     return output
 
 
-def is_valid_surname_range(name_range: NameRange) -> bool:
+def is_valid_last_name_range(name_range: NameRange) -> bool:
     has_correct_length = bool(name_range) and len(name_range) == 2
     start = prepare_str_for_comparison(name_range.start)
     end = prepare_str_for_comparison(name_range.end)
@@ -182,25 +180,29 @@ def find_next_valid_name_range_start_or_end(
     end = len(collection) if direction == 1 else -1
 
     for i in range(start, end, direction):
-        name_range = collection[i].surname_range
+        name_range = collection[i].last_names_range
 
-        if is_valid_surname_range(name_range):
+        if is_valid_last_name_range(name_range):
             return name_range.start if direction == 1 else name_range.end
 
     return result
 
 
-def get_next_surname(
-    all_names: str, current_surname: str, previous_surname: str
+def get_next_last_name(
+    all_names: str, current_last_name: str, previous_last_name: str
 ) -> tuple[str, str, str]:
-    if starts_with_surname_placeholder(all_names):
-        all_names = current_surname + extract_other_names(all_names)
-    elif not current_surname and not previous_surname:
-        previous_surname = current_surname = parse_surname(all_names)
-    elif is_valid_next_surname_legacy(all_names, previous_surname):
-        previous_surname, current_surname = current_surname, parse_surname(all_names)
+    if not current_last_name and not previous_last_name:
+        previous_last_name = current_last_name = get_last_name(all_names)
 
-    return all_names, current_surname, previous_surname
+    if starts_with_last_name_placeholder(all_names):
+        all_names = current_last_name + extract_other_names(all_names)
+    elif is_valid_next_last_name_legacy(all_names, previous_last_name):
+        previous_last_name, current_last_name = (
+            current_last_name,
+            get_last_name(all_names),
+        )
+
+    return all_names, current_last_name, previous_last_name
 
 
 def group_data(data: list[str]) -> list[PersonDataParts]:

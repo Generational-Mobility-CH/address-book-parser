@@ -6,7 +6,7 @@ from modules.persons.src.parser.names.special_last_names_parser import (
 )
 
 
-class HandleSpecialLasNamesTest(unittest.TestCase):
+class SpecialLasNamesParserTest(unittest.TestCase):
     def test_handle_special_last_names_if_present(self):
         test_cases = [
             ("Abt von der Bach Fritz", "Abt VonDerBach Fritz"),
@@ -23,6 +23,8 @@ class HandleSpecialLasNamesTest(unittest.TestCase):
             ("Leemann Le Grand Adolf", "Leemann LeGrand Adolf"),
             ("Leemann Müller Le Grand Adolf", "Leemann Müller LeGrand Adolf"),
             ("Le Christ Josef", "LeChrist Josef"),
+            ("Bettoli De Zorzi Giov. Magazkn.", "Bettoli DeZorzi Giov. Magazkn."),
+            ("Grimm Van der Mälen Heinr.", "Grimm VanDerMälen Heinr."),
             # This cases should remain unchanged
             ("Aberle Haas Wwe. A. Doroth.", "Aberle Haas Wwe. A. Doroth."),
             ("Zumstein Aberle Carole", "Zumstein Aberle Carole"),
@@ -37,5 +39,29 @@ class HandleSpecialLasNamesTest(unittest.TestCase):
                 self.assertEqual(
                     actual,
                     expected,
-                    f"\nMismatch in `first_names` at case #{i + 1}:\nInput: '{input_str}'\nExpected: '{expected}'\nActual:   '{actual}'",
+                    f"\nMismatch:\nInput: '{input_str}'\nExpected: '{expected}'\nActual: '{actual}'",
+                )
+
+    def test_handle_special_last_names_and_dash(self):
+        test_cases = [
+            ("-Van der Mälen Heinr.", "-VanDerMälen Heinr."),
+            ("- Van der Mälen Heinr.", "- VanDerMälen Heinr."),
+            ("de paris-Mälen Heinr.", "DeParis-Mälen Heinr."),
+            ("Müller-Van der Mälen Heinr.", "Müller-VanDerMälen Heinr."),
+            ("Müller-de Mälen Heinr.", "Müller-DeMälen Heinr."),
+            ("de Mälen-Müller Heinr.", "DeMälen-Müller Heinr."),
+            ("De la Roche-Mälen Heinr.", "DeLaRoche-Mälen Heinr."),
+            ("Mälen-De la Roche Heinr.", "Mälen-DeLaRoche Heinr."),
+            ("la Roche-Mälen Heinr.", "LaRoche-Mälen Heinr."),
+        ]
+
+        for i, (input_str, expected) in enumerate(test_cases):
+            with self.subTest(i=i, input=input_str):
+                if k := find_special_last_name_keyword(input_str):
+                    actual = handle_special_last_names(input_str, k)
+
+                self.assertEqual(
+                    actual,
+                    expected,
+                    f"\nMismatch:\nInput: '{input_str}'\nExpected: '{expected}'\nActual: '{actual}'",
                 )
