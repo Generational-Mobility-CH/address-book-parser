@@ -1,4 +1,4 @@
-Pipeline for address books parsing.
+This project parses Swiss address books and saves them into a SQL database.
 
 ---
 
