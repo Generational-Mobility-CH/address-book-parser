@@ -5,6 +5,7 @@ from modules.persons.src.cleaner.text_cleaner import (
     remove_unmatched_parenthesis,
     has_line_break,
     clean_up_parenthesis,
+    clean_whitespace_surrounding_parenthesis,
 )
 
 
@@ -104,15 +105,36 @@ class TextSanitizerTestCase(unittest.TestCase):
             ("( )Gottlieb", "Gottlieb"),
             ("( )Gottlieb", "Gottlieb"),
             ("( ()Gottlieb", "Gottlieb"),
-            ("G(ot(tli)eb", "G(ottli)eb"),
-            ("( ()Go(((())ttlieb", "(Go)ttlieb"),
+            ("G(ot(tli)eb", "G (ottli) eb"),
+            ("( ()Go(((())ttlieb", "(Go) ttlieb"),
             ("Wyss (- Schumacher) Fritz", "Wyss (-Schumacher) Fritz"),
             ("Gottlieb (Müller)", "Gottlieb (Müller)"),
+            ("Häusel((Kreis)Karl", "Häusel (Kreis) Karl"),
         ]
 
         for i, (input_str, expected) in enumerate(test_cases):
             with self.subTest(i=i, input=input_str):
                 actual = clean_up_parenthesis(input_str)
+                self.assertEqual(
+                    actual,
+                    expected,
+                    f"\n\nMismatch at case #{i + 1}:\n'{actual}' != '{expected}'"
+                    f"\n\nFor input: '{input_str}'",
+                )
+
+    def test_clean_up_whitespace_before_and_after_parenthesis(self):
+        test_cases = [
+            ("Gottlieb(Müller)", "Gottlieb (Müller)"),
+            ("(Müller) Gottlieb", "(Müller) Gottlieb"),
+            ("(Müller)Gottlieb", "(Müller) Gottlieb"),
+            ("Häusel(Kreis)Karl", "Häusel (Kreis) Karl"),
+            ("Häusel-(Kreis)Karl", "Häusel- (Kreis) Karl"),
+            ("Häusel (Kreis) Karl", "Häusel (Kreis) Karl"),
+        ]
+
+        for i, (input_str, expected) in enumerate(test_cases):
+            with self.subTest(i=i, input=input_str):
+                actual = clean_whitespace_surrounding_parenthesis(input_str)
                 self.assertEqual(
                     actual,
                     expected,
