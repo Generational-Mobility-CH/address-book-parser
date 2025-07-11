@@ -7,20 +7,40 @@ from modules.persons.src.models.person.person_data_parts import PersonDataParts
 from modules.persons.src.models.address_book.name_range import NameRange
 from modules.persons.src.models.person.person import Person
 from modules.persons.src.parser.company_parser import is_company
-from modules.persons.src.parser.names.constants.german_vowels import GERMAN_VOWELS
-from modules.persons.src.parser.names.names_parser import (
+from modules.persons.src.parser.name_range_handler import (
+    find_next_valid_name_range_start_or_end,
+    is_valid_last_name_range,
+    find_next_valid_name_range,
+)
+from modules.persons.src.parser.names.last_name_parser import (
     get_next_last_name,
-    prepare_str_for_comparison,
     get_next_last_name_without_range,
 )
 from modules.persons.src.parser.names.special_last_names_parser import (
-    find_special_last_name_keyword,
-    handle_special_last_names,
+    find_multi_part_last_names_keyword,
+    handle_multi_part_last_names,
 )
 from modules.persons.src.parser.person_parser import parse_person
 
 
 logger = getLogger(__name__)
+
+
+def _group_data(data: list[str]) -> list[PersonDataParts]:
+    result: list[PersonDataParts] = []
+
+    for line in data:
+        content = line.split(",")
+        stripped_content = []
+        for e in content:
+            e = e.strip()
+            if e and any(char.isalnum() for char in e):
+                stripped_content.append(e)
+
+        if len(stripped_content) in (2, 3):
+            result.append(PersonDataParts.from_list(stripped_content))
+
+    return result
 
 
 def parse_address_book(address_book: AddressBook) -> list[Person]:
@@ -58,42 +78,6 @@ def parse_address_book(address_book: AddressBook) -> list[Person]:
     return persons_collection
 
 
-def find_next_valid_name_range(
-    collection: list[AddressBookPage], page_index: int
-) -> NameRange | None:
-    """
-    Go a maximum of 3 pages back/forward in order to find a new valid range.
-    A broader range does not bring additional benefits for this application.
-    """
-    if starts_with_i_or_j_and_vowel(collection[page_index].last_names_range):
-        return NameRange("H", "K")
-
-    s_i = page_index
-    e_i = page_index
-
-    for i in range(3):
-        s_i -= 1
-        e_i += 1
-
-        if 0 <= s_i < len(collection) and 0 <= e_i < len(collection):
-            start_range = collection[s_i].last_names_range
-            end_range = collection[e_i].last_names_range
-
-            new_range = NameRange(
-                start=collection[s_i].last_names_range.end.strip(),
-                end=collection[e_i].last_names_range.start.strip(),
-            )
-
-            if is_valid_last_name_range(start_range) and is_valid_last_name_range(
-                end_range
-            ):
-                return new_range
-            elif starts_with_i_or_j_and_vowel(new_range):
-                return NameRange("H", "K")
-
-    return None
-
-
 def parse_address_book_page(page: AddressBookPage) -> list[Person]:
     splitted_lines = [line for text in page.text_content for line in text.split("\n")]
     cleaned_lines = clean_text_lines(splitted_lines)
@@ -106,15 +90,15 @@ def parse_persons(page: AddressBookPage) -> list[Person]:
     output = []
     current_last_name = ""
     previous_last_name = ""
-    grouped_information = group_data(page.text_content)
+    grouped_information = _group_data(page.text_content)
     has_valid_last_names_range = is_valid_last_name_range(page.last_names_range)
 
     for group in grouped_information:
         if is_company(group):
             continue
 
-        if special_last_name_keyword := find_special_last_name_keyword(group.first):
-            group.first = handle_special_last_names(
+        if special_last_name_keyword := find_multi_part_last_names_keyword(group.first):
+            group.first = handle_multi_part_last_names(
                 group.first, special_last_name_keyword
             )
 
@@ -137,62 +121,3 @@ def parse_persons(page: AddressBookPage) -> list[Person]:
             output.append(person)
 
     return output
-
-
-def is_valid_last_name_range(name_range: NameRange) -> bool:
-    has_correct_length = bool(name_range) and len(name_range) == 2
-    start = prepare_str_for_comparison(name_range.start)
-    end = prepare_str_for_comparison(name_range.end)
-
-    return has_correct_length and start <= end
-
-
-def starts_with_i_or_j_and_vowel(name_range: NameRange) -> bool:
-    """
-    Because of linguistic reasons ranges like these or similar are OK:
-    ["Itin", "Jungck"] or ["Jenny", "Iffenthaler"]
-    (this is the way they are written in the original address book).
-    """
-    start = name_range.start
-    end = name_range.end
-
-    if len(start) < 2 or len(end) < 2:
-        return False
-
-    if start[0].lower() in set("ij") and end[0].lower() in set("ij"):
-        if start[1].lower() in GERMAN_VOWELS or end[1].lower() in GERMAN_VOWELS:
-            return True
-
-    return False
-
-
-def find_next_valid_name_range_start_or_end(
-    collection: list[AddressBookPage], start: int, direction: int = 1
-) -> str:
-    result = ""
-    end = len(collection) if direction == 1 else -1
-
-    for i in range(start, end, direction):
-        name_range = collection[i].last_names_range
-
-        if is_valid_last_name_range(name_range):
-            return name_range.start if direction == 1 else name_range.end
-
-    return result
-
-
-def group_data(data: list[str]) -> list[PersonDataParts]:
-    result: list[PersonDataParts] = []
-
-    for line in data:
-        content = line.split(",")
-        stripped_content = []
-        for e in content:
-            e = e.strip()
-            if e and any(char.isalnum() for char in e):
-                stripped_content.append(e)
-
-        if len(stripped_content) in (2, 3):
-            result.append(PersonDataParts.from_list(stripped_content))
-
-    return result

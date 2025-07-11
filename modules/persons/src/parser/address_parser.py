@@ -8,6 +8,12 @@ from modules.persons.src.parser.constants.street_name_keywords import (
 from modules.persons.src.parser.constants.tags import TAG_NONE_FOUND
 
 
+def is_address(text: str) -> bool:
+    return any(char.isdigit() for char in text) or any(
+        keyword.lower() in text for keyword in KEYWORDS_STREET_NAME
+    )
+
+
 def extract_address(content: str) -> Address:
     house_number = TAG_NONE_FOUND
     street_name = TAG_NONE_FOUND
@@ -19,9 +25,3 @@ def extract_address(content: str) -> Address:
         street_name = content.replace(house_number, "").strip()
 
     return Address(street_name=street_name, house_number=house_number)
-
-
-def is_address(text: str) -> bool:
-    return any(char.isdigit() for char in text) or any(
-        keyword.lower() in text for keyword in KEYWORDS_STREET_NAME
-    )

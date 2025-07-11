@@ -3,8 +3,16 @@ from modules.persons.src.models.person.address import Address
 from modules.persons.src.models.person.person import Person
 from modules.persons.src.parser.address_parser import is_address, extract_address
 from modules.persons.src.parser.constants.tags import TAG_NONE_FOUND, TAG_NO_JOB
-from modules.persons.src.parser.names.names_parser import is_name
+from modules.persons.src.parser.names.constants.names_special_keywords import (
+    PLACEHOLDERS_LAST_NAME,
+)
 from modules.persons.src.parser.names.names_separator import separate_names
+
+
+def _is_name(text: str, last_name: str) -> bool:
+    return last_name in text or any(
+        placeholder in text for placeholder in PLACEHOLDERS_LAST_NAME
+    )
 
 
 def parse_person(data: PersonDataParts, current_last_name: str) -> Person:
@@ -14,7 +22,7 @@ def parse_person(data: PersonDataParts, current_last_name: str) -> Person:
         job=TAG_NO_JOB,
     )
 
-    if (name := data.first) and is_name(name, current_last_name):
+    if (name := data.first) and _is_name(name, current_last_name):
         person.original_names = name
         separated_names = separate_names(person.original_names)
         person.last_names = separated_names.last_names

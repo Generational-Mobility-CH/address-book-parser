@@ -1,10 +1,7 @@
 import unittest
 
 from modules.persons.src.models.person.person_names import PersonNames
-from modules.persons.src.parser.names.names_separator import (
-    get_separation_marker,
-    split_at_marker,
-)
+from modules.persons.src.parser.names.names_separator import separate_names
 
 
 class HandleGeschiedenTest(unittest.TestCase):
@@ -27,8 +24,7 @@ class HandleGeschiedenTest(unittest.TestCase):
 
         for i, (input_str, expected) in enumerate(test_cases):
             with self.subTest(i=i, input=input_str):
-                if found_marker := get_separation_marker(input_str):
-                    actual = split_at_marker(input_str, found_marker)
+                actual = separate_names(input_str)
                 self.assertEqual(
                     actual,
                     expected,

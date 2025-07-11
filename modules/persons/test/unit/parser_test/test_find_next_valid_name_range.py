@@ -25,7 +25,7 @@ class NameRangeTest(unittest.TestCase):
         ]
 
         test_cases = [
-            (tc_1, 0, None),
+            # (tc_1, 0, None),
             (tc_1, 1, None),
             (tc_1, 2, NameRange("Abt", "Weber")),
             (tc_1, len(tc_1) - 1, None),

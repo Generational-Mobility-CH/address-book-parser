@@ -1,8 +1,8 @@
 import unittest
 
 from modules.persons.src.parser.names.special_last_names_parser import (
-    handle_special_last_names,
-    find_special_last_name_keyword,
+    handle_multi_part_last_names,
+    find_multi_part_last_names_keyword,
 )
 
 
@@ -32,8 +32,8 @@ class SpecialLasNamesParserTest(unittest.TestCase):
 
         for i, (input_str, expected) in enumerate(test_cases):
             with self.subTest(i=i, input=input_str):
-                if k := find_special_last_name_keyword(input_str):
-                    input_str = handle_special_last_names(input_str, k)
+                if k := find_multi_part_last_names_keyword(input_str):
+                    input_str = handle_multi_part_last_names(input_str, k)
 
                 actual = input_str
                 self.assertEqual(
@@ -57,8 +57,8 @@ class SpecialLasNamesParserTest(unittest.TestCase):
 
         for i, (input_str, expected) in enumerate(test_cases):
             with self.subTest(i=i, input=input_str):
-                if k := find_special_last_name_keyword(input_str):
-                    actual = handle_special_last_names(input_str, k)
+                if k := find_multi_part_last_names_keyword(input_str):
+                    actual = handle_multi_part_last_names(input_str, k)
 
                 self.assertEqual(
                     actual,
