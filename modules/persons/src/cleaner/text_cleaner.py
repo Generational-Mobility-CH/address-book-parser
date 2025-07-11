@@ -49,8 +49,8 @@ def merge_line_break(current_line: str, next_line: str) -> str:
 def sanitize_line(line: str) -> str:
     line = clean_up_white_space(line)
     line = remove_unallowed_strings(line)
-    line = clean_up_parenthesis(line)
     line = clean_up_dashes(line)
+    line = clean_up_parenthesis(line)
     line = clean_up_white_space(line)
 
     if not any(char.isalpha() for char in line):
@@ -87,9 +87,27 @@ def remove_partial_matches(line: str) -> str:
 def clean_up_parenthesis(line: str) -> str:
     line = remove_empty_parenthesis(line)
     line = remove_unmatched_parenthesis(line)
+    line = clean_whitespace_surrounding_parenthesis(line)
     line = clean_whitespace_inside_parentheses(line)
 
     return line.strip()
+
+
+def clean_whitespace_surrounding_parenthesis(text: str) -> str:
+    result = ""
+
+    for index, char in enumerate(text):
+        if char == "(":
+            if index != 0 and text[index - 1] != " ":
+                result += " "
+        elif char == ")":
+            if index != len(text) - 1 and text[index + 1] != " ":
+                result += ") "
+                continue
+
+        result += char
+
+    return result
 
 
 def clean_whitespace_inside_parentheses(line: str) -> str:

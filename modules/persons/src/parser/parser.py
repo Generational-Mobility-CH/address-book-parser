@@ -9,12 +9,9 @@ from modules.persons.src.models.person.person import Person
 from modules.persons.src.parser.company_parser import is_company
 from modules.persons.src.parser.names.constants.german_vowels import GERMAN_VOWELS
 from modules.persons.src.parser.names.names_parser import (
-    starts_with_last_name_placeholder,
-    is_valid_next_last_name_legacy,
-    get_last_name,
-    extract_other_names,
-    get_next_last_name_given_range,
+    get_next_last_name,
     prepare_str_for_comparison,
+    get_next_last_name_without_range,
 )
 from modules.persons.src.parser.names.special_last_names_parser import (
     find_special_last_name_keyword,
@@ -123,12 +120,14 @@ def parse_persons(page: AddressBookPage) -> list[Person]:
 
         if len(group) in (2, 3):
             if has_valid_last_names_range:
-                group.first, current_last_name = get_next_last_name_given_range(
+                group.first, current_last_name = get_next_last_name(
                     group.first, current_last_name, page.last_names_range
                 )
             else:
-                group.first, current_last_name, previous_last_name = get_next_last_name(
-                    group.first, current_last_name, previous_last_name
+                group.first, current_last_name, previous_last_name = (
+                    get_next_last_name_without_range(
+                        group.first, current_last_name, previous_last_name
+                    )
                 )
 
             person = parse_person(group, current_last_name)
@@ -180,23 +179,6 @@ def find_next_valid_name_range_start_or_end(
             return name_range.start if direction == 1 else name_range.end
 
     return result
-
-
-def get_next_last_name(
-    all_names: str, current_last_name: str, previous_last_name: str
-) -> tuple[str, str, str]:
-    if not current_last_name and not previous_last_name:
-        previous_last_name = current_last_name = get_last_name(all_names)
-
-    if starts_with_last_name_placeholder(all_names):
-        all_names = current_last_name + extract_other_names(all_names)
-    elif is_valid_next_last_name_legacy(all_names, previous_last_name):
-        previous_last_name, current_last_name = (
-            current_last_name,
-            get_last_name(all_names),
-        )
-
-    return all_names, current_last_name, previous_last_name
 
 
 def group_data(data: list[str]) -> list[PersonDataParts]:

@@ -1,8 +1,12 @@
+import logging
+
 from modules.persons.src.models.address_book.name_range import NameRange
 from modules.persons.src.parser.names.constants.german_vowels import GERMAN_UMLAUTE
 from modules.persons.src.parser.names.constants.names_special_keywords import (
     PLACEHOLDERS_LAST_NAME,
 )
+
+logger = logging.getLogger(__name__)
 
 
 def extract_other_names(text: str) -> str:
@@ -21,11 +25,23 @@ def extract_other_names(text: str) -> str:
 
 
 def get_last_name(text: str) -> str:
-    main_last_name = text.split(" ")[0]
-    main_last_name.replace("—", "-")
-    main_last_name = main_last_name.split("-")[0]
+    text = text.replace("—", "-")
+    name_parts = [part for part in text.split() if part != "-"]
 
-    return main_last_name
+    if not name_parts:
+        return text
+
+    first_part = name_parts[0]
+
+    if "-" in first_part:
+        first_subparts = [p for p in first_part.split("-", 1) if bool(p)]
+        if not first_subparts:
+            logger.warning(f"Could not get last name from {text}")
+            return text
+
+        first_part = first_subparts[0]
+
+    return first_part
 
 
 def is_name(text: str, last_name: str) -> bool:
@@ -56,15 +72,21 @@ def is_valid_next_last_name_legacy(current: str, previous: str) -> bool:
     current = get_last_name(current)
     previous = prepare_str_for_comparison(previous)
 
-    if current <= previous:
+    if not current or not previous:
+        return False
+
+    current_first_letter = current[0]
+    previous_first_letter = previous[0]
+
+    if current_first_letter == previous_first_letter:
         return True
-    elif ord(current[0]) == ord(previous[0]) + 1:
+    elif ord(current_first_letter) == ord(previous_first_letter) + 1:
         return True
 
     return False
 
 
-def get_next_last_name_given_range(
+def get_next_last_name(
     all_names: str, current_last_name: str, last_names_range: NameRange
 ) -> tuple[str, str]:
     if not current_last_name:
@@ -83,6 +105,25 @@ def get_next_last_name_given_range(
         all_names = f"{current_last_name} {all_names}"
 
     return all_names, current_last_name
+
+
+def get_next_last_name_without_range(
+    all_names: str, current_last_name: str, previous_last_name: str
+) -> tuple[str, str, str]:
+    if not current_last_name and not previous_last_name:
+        previous_last_name = current_last_name = get_last_name(all_names)
+    elif is_valid_next_last_name_legacy(all_names, previous_last_name):
+        previous_last_name, current_last_name = (
+            current_last_name,
+            get_last_name(all_names),
+        )
+
+    if starts_with_last_name_placeholder(all_names):
+        all_names = current_last_name + extract_other_names(all_names)
+    elif all_names.startswith("("):
+        all_names = current_last_name + " " + all_names
+
+    return all_names, current_last_name, previous_last_name
 
 
 def contains_umlaute(input_string: str) -> bool:
