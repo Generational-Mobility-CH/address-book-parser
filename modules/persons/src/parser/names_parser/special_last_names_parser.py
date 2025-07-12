@@ -1,13 +1,13 @@
 from logging import getLogger
 
-from modules.persons.src.parser.names.constants.last_name_prefixes import (
+from modules.persons.src.parser.names_parser.constants.last_name_prefixes import (
     LAST_NAME_PREFIXES_MAP,
     SPECIAL_LAST_NAMES_MAP,
 )
 
 logger = getLogger(__name__)
 
-# TODO: simplify handling of multi-part last names
+# TODO: simplify handling of multi-part last names_parser
 
 
 def _spaced_word_to_camel_case(data: str) -> str:

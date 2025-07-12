@@ -1,11 +1,14 @@
+from pathlib import Path
+
 from libs.file_handler.src.models.extractor_strategy import ExtractorStrategy
 from libs.file_handler.src.text.reader import read_text
-from modules.persons.src.models.address_book import AddressBook
-from modules.persons.src.models.address_book import AddressBookPage
+from modules.persons.src.models.address_book.address_book import AddressBook
+from modules.persons.src.models.address_book.address_book_page import AddressBookPage
+from modules.persons.src.models.address_book.name_range import NameRange
 
 
 class TextExtractor(ExtractorStrategy):
-    def extract(self, data_paths: list[str]) -> list[AddressBook]:
+    def extract(self, data_paths: list[Path]) -> list[AddressBook]:
         """
         Legacy support for text files that contain the relevant addresses in 1 file.
         In this case, the resulting extract() output contains 1 AddressBookPage
@@ -15,7 +18,9 @@ class TextExtractor(ExtractorStrategy):
 
         for path in data_paths:
             content = read_text(path)
-            page = AddressBookPage(surname_range=[], text_columns={"Spalte01": content})
+            page = AddressBookPage(
+                last_names_range=NameRange("", ""), text_content=[content]
+            )
             book = AddressBook(year=0, pages=[page])
             books_collection.append(book)
 

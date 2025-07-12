@@ -1,13 +1,13 @@
 import csv
-import os
+from pathlib import Path
 
 
-def read_csv(file_path: str) -> list[str]:
-    if not os.path.exists(file_path):
+def read_csv(file_path: Path) -> list[str]:
+    if not file_path.exists():
         raise FileNotFoundError(f"File not found: {file_path}")
 
     result = []
-    with open(file_path, mode="r", newline="", encoding="utf-8") as file:
+    with file_path.open(mode="r", newline="", encoding="utf-8") as file:
         reader = csv.reader(file)
         for row in reader:
             row_string = ",".join(row)

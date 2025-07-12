@@ -1,9 +1,10 @@
-import os
+from pathlib import Path
 
 
-def read_text(file_path: str) -> str:
-    if not os.path.exists(file_path):
+def read_text(file_path: Path) -> str:
+    file_path = Path(file_path)
+
+    if not file_path.exists():
         raise FileNotFoundError(f"File not found: {file_path}")
 
-    with open(file_path, "r", encoding="utf-8") as f:
-        return f.read()
+    return file_path.read_text(encoding="utf-8")

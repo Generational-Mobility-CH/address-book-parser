@@ -1,4 +1,5 @@
 import unittest
+from pathlib import Path
 
 from libs.file_handler.src.models.supported_file_types import SupportedFileTypes
 from modules.persons.src.__main__ import main
@@ -7,10 +8,10 @@ from system.util.assert_csv_files_are_equal import assert_csv_files_are_equal
 
 class TemplateBugReproductionTestCase(unittest.TestCase):
     def test_bug(self):
-        test_dir = "system/template_bug_reproduction"
-        test_input = f"{test_dir}/fixtures"
-        expected = f"{test_dir}/fixtures/expected.csv"
-        actual = f"{test_dir}/actual.csv"
+        test_dir = Path("system/template_bug_reproduction")
+        test_input = test_dir / "fixtures"
+        expected = test_input / "expected.csv"
+        actual = test_dir / "actual.csv"
         relevant_columns = [
             "original_names",
             "last_names",

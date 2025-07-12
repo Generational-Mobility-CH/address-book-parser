@@ -3,10 +3,10 @@ from modules.persons.src.models.person.address import Address
 from modules.persons.src.models.person.person import Person
 from modules.persons.src.parser.address_parser import is_address, extract_address
 from modules.persons.src.parser.constants.tags import TAG_NONE_FOUND, TAG_NO_JOB
-from modules.persons.src.parser.names.constants.names_special_keywords import (
+from modules.persons.src.parser.names_parser.constants.names_special_keywords import (
     PLACEHOLDERS_LAST_NAME,
 )
-from modules.persons.src.parser.names.names_separator import separate_names
+from modules.persons.src.parser.names_parser.names_separator import separate_names
 
 
 def _is_name(text: str, last_name: str) -> bool:

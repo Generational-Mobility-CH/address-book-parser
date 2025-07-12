@@ -4,7 +4,7 @@ from modules.persons.src.common.paths import DATA_PATH
 
 
 def setup_logging(log_file_name: str = "app"):
-    log_file = f"{DATA_PATH}/{log_file_name}.log"
+    log_file = (DATA_PATH / log_file_name).with_suffix(".log")
 
     logging.basicConfig(
         level=logging.INFO,

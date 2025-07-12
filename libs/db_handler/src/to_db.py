@@ -7,8 +7,9 @@ from libs.db_handler.src.constants.csv_column_names import CLEANED_PERSON_COLUMN
 T = TypeVar("T")
 
 
-def save_to_db(input_data: list[T], output_file_path: str) -> None:
+def save_to_db(input_data: list[T], output_file_path: Path) -> None:
     Path(output_file_path).parent.mkdir(parents=True, exist_ok=True)
+
     conn = sqlite3.connect(output_file_path)
     cursor = conn.cursor()
 

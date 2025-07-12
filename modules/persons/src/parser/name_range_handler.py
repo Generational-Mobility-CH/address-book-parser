@@ -1,7 +1,11 @@
 from modules.persons.src.models.address_book.address_book_page import AddressBookPage
 from modules.persons.src.models.address_book.name_range import NameRange
-from modules.persons.src.parser.names.constants.german_vowels import GERMAN_VOWELS
-from modules.persons.src.parser.names.last_name_parser import prepare_str_for_comparison
+from modules.persons.src.parser.names_parser.constants.german_vowels import (
+    GERMAN_VOWELS,
+)
+from modules.persons.src.parser.names_parser.last_name_parser import (
+    prepare_str_for_comparison,
+)
 
 
 NAME_RANGE_FOR_I_J = NameRange("H", "K")

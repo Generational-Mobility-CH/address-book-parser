@@ -1,5 +1,5 @@
 import logging
-import os
+from pathlib import Path
 
 from libs.file_handler.src.models.extractor_strategy import ExtractorStrategy
 from libs.file_handler.src.json.deserializer import deserialize_book_page
@@ -11,24 +11,23 @@ logger = logging.getLogger(__name__)
 
 
 class JsonExtractor(ExtractorStrategy):
-    def extract(self, data_path: str) -> AddressBook:
+    def extract(self, data_path: Path) -> AddressBook:
         year = get_year_from_file_name(data_path)
         book: AddressBook = AddressBook(year=year, pages=[])
 
-        for file in sorted(os.listdir(data_path)):
-            if not file.endswith(".json"):
-                logger.info(f"Skipping '{file}'")
+        for file_path in sorted(data_path.iterdir()):
+            if file_path.suffix != ".json":
+                logger.info(f"Skipping '{file_path.name}'")
                 continue
 
-            full_file_path = os.path.join(data_path, file)
-            json_data = read_json(full_file_path)
+            json_data = read_json(file_path)
 
             try:
                 book_page = deserialize_book_page(json_data)
             except Exception as e:
                 raise ValueError(f"Failed to deserialize address book: {e}")
 
-            if len(book_page.text_content) > 0:
+            if book_page.text_content:
                 book_page.year = year
                 book.pages.append(book_page)
 

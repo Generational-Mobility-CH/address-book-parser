@@ -1,7 +1,7 @@
 import unittest
 
 from modules.persons.src.models.person.person_names import PersonNames
-from modules.persons.src.parser.names.names_separator import separate_names
+from modules.persons.src.parser.names_parser.names_separator import separate_names
 
 
 class HandleGeschiedenTest(unittest.TestCase):

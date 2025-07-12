@@ -1,6 +1,6 @@
 import unittest
 
-from modules.persons.src.parser.names.special_last_names_parser import (
+from modules.persons.src.parser.names_parser.special_last_names_parser import (
     handle_multi_part_last_names,
     find_multi_part_last_names_keyword,
 )

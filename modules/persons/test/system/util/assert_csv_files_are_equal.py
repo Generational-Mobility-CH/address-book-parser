@@ -1,11 +1,11 @@
 import csv
-import os
+from pathlib import Path
 
 
-def assert_csv_files_are_equal(expected_file: str, test_output: str):
+def assert_csv_files_are_equal(expected_file: Path, test_output: Path):
     with (
-        open(expected_file, newline="") as expected,
-        open(test_output, newline="") as actual,
+        expected_file.open(newline="") as expected,
+        test_output.open(newline="") as actual,
     ):
         reader = csv.DictReader(actual)
         actual_lines = set(
@@ -24,6 +24,7 @@ def assert_csv_files_are_equal(expected_file: str, test_output: str):
                 print(f"\nMissing lines:\n{missing_lines}")
             if superfluous_lines:
                 print(f"\nSuperfluous lines:\n{superfluous_lines}")
+
             raise AssertionError("CSV files differ")
         else:
-            os.remove(test_output)
+            test_output.unlink()

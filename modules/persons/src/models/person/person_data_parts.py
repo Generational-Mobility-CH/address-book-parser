@@ -1,7 +1,6 @@
 from typing import Optional, Iterator, List
 
 
-# TODO: add __str__ and __repr__
 class PersonDataParts:
     def __init__(self, first: str, second: str, third: Optional[str] = None):
         self.first = first
