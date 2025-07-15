@@ -1,3 +1,6 @@
+from modules.persons.src.cleaner.person_cleaner.first_names_cleaner import (
+    clean_first_names,
+)
 from modules.persons.src.cleaner.person_cleaner.last_names_cleaner import (
     clean_last_names,
 )
@@ -23,5 +26,11 @@ def clean_person(person: Person) -> Person:
     re_separated_names = _re_separate_names(person.first_names, person.last_names)
     person.first_names = re_separated_names.first_names
     person.last_names = re_separated_names.last_names
+
+    cleaned_names = clean_first_names(
+        PersonNames(person.first_names, person.last_names)
+    )
+    person.first_names = cleaned_names.first_names
+    person.last_names = cleaned_names.last_names
 
     return person
