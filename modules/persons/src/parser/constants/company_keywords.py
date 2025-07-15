@@ -1,5 +1,6 @@
 COMPANY_KEYWORDS = (
     "a.g.",
+    "a.-g.",
     "aktiengesel",
     "aufbewahrung",
     "börse",

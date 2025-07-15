@@ -5,12 +5,13 @@ from modules.persons.src.parser.constants.company_keywords import COMPANY_KEYWOR
 
 def is_company(data: PersonDataParts) -> bool:
     for element in data:
-        if any(key in element.lower() for key in COMPANY_KEYWORDS):
+        element = element.lower().strip()
+
+        if any(keyword in element for keyword in COMPANY_KEYWORDS):
             return True
 
-        if is_address(element):
+        if is_address(element) and not element[0].isnumeric():
             # Bei Firmen: 1. Strassenname, 2. Hausnummer -> bei Personen umgekehrt.
-            if not element.strip()[0].isnumeric():
-                return True
+            return True
 
     return False

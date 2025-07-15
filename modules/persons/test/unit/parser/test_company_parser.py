@@ -31,3 +31,19 @@ class RemoveCompaniesTestCase(unittest.TestCase):
                         is_company_line,
                         f"Line should be removed, but was not detected as company:\n{line}",
                     )
+
+    def test_is_company(self):
+        test_cases = [
+            (PersonDataParts("Hotel Metropole-Monopole A.-G.", ""), True),
+            (PersonDataParts("Gautschy-Kuhn A.-G.", ""), True),
+            (PersonDataParts("Müller-Abt Heinrich", "10 Bahnhofstr."), False),
+        ]
+
+        for i, (test_input, expected) in enumerate(test_cases):
+            with self.subTest(i=i, input=test_input):
+                actual = is_company(test_input)
+                self.assertEqual(
+                    actual,
+                    expected,
+                    f"\nMismatch:\nInput: '{test_input}'\nExpected: '{expected}'\nActual: '{actual}'",
+                )
