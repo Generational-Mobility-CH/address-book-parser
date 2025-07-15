@@ -130,7 +130,7 @@ def handle_multi_part_last_names(data: str, keyword: str) -> str:
     if data.startswith(keyword[1:]):
         return _merge_multi_part_last_names_at_start(data, keyword)
 
-    if data.__contains__("-") and data.replace("-", " ").__contains__(keyword.strip()):
+    if "-" in data and data.replace("-", " ").__contains__(keyword.strip()):
         return _merge_multi_part_last_names_with_dash(data, keyword)
 
     logger.error(f"Could not find '{keyword}' in '{data}'")
