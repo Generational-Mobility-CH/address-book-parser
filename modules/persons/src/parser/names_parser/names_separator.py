@@ -23,10 +23,11 @@ def _get_separation_marker(data: str) -> str | None:
         if marker in data.lower():
             return marker
 
-    first_name_abbreviation_pattern = r"\b\w{1,3}\."
-    match = re.search(first_name_abbreviation_pattern, data.lower())
-    if match:
-        return match.group(0)
+    # TODO: check if anythis breaks by removing this:
+    # first_name_abbreviation_pattern = r"\b\w{1,3}\."
+    # match = re.search(first_name_abbreviation_pattern, data.lower())
+    # if match:
+    #     return match.group(0)
 
     return None
 
@@ -55,6 +56,7 @@ def _unmerge_name_parts(data: str) -> str:
     """
     s = re.split(r"(?<![ -])(?=[A-ZÄÖÜẞ])", data)
     s = " ".join([part.strip() for part in s if part.strip()])
+    s = re.sub(r"(?<=[A-ZÄÖÜẞa-zäöü]\.)(?=[a-zäöüA-ZÄÖÜẞ])", ". ", s)
 
     return s
 

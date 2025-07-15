@@ -30,3 +30,24 @@ class HandleGeschiedenTest(unittest.TestCase):
                     expected,
                     f"\nMismatch:\nInput: '{input_str}'\nExpected: '{expected}'\nActual: '{actual}'",
                 )
+
+    def test_merged_names_by_dot(self):
+        test_cases = [
+            (
+                "J.Ls.",
+                PersonNames("Ls.", "J."),
+            ),
+            (
+                "Rob.Saml.",
+                PersonNames("Saml.", "Rob."),
+            ),
+        ]
+
+        for i, (input_str, expected) in enumerate(test_cases):
+            with self.subTest(i=i, input=input_str):
+                actual = separate_names(input_str)
+                self.assertEqual(
+                    actual,
+                    expected,
+                    f"\nMismatch:\nInput: '{input_str}'\nExpected: '{expected}'\nActual: '{actual}'",
+                )
