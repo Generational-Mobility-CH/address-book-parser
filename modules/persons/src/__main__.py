@@ -26,9 +26,10 @@ def main(
     csv_column_names: Optional[list[str]] = None,
 ) -> None:
     all_paths = get_subdirectories(data_path)
+    extractor = JsonExtractor()
 
     for path in all_paths:
-        book = JsonExtractor().extract(path)
+        book = extractor.extract(path)
         raw_persons = parse_address_book(book)
         cleaned_persons = [clean_person(p) for p in raw_persons]
         standardized_persons = [p.standardize_attributes() for p in cleaned_persons]
