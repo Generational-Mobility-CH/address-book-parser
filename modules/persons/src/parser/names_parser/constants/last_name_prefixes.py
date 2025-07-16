@@ -3,6 +3,7 @@
 LAST_NAME_PREFIXES_MAP = {
     " aus der ": "AusDer",
     " van der ": "VanDer",
+    " van den ": "VanDen",
     " von der ": "VonDer",
     " de la ": "DeLa",
     " de ": "De",
@@ -20,4 +21,6 @@ LAST_NAME_PREFIXES_MAP = {
 }
 SPECIAL_LAST_NAMES_MAP = {
     " de la roche ": "DeLaRoche",
+    " von der mühl ": "VonDerMühl",
+    " von der schmitt ": "VonDerSchmitt",
 }

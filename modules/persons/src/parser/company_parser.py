@@ -11,7 +11,7 @@ def is_company(data: PersonDataParts) -> bool:
             return True
 
         if is_address(element) and not element[0].isnumeric():
-            # Bei Firmen: 1. Strassenname, 2. Hausnummer -> bei Personen umgekehrt.
+            # Info: For persons, house number precedes street; for firms, it's reversed.
             return True
 
     return False

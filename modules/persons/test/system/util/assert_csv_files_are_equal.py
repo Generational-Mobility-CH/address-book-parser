@@ -21,9 +21,13 @@ def assert_csv_files_are_equal(expected_file: Path, test_output: Path):
             missing_lines = expected_lines - actual_lines
             superfluous_lines = actual_lines - expected_lines
             if missing_lines:
-                print(f"\nMissing lines:\n{missing_lines}")
+                print("\nMISSING:")
+                for line in missing_lines:
+                    print(f"{line}")
             if superfluous_lines:
-                print(f"\nSuperfluous lines:\n{superfluous_lines}")
+                print("\nSUPERFLUOUS:")
+                for line in superfluous_lines:
+                    print(f"{line}")
 
             raise AssertionError("CSV files differ")
         else:

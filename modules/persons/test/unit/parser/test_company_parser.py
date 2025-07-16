@@ -1,4 +1,5 @@
 import unittest
+from pathlib import Path
 
 from modules.persons.src.models.person.person_data_parts import PersonDataParts
 from modules.persons.src.parser.company_parser import is_company
@@ -6,7 +7,7 @@ from modules.persons.src.parser.company_parser import is_company
 
 class RemoveCompaniesTestCase(unittest.TestCase):
     def test_remove_companies(self):
-        test_file = "unit/parser/fixtures/remove_companies_test_input.txt"
+        test_file = Path("unit/parser/fixtures/remove_companies_test_input.txt")
 
         expected_remaining_lines = [
             "— -Neukomm Emil, Kfm., 44 Elisabethenstr. (Frau: Damenschneiderin.)\n",

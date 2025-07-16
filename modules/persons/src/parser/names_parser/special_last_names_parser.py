@@ -73,7 +73,7 @@ def _merge_special_last_names(data: str, keyword: str) -> str:
         part.strip() for part in data.split(keyword.strip(), 1) if part.strip()
     ]
 
-    if data.__contains__("-"):
+    if "-" in data:
         camel_cased_keyword = _spaced_word_to_camel_case(keyword)
         keyword = keyword.strip()
         data = data.strip()

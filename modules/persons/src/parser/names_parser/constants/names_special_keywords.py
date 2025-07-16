@@ -1,14 +1,21 @@
 PLACEHOLDERS_LAST_NAME = ("—", "-")
-KEYWORDS_DIVORCED = ("gesc.", "gesch.", "geschieden")
+KEYWORDS_DIVORCED = (
+    "geschieden",
+    "gesch.",
+    " gesch ",
+    "gesc.",
+    " gesc ",
+    "geb.",
+    "(auch ",
+)
 KEYWORDS_NAMES_SEPARATOR = (
+    " dr.  dr ",
     " dit ",
-    " dr med dr. phil.",
-    " dr. ",
-    " dr ",
     " frau ",
-    "gent.",  # Konstanz?
-    "prof.",
-    "ww.",
-    "wwe",
-    "wittwe ",
+    " gent. ",
+    " prof. ",
+    " ww. ",
+    " wwe. ",
+    " wwe ",
+    " wittwe ",
 )

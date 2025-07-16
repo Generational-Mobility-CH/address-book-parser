@@ -6,7 +6,7 @@ from modules.persons.src.parser.constants.tags import TAG_NONE_FOUND, TAG_NO_JOB
 from modules.persons.src.parser.names_parser.constants.names_special_keywords import (
     PLACEHOLDERS_LAST_NAME,
 )
-from modules.persons.src.parser.names_parser.names_separator import separate_names
+from modules.persons.src.parser.names_parser.names_parser import parse_names
 
 
 def _is_name(text: str, last_name: str) -> bool:
@@ -24,7 +24,7 @@ def parse_person(data: PersonDataParts, current_last_name: str) -> Person:
 
     if (name := data.first) and _is_name(name, current_last_name):
         person.original_names = name
-        separated_names = separate_names(person.original_names)
+        separated_names = parse_names(person.original_names)
         person.last_names = separated_names.last_names
         person.first_names = separated_names.first_names
 
