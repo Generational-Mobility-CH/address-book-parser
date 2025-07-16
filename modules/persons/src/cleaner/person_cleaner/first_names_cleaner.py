@@ -15,6 +15,4 @@ def clean_first_names(names: PersonNames) -> PersonNames:
 
         return parse_names(names.last_names)
 
-    # names.first_names = re.sub(r"(?<=[A-ZÄÖÜẞa-zäöü]\.)(?=[a-zäöüA-ZÄÖÜẞ])", " ", names.first_names)
-
     return names
