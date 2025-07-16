@@ -50,7 +50,7 @@ if __name__ == "__main__":
 
     demo_output_type = SupportedFileTypes.DB.value
     demo_input_path = INPUT_PATH / "json"
-    time_stamp = f"{datetime.now():%b %d. - %H.%M}"
+    time_stamp = f"{datetime.now():%b %d. - %H%M}"
     demo_output_path = (
         Path(OUTPUT_PATH) / demo_output_type / f"{time_stamp}.{demo_output_type}"
     )
