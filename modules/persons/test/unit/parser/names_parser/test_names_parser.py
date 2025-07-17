@@ -9,20 +9,24 @@ class NamesSeparatorTest(unittest.TestCase):
         test_cases = [
             (
                 "Egg Eggemann gesch. Bödecker Emma",
-                PersonNames("Emma", "Egg Eggemann Gesch. Bödecker"),
+                PersonNames("Emma", "Egg EggemannGesch.Bödecker"),
             ),
-            ("Abrv Abt gesch. Abt Frida", PersonNames("Frida", "Abrv Abt Gesch. Abt")),
+            ("Abrv AbtGesch.Abt Frida", PersonNames("Frida", "Abrv AbtGesch.Abt")),
             (
                 "Braun (gesch. Maerklin) Marie Elis.",
-                PersonNames("Marie Elis.", "Braun (Gesch. Maerklin)"),
+                PersonNames(
+                    "Elis.", "Braun(Gesch.Maerklin) Marie"
+                ),  # because len(name_parts) == 3
             ),
             (
                 "Winkler (gesch. Hurter) Maria Kath.",
-                PersonNames("Maria Kath.", "Winkler (Gesch. Hurter)"),
+                PersonNames(
+                    "Kath.", "Winkler(Gesch.Hurter) Maria"
+                ),  # because len(name_parts) == 3
             ),
             (
                 "wiederkehr (gesch. plattner) a. m.",
-                PersonNames("A. M.", "Wiederkehr (Gesch. Plattner)"),
+                PersonNames("A. M.", "Wiederkehr(Gesch.Plattner)"),
             ),
         ]
 
@@ -136,6 +140,35 @@ class NamesSeparatorTest(unittest.TestCase):
             (
                 "Rob.Saml.",
                 PersonNames("Saml.", "Rob."),
+            ),
+        ]
+
+        for i, (input_str, expected) in enumerate(test_cases):
+            with self.subTest(i=i, input=input_str):
+                actual = parse_names(input_str)
+                self.assertEqual(
+                    actual,
+                    expected,
+                    f"\nMismatch:\nInput: '{input_str}'\nExpected: '{expected}'\nActual: '{actual}'",
+                )
+
+    def test_names_with_auch(self):
+        test_cases = [
+            (
+                "Komarek (auch Kohn) -Hernbal Abram",
+                PersonNames("Abram", "Komarek(AuchKohn)-Hernbal"),
+            ),
+            (
+                "Komarek (auch Kohn) Regina",
+                PersonNames("Regina", "Komarek(AuchKohn)"),
+            ),
+            (
+                "Eschbach (auch Aeschbach) -Dürenberger Ed.",  # Name should be splited at "Ed."
+                PersonNames("Ed.", "Eschbach(Auchaeschbach)-Dürenberger"),
+            ),
+            (
+                "Höckle (auch Höglin) -Girov Wwe. Anna",  # Name should be splited at "Wwe."
+                PersonNames("Wwe. Anna", "Höckle(Auchhöglin)-Girov"),
             ),
         ]
 

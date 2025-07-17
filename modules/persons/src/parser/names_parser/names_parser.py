@@ -18,47 +18,65 @@ def _get_separation_marker(data: str) -> str | None:
         if marker in data:
             return marker
 
-    for marker in KEYWORDS_DIVORCED:
-        if marker in data:
-            pattern = rf"^.*?{re.escape(marker)}\s+(?:\(\S+\)|\S+)\s+(.*)$"
-            match = re.match(pattern, data)
-            if match:
-                return match.group(1).strip()
-
-    # Info: Only first names should be shortened and end with "." (E.g. 'Joh.'->'Johannes')
+    # Info: (Mostly) only first names are shortened and end with "." (E.g. 'Joh.'->'Johannes')
     for i, part in enumerate(data.split(" ")[1:]):
+        is_reserved_keyword = part in KEYWORDS_DIVORCED
         part = part.strip()
-        if part.endswith(".") and part != "u.":
+        if part.endswith(".") and not is_reserved_keyword:
             p = [p.strip() for p in part.split(" ") if p.strip()][0]
-            return _ensure_space_after_dot(p)
+            return p
 
     return None
 
 
-def _split_at_marker(data: str, marker: str) -> PersonNames:
-    if (
-        marker.endswith(".")
-        and marker not in KEYWORDS_DIVORCED
-        and marker not in KEYWORDS_NAMES_SEPARATOR
-    ):
-        data = _ensure_space_after_dot(data)
+def _find_divorced_keyword(data: str) -> str | None:
+    for marker in KEYWORDS_DIVORCED:
+        if marker in data.lower():
+            return marker
 
-    s = data.lower()
-    parts = s.split(marker, 1)
-    name_parts = PersonNames(last_names="", first_names=marker.strip().title())
+    return None
 
-    name_parts.last_names += (
-        " ".join(word for word in parts[0].split(" ")).title().strip()
-    )
+
+# TODO: better name for diz
+def _handle_divorced(data: str, keyword: str) -> str:
+    data = data.lower()
+
+    if keyword not in data:
+        logger.error(f"Keyword '{keyword}' not found in '{data}'")
+        return data
+
+    keyword_start = data.find(keyword)
+    start = data[:keyword_start].strip().title()
+    keyword_match = keyword
+    for i in range(keyword_start + len(keyword), len(data) - 1):
+        if data[i].isspace():
+            break
+        keyword_match += data[i]
+
+    end = data[keyword_start + len(keyword_match) :].strip().title()
+    keyword_match = keyword_match.title().replace(" ", "")
+
+    if end.startswith("-"):
+        return f"{start}{keyword_match}{end}"
+
+    return f"{start}{keyword_match} {end}"
+
+
+def _split_at_marker(data: str, keyword: str) -> PersonNames:
+    data = data.lower()
+    parts = data.split(keyword, 1)
+    keyword = keyword.strip().title()
+    last_names = " ".join(word for word in parts[0].split(" ")).title().strip()
+    person_names = PersonNames(last_names=last_names, first_names=keyword)
 
     if len(parts) == 2:
         sub_parts = parts[1].strip().split(" ")
         for part in sub_parts:
-            name_parts.first_names += " " + part.title().strip()
+            person_names.first_names += " " + part.title().strip()
 
-    name_parts.first_names = name_parts.first_names.strip()
+    person_names.first_names = person_names.first_names.strip()
 
-    return name_parts
+    return person_names
 
 
 def _ensure_space_after_dot(data: str) -> str:
@@ -91,10 +109,14 @@ def parse_names(original_names: str) -> PersonNames:
         last_names=TAG_NONE_FOUND, first_names=TAG_NONE_FOUND
     )
     original_names = _unmerge_name_parts(original_names).strip()
-    name_parts = original_names.split(" ")
+
+    if divorced_keyword := _find_divorced_keyword(original_names):
+        original_names = _handle_divorced(original_names, divorced_keyword)
 
     if found_marker := _get_separation_marker(original_names):
         return _split_at_marker(original_names, found_marker)
+
+    name_parts = original_names.split(" ")
 
     match len(name_parts):
         case 1:
