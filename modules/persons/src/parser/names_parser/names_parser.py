@@ -97,7 +97,7 @@ def _split_on_camel_case(data: str) -> str:
     return result
 
 
-def _unmerge_name_parts(data: str) -> str:
+def unmerge_name_parts(data: str) -> str:
     data = _split_on_camel_case(data)
     data = _ensure_space_after_dot(data)
 
@@ -108,7 +108,7 @@ def parse_names(original_names: str) -> PersonNames:
     separated_names: PersonNames = PersonNames(
         last_names=TAG_NONE_FOUND, first_names=TAG_NONE_FOUND
     )
-    original_names = _unmerge_name_parts(original_names).strip()
+    original_names = unmerge_name_parts(original_names).strip()
 
     if divorced_keyword := _find_divorced_keyword(original_names):
         original_names = _handle_divorced(original_names, divorced_keyword)
