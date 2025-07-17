@@ -7,7 +7,7 @@ from system.util.assert_csv_files_are_equal import assert_csv_files_are_equal
 
 
 class TemplateBugReproductionTestCase(unittest.TestCase):
-    def test_bug(self):
+    def test_bug(self) -> None:
         test_dir = Path("system/template_bug_reproduction")
         test_input = test_dir / "fixtures"
         expected = test_input / "expected.csv"

@@ -4,7 +4,7 @@ from modules.persons.src.cleaner.text_cleaner.text_cleaner import clean_text_lin
 
 
 class HandleLineBreaksTestCase(unittest.TestCase):
-    def test_line_breaks_merging(self):
+    def test_line_breaks_merging(self) -> None:
         test_cases = [
             (
                 ["Struchen Emanuel, Schuhmacherstr., 93", "Elsässerstr."],

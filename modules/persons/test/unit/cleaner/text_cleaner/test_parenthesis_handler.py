@@ -6,7 +6,7 @@ from modules.persons.src.cleaner.text_cleaner.parenthesis_handler import (
 
 
 class HandleParenthesisTestCase(unittest.TestCase):
-    def test_clean_up_parenthesis(self):
+    def test_clean_up_parenthesis(self) -> None:
         test_cases = [
             ("( Gottlieb", "Gottlieb"),
             ("Stockmeyer( Klausfelder Ludw.", "Stockmeyer Klausfelder Ludw."),
@@ -28,7 +28,7 @@ class HandleParenthesisTestCase(unittest.TestCase):
                     f"\n\nMismatch:\nActual: '{actual}'\nExpected: '{expected}'",
                 )
 
-    def test_clean_up_unmatched_parenthesis(self):
+    def test_clean_up_unmatched_parenthesis(self) -> None:
         test_cases = [
             ("( Gottlieb", "Gottlieb"),
             ("Gottli(eb", "Gottlieb"),
@@ -38,31 +38,11 @@ class HandleParenthesisTestCase(unittest.TestCase):
             ("( )Gottlieb", "Gottlieb"),
             ("( )Gottlieb", "Gottlieb"),
             ("( ()Gottlieb", "Gottlieb"),
-            ("G(ot(tli)eb", "G (ottli) eb"),
-            ("( ()Go(((())ttlieb", "(Go) ttlieb"),
+            ("G(ot(tli)eb", "G(ottli)eb"),
+            ("( ()Go(((())ttlieb", "(Go)ttlieb"),
             ("Wyss (- Schumacher) Fritz", "Wyss (-Schumacher) Fritz"),
             ("Gottlieb (Müller)", "Gottlieb (Müller)"),
-            ("Häusel((Kreis)Karl", "Häusel (Kreis) Karl"),
-        ]
-
-        for i, (input_str, expected) in enumerate(test_cases):
-            with self.subTest(i=i, input=input_str):
-                actual = clean_up_parenthesis(input_str)
-                self.assertEqual(
-                    actual,
-                    expected,
-                    f"\n\nMismatch at case #{i + 1}:\n'{actual}' != '{expected}'"
-                    f"\n\nFor input: '{input_str}'",
-                )
-
-    def test_clean_up_whitespace_before_and_after_parenthesis(self):
-        test_cases = [
-            ("Gottlieb(Müller)", "Gottlieb (Müller)"),
-            ("(Müller) Gottlieb", "(Müller) Gottlieb"),
-            ("(Müller)Gottlieb", "(Müller) Gottlieb"),
-            ("Häusel(Kreis)Karl", "Häusel (Kreis) Karl"),
-            ("Häusel-(Kreis)Karl", "Häusel- (Kreis) Karl"),
-            ("Häusel (Kreis) Karl", "Häusel (Kreis) Karl"),
+            ("Häusel((Kreis)Karl", "Häusel(Kreis)Karl"),
         ]
 
         for i, (input_str, expected) in enumerate(test_cases):

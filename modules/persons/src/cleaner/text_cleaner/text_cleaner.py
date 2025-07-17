@@ -9,6 +9,7 @@ from modules.persons.src.cleaner.text_cleaner.parenthesis_handler import (
 from modules.persons.src.cleaner.text_cleaner.unallowed_strings_remover import (
     remove_unallowed_strings,
 )
+from modules.persons.src.cleaner.text_cleaner.words_separator import separate_words
 
 
 def _clean_up_white_space(line: str) -> str:
@@ -20,6 +21,7 @@ def _clean_line(line: str) -> str:
     line = remove_unallowed_strings(line)
     line = clean_up_dashes(line)
     line = clean_up_parenthesis(line)
+    line = separate_words(line)
     line = _clean_up_white_space(line)
 
     if not any(char.isalpha() for char in line):

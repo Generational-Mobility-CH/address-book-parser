@@ -9,7 +9,7 @@ from modules.persons.src.parser.name_range_handler import (
 
 
 class MyTestCase(unittest.TestCase):
-    def test_find_next_valid_name_range_start_or_end(self):
+    def test_find_next_valid_name_range_start_or_end(self) -> None:
         tc_1 = [
             AddressBookPage(NameRange("Abt", "Abt"), []),
             AddressBookPage(NameRange("Schweizer", "Bankierv"), []),

@@ -7,7 +7,7 @@ from modules.persons.src.parser.names_parser.special_last_names_parser import (
 
 
 class SpecialLasNamesParserTest(unittest.TestCase):
-    def test_handle_special_last_names_if_present(self):
+    def test_handle_special_last_names_if_present(self) -> None:
         test_cases = [
             ("Abt von der Bach Fritz", "Abt VonDerBach Fritz"),
             ("Abt von Der Bach Fritz", "Abt VonDerBach Fritz"),
@@ -42,7 +42,7 @@ class SpecialLasNamesParserTest(unittest.TestCase):
                     f"\nMismatch:\nInput: '{input_str}'\nExpected: '{expected}'\nActual: '{actual}'",
                 )
 
-    def test_handle_special_last_names_and_dash(self):
+    def test_handle_special_last_names_and_dash(self) -> None:
         test_cases = [
             ("-Van der Mälen Heinr.", "-VanDerMälen Heinr."),
             ("- Van der Mälen Heinr.", "- VanDerMälen Heinr."),

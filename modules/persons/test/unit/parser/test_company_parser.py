@@ -6,7 +6,7 @@ from modules.persons.src.parser.company_parser import is_company
 
 
 class RemoveCompaniesTestCase(unittest.TestCase):
-    def test_remove_companies(self):
+    def test_remove_companies(self) -> None:
         test_file = Path("unit/parser/fixtures/remove_companies_test_input.txt")
 
         expected_remaining_lines = [
@@ -33,7 +33,7 @@ class RemoveCompaniesTestCase(unittest.TestCase):
                         f"Line should be removed, but was not detected as company:\n{line}",
                     )
 
-    def test_is_company(self):
+    def test_is_company(self) -> None:
         test_cases = [
             (PersonDataParts("Hotel Metropole-Monopole A.-G.", ""), True),
             (PersonDataParts("Gautschy-Kuhn A.-G.", ""), True),

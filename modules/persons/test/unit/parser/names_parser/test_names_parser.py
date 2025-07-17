@@ -5,7 +5,7 @@ from modules.persons.src.parser.names_parser.names_parser import parse_names
 
 
 class NamesSeparatorTest(unittest.TestCase):
-    def test_handle_divorced(self):
+    def test_handle_divorced(self) -> None:
         test_cases = [
             (
                 "Egg Eggemann gesch. Bödecker Emma",
@@ -39,69 +39,7 @@ class NamesSeparatorTest(unittest.TestCase):
                     f"\nMismatch:\nInput: '{input_str}'\nExpected: '{expected}'\nActual: '{actual}'",
                 )
 
-    def test_unmerge_names_without_space_after_dot(self):
-        test_cases = [
-            (
-                "Müller J.Ls.",
-                PersonNames("J. Ls.", "Müller"),
-            ),
-            (
-                "Müller Rob.Saml.",
-                PersonNames("Rob. Saml.", "Müller"),
-            ),
-        ]
-
-        for i, (input_str, expected) in enumerate(test_cases):
-            with self.subTest(i=i, input=input_str):
-                actual = parse_names(input_str)
-                self.assertEqual(
-                    actual,
-                    expected,
-                    f"\nMismatch:\nInput: '{input_str}'\nExpected: '{expected}'\nActual: '{actual}'",
-                )
-
-    def test_unmerge_camel_cased_names(self):
-        test_cases = [
-            (
-                "MüllerJohann",
-                PersonNames("Johann", "Müller"),
-            ),
-            (
-                "MüllerRobbinsSaml",
-                PersonNames("Saml", "Müller Robbins"),
-            ),
-            (
-                "ConusAlfr.",
-                PersonNames("Alfr.", "Conus"),
-            ),
-            (
-                "Bolinger-GrossSamI.",
-                PersonNames("I.", "Bolinger-Gross Sam"),
-            ),
-            (
-                "Bolley-BerkesK.",
-                PersonNames("K.", "Bolley-Berkes"),
-            ),
-            (
-                "Brom-HoffstetterJoh.",
-                PersonNames("Joh.", "Brom-Hoffstetter"),
-            ),
-            (
-                "BurgerAlb. Rosina",
-                PersonNames("Alb. Rosina", "Burger"),
-            ),
-        ]
-
-        for i, (input_str, expected) in enumerate(test_cases):
-            with self.subTest(i=i, input=input_str):
-                actual = parse_names(input_str)
-                self.assertEqual(
-                    actual,
-                    expected,
-                    f"\nMismatch:\nInput: '{input_str}'\nExpected: '{expected}'\nActual: '{actual}'",
-                )
-
-    def test_handle_names_with_more_than_four_parts(self):
+    def test_handle_names_with_more_than_four_parts(self) -> None:
         test_cases = [
             (
                 "Amans Madeux J. J. C.",
@@ -131,7 +69,7 @@ class NamesSeparatorTest(unittest.TestCase):
                     f"\nMismatch:\nInput: '{input_str}'\nExpected: '{expected}'\nActual: '{actual}'",
                 )
 
-    def test_merged_names_by_dot(self):
+    def test_merged_names_by_dot(self) -> None:
         test_cases = [
             (
                 "J.Ls.",
@@ -152,7 +90,7 @@ class NamesSeparatorTest(unittest.TestCase):
                     f"\nMismatch:\nInput: '{input_str}'\nExpected: '{expected}'\nActual: '{actual}'",
                 )
 
-    def test_names_with_auch(self):
+    def test_names_with_auch(self) -> None:
         test_cases = [
             (
                 "Komarek (auch Kohn) -Hernbal Abram",

@@ -4,7 +4,7 @@ from modules.persons.src.cleaner.text_cleaner.text_cleaner import clean_text_lin
 
 
 class TextCleanerTestCase(unittest.TestCase):
-    def test_clean_text_lines(self):
+    def test_clean_text_lines(self) -> None:
         test_cases = [
             ("Siegmann-| Höfer Trangott\n", "Siegmann-Höfer Trangott"),
             ("½ — Suppiger ", "-Suppiger"),

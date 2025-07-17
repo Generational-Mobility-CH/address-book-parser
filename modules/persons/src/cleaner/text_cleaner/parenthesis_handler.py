@@ -7,23 +7,6 @@ def _clean_whitespace_inside_parentheses(line: str) -> str:
     return re.sub(r"\(\s*(.*?)\s*\)", r"(\1)", line)
 
 
-def _clean_whitespace_surrounding_parenthesis(text: str) -> str:
-    result = ""
-
-    for index, char in enumerate(text):
-        if char == "(":
-            if index != 0 and text[index - 1] != " ":
-                result += " "
-        elif char == ")":
-            if index != len(text) - 1 and text[index + 1] != " ":
-                result += ") "
-                continue
-
-        result += char
-
-    return result
-
-
 def _remove_empty_parenthesis(line: str) -> str:
     return re.sub(r"\(\s*\)", "", line)
 
@@ -56,7 +39,6 @@ def _remove_unmatched_parenthesis(line: str) -> str:
 def clean_up_parenthesis(line: str) -> str:
     line = _remove_empty_parenthesis(line)
     line = _remove_unmatched_parenthesis(line)
-    line = _clean_whitespace_surrounding_parenthesis(line)
     line = _clean_whitespace_inside_parentheses(line)
 
     return line.strip()
