@@ -13,7 +13,7 @@ NAME_RANGE_FOR_I_J = NameRange("H", "K")
 
 def _starts_with_i_or_j_and_vowel(name_range: NameRange) -> bool:
     """
-    Because of linguistic reasons ranges like these or similar are OK:
+    Info: Because of linguistic reasons ranges like these or similar are OK:
     ["Itin", "Jungck"] or ["Jenny", "Iffenthaler"]
     (this is the way they are written in the original address book).
     """
@@ -44,7 +44,7 @@ def find_next_valid_name_range(
     collection: list[AddressBookPage], page_index: int
 ) -> NameRange | None:
     """
-    Go a maximum of 3 pages back/forward in order to find a new valid range.
+    Info: Go a maximum of 3 pages back/forward in order to find a new valid range.
     A broader range does not bring additional benefits for this application.
     """
     if _starts_with_i_or_j_and_vowel(collection[page_index].last_names_range):

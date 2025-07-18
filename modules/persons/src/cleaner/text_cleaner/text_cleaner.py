@@ -1,36 +1,45 @@
-from modules.persons.src.cleaner.text_cleaner.dashes_handler import clean_up_dashes
+from modules.persons.src.cleaner.text_cleaner.dashes_handler import (
+    DASHES_PATTERNS_AND_REPLACEMENT,
+)
 from modules.persons.src.cleaner.text_cleaner.line_breaks_handler import (
     has_line_break,
     merge_line_break,
 )
 from modules.persons.src.cleaner.text_cleaner.parenthesis_handler import (
-    clean_up_parenthesis,
+    PARENTHESIS_PATTERNS_AND_REPLACEMENT,
+    remove_unmatched_parenthesis,
 )
 from modules.persons.src.cleaner.text_cleaner.unallowed_strings_remover import (
-    remove_unallowed_strings,
+    UNALLOWED_STRINGS_PATTERNS_AND_REPLACEMENT,
 )
-from modules.persons.src.cleaner.text_cleaner.words_separator import separate_words
+from modules.persons.src.cleaner.text_cleaner.words_separator import (
+    SEPARATE_WORDS_PATTERNS_AND_REPLACEMENT,
+)
+from modules.persons.src.models.pattern_and_replacement import PatternAndReplacement
+from modules.persons.src.util.apply_regex_patterns import apply_regex_patterns
 
 
-def _clean_up_white_space(line: str) -> str:
-    return " ".join(line.strip().split())
+PATTERNS_AND_REPLACEMENTS: list[PatternAndReplacement] = []
+PATTERNS_AND_REPLACEMENTS.extend(
+    UNALLOWED_STRINGS_PATTERNS_AND_REPLACEMENT
+    + PARENTHESIS_PATTERNS_AND_REPLACEMENT
+    + DASHES_PATTERNS_AND_REPLACEMENT
+    + SEPARATE_WORDS_PATTERNS_AND_REPLACEMENT
+)
 
 
-def _clean_line(line: str) -> str:
-    line = _clean_up_white_space(line)
-    line = remove_unallowed_strings(line)
-    line = clean_up_dashes(line)
-    line = clean_up_parenthesis(line)
-    line = separate_words(line)
-    line = _clean_up_white_space(line)
+def _clean_line(text: str) -> str:
+    text = remove_unmatched_parenthesis(text)
+    text = apply_regex_patterns(text, PATTERNS_AND_REPLACEMENTS)
+    text = " ".join(text.split()).strip()
 
-    if not any(char.isalpha() for char in line):
+    if not any(char.isalpha() for char in text):
         return ""
 
-    return line
+    return text
 
 
-def clean_text_lines(text: list[str]) -> list[str]:
+def clean_text(text: list[str]) -> list[str]:
     result = []
     text = list(filter(None, text))
 
@@ -43,7 +52,7 @@ def clean_text_lines(text: list[str]) -> list[str]:
                 line = merge_line_break(line, next_line)
                 text[i + 1] = ""
 
-        if line.strip():
+        if line := line.strip():
             result.append(line)
 
     return result

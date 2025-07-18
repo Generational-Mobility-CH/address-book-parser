@@ -22,8 +22,8 @@ def parse_person(data: PersonDataParts, current_last_name: str) -> Person:
         job=TAG_NO_JOB,
     )
 
-    if (name := data.first) and _is_name(name, current_last_name):
-        person.original_names = name
+    if (all_names := data.first) and _is_name(all_names, current_last_name):
+        person.original_names = all_names
         separated_names = parse_names(person.original_names)
         person.last_names = separated_names.last_names
         person.first_names = separated_names.first_names

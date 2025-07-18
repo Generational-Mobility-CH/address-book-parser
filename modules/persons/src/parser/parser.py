@@ -1,6 +1,6 @@
 from logging import getLogger
 
-from modules.persons.src.cleaner.text_cleaner.text_cleaner import clean_text_lines
+from modules.persons.src.cleaner.text_cleaner.text_cleaner import clean_text
 from modules.persons.src.models.address_book.address_book import AddressBook
 from modules.persons.src.models.address_book.address_book_page import AddressBookPage
 from modules.persons.src.models.person.person_data_parts import PersonDataParts
@@ -80,7 +80,7 @@ def parse_address_book(address_book: AddressBook) -> list[Person]:
 
 def parse_address_book_page(page: AddressBookPage) -> list[Person]:
     splitted_lines = [line for text in page.text_content for line in text.split("\n")]
-    cleaned_lines = clean_text_lines(splitted_lines)
+    cleaned_lines = clean_text(splitted_lines)
     page.text_content = cleaned_lines
 
     return parse_persons(page)

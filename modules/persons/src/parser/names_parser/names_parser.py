@@ -1,12 +1,15 @@
 import logging
 
+from modules.persons.src.util.apply_regex_patterns import apply_regex_patterns
+from modules.persons.src.cleaner.text_cleaner.words_separator import (
+    SEPARATE_WORDS_PATTERNS_AND_REPLACEMENT,
+)
 from modules.persons.src.models.person.person_names import PersonNames
 from modules.persons.src.parser.constants.tags import TAG_NONE_FOUND
 from modules.persons.src.parser.names_parser.constants.names_special_keywords import (
     KEYWORDS_DIVORCED,
     KEYWORDS_NAMES_SEPARATOR,
 )
-from modules.persons.src.cleaner.text_cleaner.words_separator import separate_words
 
 logger = logging.getLogger(__name__)
 
@@ -83,7 +86,9 @@ def parse_names(original_names: str) -> PersonNames:
     separated_names: PersonNames = PersonNames(
         last_names=TAG_NONE_FOUND, first_names=TAG_NONE_FOUND
     )
-    original_names = separate_words(original_names).strip()
+    original_names = apply_regex_patterns(
+        original_names, SEPARATE_WORDS_PATTERNS_AND_REPLACEMENT
+    ).strip()
 
     if divorced_keyword := _find_divorced_keyword(original_names):
         original_names = _handle_divorced(original_names, divorced_keyword)

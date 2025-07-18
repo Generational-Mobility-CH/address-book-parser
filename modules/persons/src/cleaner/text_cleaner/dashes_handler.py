@@ -1,20 +1,13 @@
-def clean_up_dashes(line: str) -> str:
-    line = line.replace("—", "-")
-    line = line.replace(" - ", "-")
-    line = line.replace("- ", "-")
-    line = line.replace(" -", "-")
+import re
 
-    result = ""
-    previous_was_dash = False
 
-    for char in line:
-        if char == "-":
-            if previous_was_dash:
-                continue
-            previous_was_dash = True
-        else:
-            previous_was_dash = False
+from modules.persons.src.models.pattern_and_replacement import PatternAndReplacement
 
-        result += char
 
-    return result
+STANDARDIZE_DASHES_AND_WHITESPACE = re.compile(r"\s*—\s*|\s*-\s*")
+REPEATED_DASHES = re.compile(r"-{2,}")
+
+DASHES_PATTERNS_AND_REPLACEMENT: list[PatternAndReplacement] = [
+    PatternAndReplacement(pattern=STANDARDIZE_DASHES_AND_WHITESPACE, replacement="-"),
+    PatternAndReplacement(pattern=REPEATED_DASHES, replacement="-"),
+]

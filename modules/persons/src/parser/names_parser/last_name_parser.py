@@ -11,34 +11,6 @@ from modules.persons.src.parser.names_parser.constants.names_special_keywords im
 logger = logging.getLogger(__name__)
 
 
-def _is_valid_next_last_name(current: str, name_range: NameRange) -> bool:
-    current = prepare_str_for_comparison(current)
-    current = _find_last_name_in_str(current)
-    start = prepare_str_for_comparison(name_range.start)
-    end = prepare_str_for_comparison(name_range.end)
-
-    return start <= current <= end
-
-
-def _is_valid_next_last_name_legacy(current: str, previous: str) -> bool:
-    current = prepare_str_for_comparison(current)
-    current = _find_last_name_in_str(current)
-    previous = prepare_str_for_comparison(previous)
-
-    if not current or not previous:
-        return False
-
-    current_first_letter = current[0]
-    previous_first_letter = previous[0]
-
-    if current_first_letter == previous_first_letter:
-        return True
-    elif ord(current_first_letter) == ord(previous_first_letter) + 1:
-        return True
-
-    return False
-
-
 def _contains_umlaute(input_string: str) -> bool:
     return any(char in GERMAN_UMLAUTE for char in input_string.lower())
 
@@ -80,6 +52,34 @@ def _extract_other_names(text: str) -> str:
             result = text[1:]
 
     return result
+
+
+def _is_valid_next_last_name(current: str, name_range: NameRange) -> bool:
+    current = prepare_str_for_comparison(current)
+    current = _find_last_name_in_str(current)
+    start = prepare_str_for_comparison(name_range.start)
+    end = prepare_str_for_comparison(name_range.end)
+
+    return start <= current <= end
+
+
+def _is_valid_next_last_name_legacy(current: str, previous: str) -> bool:
+    current = prepare_str_for_comparison(current)
+    current = _find_last_name_in_str(current)
+    previous = prepare_str_for_comparison(previous)
+
+    if not current or not previous:
+        return False
+
+    current_first_letter = current[0]
+    previous_first_letter = previous[0]
+
+    if current_first_letter == previous_first_letter:
+        return True
+    elif ord(current_first_letter) == ord(previous_first_letter) + 1:
+        return True
+
+    return False
 
 
 def prepare_str_for_comparison(text: str) -> str:
