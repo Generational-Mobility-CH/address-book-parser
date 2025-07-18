@@ -109,7 +109,9 @@ def parse_names(original_names: str) -> PersonNames:
                 separated_names.last_names = name_parts[0]
                 separated_names.first_names = name_parts[1]
             else:
-                logger.warning(f"TODO check dizz only 1 part: {original_names}")
+                logger.warning(
+                    f"Could not parse name with only 1 part: {original_names}"
+                )
         case 2:
             separated_names.last_names = name_parts[0]
             separated_names.first_names = name_parts[1]

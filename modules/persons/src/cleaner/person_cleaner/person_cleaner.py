@@ -1,3 +1,4 @@
+from modules.persons.src.cleaner.person_cleaner.address_cleaner import clean_address
 from modules.persons.src.cleaner.person_cleaner.first_names_cleaner import (
     clean_first_names,
 )
@@ -27,5 +28,7 @@ def clean_person(person: Person) -> Person:
 
     person.first_names = cleaned_first_names
     person.last_names = cleaned_last_names
+
+    person.address = clean_address(person.address)
 
     return person

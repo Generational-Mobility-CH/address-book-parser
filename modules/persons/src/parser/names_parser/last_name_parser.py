@@ -2,7 +2,7 @@ import logging
 
 from modules.persons.src.models.address_book.name_range import NameRange
 from modules.persons.src.parser.names_parser.constants.german_vowels import (
-    GERMAN_UMLAUTE,
+    GERMAN_UMLAUTE_MAP,
 )
 from modules.persons.src.parser.names_parser.constants.names_special_keywords import (
     PLACEHOLDERS_LAST_NAME,
@@ -12,11 +12,11 @@ logger = logging.getLogger(__name__)
 
 
 def _contains_umlaute(input_string: str) -> bool:
-    return any(char in GERMAN_UMLAUTE for char in input_string.lower())
+    return any(char in GERMAN_UMLAUTE_MAP for char in input_string.lower())
 
 
 def _replace_umlaute(text: str) -> str:
-    return "".join(GERMAN_UMLAUTE.get(char, char) for char in text.lower()).title()
+    return "".join(GERMAN_UMLAUTE_MAP.get(char, char) for char in text.lower()).title()
 
 
 def _find_last_name_in_str(text: str) -> str:
