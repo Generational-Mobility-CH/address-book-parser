@@ -1,14 +1,10 @@
 import re
 
-from modules.persons.src.models.pattern_and_replacement import PatternAndReplacement
 from modules.persons.src.models.person.address import Address
 
 
 REPLACE_DOT_AT_STRING_START = re.compile(r"^.\s*")
 STREET_NAME_AND_NUMBER = re.compile(r"(\d+[a-z]?)\s*([.a-zA-ZäöüÄÖÜ]*)")
-
-
-PATS = [PatternAndReplacement(REPLACE_DOT_AT_STRING_START, "")]
 
 
 def clean_address(address: Address) -> Address:
@@ -17,8 +13,8 @@ def clean_address(address: Address) -> Address:
     if street_name.startswith("."):
         street_name = street_name + address.house_number
         street_name = REPLACE_DOT_AT_STRING_START.sub("", street_name)
-
         matches = re.findall(STREET_NAME_AND_NUMBER, street_name)
+
         if matches:
             first_element = matches[0]
             if len(first_element) == 2:
