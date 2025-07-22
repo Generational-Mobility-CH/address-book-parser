@@ -14,6 +14,7 @@ from modules.persons.src.cleaner.person_cleaner.person_cleaner import clean_pers
 from modules.persons.src.common.logger import setup_logging
 from modules.persons.src.common.paths import INPUT_PATH, OUTPUT_PATH, DATA_PATH
 from modules.persons.src.parser.parser import parse_address_book
+from modules.persons.src.standardizer.standardizer import standardize
 from modules.persons.src.util.get_subdirectories import get_subdirectories
 
 logger = getLogger(__name__)
@@ -32,7 +33,7 @@ def main(
         book = extractor.extract(path)
         raw_persons = parse_address_book(book)
         cleaned_persons = [clean_person(p) for p in raw_persons]
-        standardized_persons = [p.standardize_attributes() for p in cleaned_persons]
+        standardized_persons = [standardize(p) for p in cleaned_persons]
 
         match output_type:
             case SupportedFileTypes.DB:

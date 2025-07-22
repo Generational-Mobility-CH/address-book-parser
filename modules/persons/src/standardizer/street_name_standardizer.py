@@ -1,7 +1,25 @@
-from modules.persons.src.standardizer.standardizer import Standardizer
+import re
+
+from modules.persons.src.standardizer.constants.street_name_suffix_replacements import (
+    suffix_replacements,
+    suffix_exceptions,
+)
 
 
-class StreetNameStandardizer(Standardizer):
-    def standardize(self, value: str) -> str:
-        # TODO: Implement street name standardization logic
-        return value
+def standardize_street_name(text: str) -> str:
+    text = replace_street_suffix(text)
+
+    return text
+
+
+def replace_street_suffix(text: str) -> str:
+    text = text.replace(".", "")
+
+    if any(suffix in text.lower() for suffix in suffix_exceptions):
+        return text
+
+    for abbrev, full in suffix_replacements.items():
+        if re.search(abbrev, text):
+            return re.sub(abbrev, full, text)
+
+    return text
