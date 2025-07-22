@@ -12,12 +12,14 @@ from modules.persons.src.cleaner.text_cleaner.parenthesis_handler import (
 from modules.persons.src.cleaner.text_cleaner.unallowed_strings_remover import (
     UNALLOWED_STRINGS_PATTERNS_AND_REPLACEMENT,
 )
+from modules.persons.src.cleaner.text_cleaner.whitespace_cleaner import (
+    WHITESPACE_PATTERNS_AND_REPLACEMENT,
+)
 from modules.persons.src.cleaner.text_cleaner.words_separator import (
     SEPARATE_WORDS_PATTERNS_AND_REPLACEMENT,
 )
 from modules.persons.src.models.pattern_and_replacement import PatternAndReplacement
 from modules.persons.src.util.apply_regex_patterns import apply_regex_patterns
-
 
 PATTERNS_AND_REPLACEMENTS: list[PatternAndReplacement] = []
 PATTERNS_AND_REPLACEMENTS.extend(
@@ -25,13 +27,13 @@ PATTERNS_AND_REPLACEMENTS.extend(
     + PARENTHESIS_PATTERNS_AND_REPLACEMENT
     + DASHES_PATTERNS_AND_REPLACEMENT
     + SEPARATE_WORDS_PATTERNS_AND_REPLACEMENT
+    + WHITESPACE_PATTERNS_AND_REPLACEMENT
 )
 
 
 def _clean_line(text: str) -> str | None:
     text = remove_unmatched_parenthesis(text)
     text = apply_regex_patterns(text, PATTERNS_AND_REPLACEMENTS)
-    text = " ".join(text.split()).strip()
 
     if not any(char.isalpha() for char in text):
         return None

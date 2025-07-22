@@ -24,7 +24,7 @@ def remove_unmatched_parenthesis(text: str) -> str:
             if unmatched_parenthesis_positions:
                 for i in unmatched_parenthesis_positions:
                     if text[i] == "(":
-                        unmatched_parenthesis_positions.remove(i)
+                        unmatched_parenthesis_positions.pop()
                         break
             else:
                 unmatched_parenthesis_positions.add(index)
