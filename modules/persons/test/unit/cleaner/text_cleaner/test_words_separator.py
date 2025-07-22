@@ -2,7 +2,7 @@ import unittest
 
 from modules.persons.src.util.apply_regex_patterns import apply_regex_patterns
 from modules.persons.src.cleaner.text_cleaner.words_separator import (
-    SEPARATE_WORDS_PATTERNS_AND_REPLACEMENT,
+    SEPARATE_WORDS_PATTERNS_AND_REPL,
 )
 
 
@@ -21,7 +21,7 @@ class UnmergeWordsTestCase(unittest.TestCase):
         for i, (test_input, expected) in enumerate(test_cases):
             with self.subTest(i=i, input=test_input):
                 actual = apply_regex_patterns(
-                    test_input, SEPARATE_WORDS_PATTERNS_AND_REPLACEMENT
+                    test_input, SEPARATE_WORDS_PATTERNS_AND_REPL
                 )
 
                 self.assertEqual(
@@ -40,7 +40,7 @@ class UnmergeWordsTestCase(unittest.TestCase):
         for i, (test_input, expected) in enumerate(test_cases):
             with self.subTest(i=i, input=test_input):
                 actual = apply_regex_patterns(
-                    test_input, SEPARATE_WORDS_PATTERNS_AND_REPLACEMENT
+                    test_input, SEPARATE_WORDS_PATTERNS_AND_REPL
                 )
 
                 self.assertEqual(
@@ -62,7 +62,7 @@ class UnmergeWordsTestCase(unittest.TestCase):
         for i, (test_input, expected) in enumerate(test_cases):
             with self.subTest(i=i, input=test_input):
                 actual = apply_regex_patterns(
-                    test_input, SEPARATE_WORDS_PATTERNS_AND_REPLACEMENT
+                    test_input, SEPARATE_WORDS_PATTERNS_AND_REPL
                 )
 
                 self.assertEqual(

@@ -7,16 +7,23 @@ from modules.persons.src.cleaner.text_cleaner.constants.unallowed_strings import
     UNALLOWED_AT_START_OF_STRING,
     UNALLOWED_STRINGS,
 )
-from modules.persons.src.models.pattern_and_replacement import PatternAndReplacement
+from modules.persons.src.cleaner.text_cleaner.types.pattern_and_repl_type import (
+    PatternAndRepl,
+)
 
-START_PATTERN = re.compile(
+
+UNALLOWED_STRINGS_PATTERN = re.compile(
+    rf"({'|'.join(map(re.escape, UNALLOWED_STRINGS))})"
+)
+UNALLOWED_AT_START_OF_STRING_PATTERN = re.compile(
     rf"^({'|'.join(map(re.escape, UNALLOWED_AT_START_OF_STRING))})"
 )
-UNALLOWED_PATTERN = re.compile(rf"({'|'.join(map(re.escape, UNALLOWED_STRINGS))})")
-CLEAN_PATTERN = re.compile(rf"[^\w{re.escape(''.join(ALLOWED_SPECIAL_CHARACTERS))}]")
+ALLOWED_SPECIAL_CHARACTERS_PATTERN = re.compile(
+    rf"[^\w{re.escape(''.join(ALLOWED_SPECIAL_CHARACTERS))}]"
+)
 
-UNALLOWED_STRINGS_PATTERNS_AND_REPLACEMENT: list[PatternAndReplacement] = [
-    PatternAndReplacement(pattern=START_PATTERN, replacement=""),
-    PatternAndReplacement(pattern=UNALLOWED_PATTERN, replacement=""),
-    PatternAndReplacement(pattern=CLEAN_PATTERN, replacement=""),
+UNALLOWED_STRINGS_PATTERNS_AND_REPL: list[PatternAndRepl] = [
+    (UNALLOWED_AT_START_OF_STRING_PATTERN, ""),
+    (UNALLOWED_STRINGS_PATTERN, ""),
+    (ALLOWED_SPECIAL_CHARACTERS_PATTERN, ""),
 ]

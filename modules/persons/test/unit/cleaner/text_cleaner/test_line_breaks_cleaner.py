@@ -1,6 +1,6 @@
 import unittest
 
-from modules.persons.src.cleaner.text_cleaner.line_breaks_handler import (
+from modules.persons.src.cleaner.text_cleaner.line_breaks_cleaner import (
     merge_line_break,
     has_line_break,
 )

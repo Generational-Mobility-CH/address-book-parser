@@ -1,16 +1,18 @@
 import re
 
+from modules.persons.src.cleaner.text_cleaner.types.pattern_and_repl_type import (
+    PatternAndRepl,
+)
 
-from modules.persons.src.models.pattern_and_replacement import PatternAndReplacement
 
-REMOVE_EMPTY_PARENTHESIS = re.compile(r"\(\s*\)")
-CLEAN_WHITESPACE_INSIDE_PARENTHESIS = re.compile(r"(\()\s*(-?)\s*(.*?)\s*(-?)\s*(\))")
+REMOVE_EMPTY_PARENTHESIS_PATTERN = re.compile(r"\(\s*\)")
+CLEAN_WHITESPACE_INSIDE_PARENTHESIS_PATTERN = re.compile(
+    r"(\()\s*(-?)\s*(.*?)\s*(-?)\s*(\))"
+)
 
-PARENTHESIS_PATTERNS_AND_REPLACEMENT: list[PatternAndReplacement] = [
-    PatternAndReplacement(pattern=REMOVE_EMPTY_PARENTHESIS, replacement=""),
-    PatternAndReplacement(
-        pattern=CLEAN_WHITESPACE_INSIDE_PARENTHESIS, replacement=r"\1\2\3\4\5"
-    ),
+PARENTHESIS_PATTERNS_AND_REPL: list[PatternAndRepl] = [
+    (REMOVE_EMPTY_PARENTHESIS_PATTERN, ""),
+    (CLEAN_WHITESPACE_INSIDE_PARENTHESIS_PATTERN, r"\1\2\3\4\5"),
 ]
 
 

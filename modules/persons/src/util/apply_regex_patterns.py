@@ -1,12 +1,12 @@
 import re
 
-from modules.persons.src.models.pattern_and_replacement import PatternAndReplacement
+from modules.persons.src.cleaner.text_cleaner.types.pattern_and_repl_type import (
+    PatternAndRepl,
+)
 
 
-def apply_regex_patterns(
-    text: str, patterns_collection: list[PatternAndReplacement]
-) -> str:
+def apply_regex_patterns(text: str, patterns_collection: list[PatternAndRepl]) -> str:
     for element in patterns_collection:
-        text = re.sub(element.pattern, element.replacement, text)
+        text = re.sub(element[0], element[1], text)
 
     return text

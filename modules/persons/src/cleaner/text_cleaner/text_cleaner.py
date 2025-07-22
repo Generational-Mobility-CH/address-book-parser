@@ -1,33 +1,36 @@
-from modules.persons.src.cleaner.text_cleaner.dashes_handler import (
-    DASHES_PATTERNS_AND_REPLACEMENT,
+from modules.persons.src.cleaner.text_cleaner.dashes_cleaner import (
+    DASHES_PATTERNS_AND_REPL,
 )
-from modules.persons.src.cleaner.text_cleaner.line_breaks_handler import (
+from modules.persons.src.cleaner.text_cleaner.line_breaks_cleaner import (
     has_line_break,
     merge_line_break,
 )
-from modules.persons.src.cleaner.text_cleaner.parenthesis_handler import (
-    PARENTHESIS_PATTERNS_AND_REPLACEMENT,
+from modules.persons.src.cleaner.text_cleaner.parenthesis_cleaner import (
+    PARENTHESIS_PATTERNS_AND_REPL,
     remove_unmatched_parenthesis,
 )
+from modules.persons.src.cleaner.text_cleaner.types.pattern_and_repl_type import (
+    PatternAndRepl,
+)
 from modules.persons.src.cleaner.text_cleaner.unallowed_strings_remover import (
-    UNALLOWED_STRINGS_PATTERNS_AND_REPLACEMENT,
+    UNALLOWED_STRINGS_PATTERNS_AND_REPL,
 )
 from modules.persons.src.cleaner.text_cleaner.whitespace_cleaner import (
-    WHITESPACE_PATTERNS_AND_REPLACEMENT,
+    WHITESPACE_PATTERNS_AND_REPL,
 )
 from modules.persons.src.cleaner.text_cleaner.words_separator import (
-    SEPARATE_WORDS_PATTERNS_AND_REPLACEMENT,
+    SEPARATE_WORDS_PATTERNS_AND_REPL,
 )
-from modules.persons.src.models.pattern_and_replacement import PatternAndReplacement
 from modules.persons.src.util.apply_regex_patterns import apply_regex_patterns
 
-PATTERNS_AND_REPLACEMENTS: list[PatternAndReplacement] = []
+
+PATTERNS_AND_REPLACEMENTS: list[PatternAndRepl] = []
 PATTERNS_AND_REPLACEMENTS.extend(
-    UNALLOWED_STRINGS_PATTERNS_AND_REPLACEMENT
-    + PARENTHESIS_PATTERNS_AND_REPLACEMENT
-    + DASHES_PATTERNS_AND_REPLACEMENT
-    + SEPARATE_WORDS_PATTERNS_AND_REPLACEMENT
-    + WHITESPACE_PATTERNS_AND_REPLACEMENT
+    UNALLOWED_STRINGS_PATTERNS_AND_REPL
+    + PARENTHESIS_PATTERNS_AND_REPL
+    + DASHES_PATTERNS_AND_REPL
+    + SEPARATE_WORDS_PATTERNS_AND_REPL
+    + WHITESPACE_PATTERNS_AND_REPL
 )
 
 

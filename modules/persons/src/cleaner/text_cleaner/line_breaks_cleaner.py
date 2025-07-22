@@ -16,5 +16,6 @@ def merge_line_break(line: str, previous_line: str) -> str:
         line = " und" + line[3:]
 
     line = previous_line + " " + line
+    line = line.replace("- ", "")
 
-    return line.replace("- ", "")
+    return line

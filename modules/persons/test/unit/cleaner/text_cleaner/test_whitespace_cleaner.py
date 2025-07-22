@@ -1,7 +1,7 @@
 import unittest
 
 from modules.persons.src.cleaner.text_cleaner.whitespace_cleaner import (
-    WHITESPACE_PATTERNS_AND_REPLACEMENT,
+    WHITESPACE_PATTERNS_AND_REPL,
 )
 from modules.persons.src.util.apply_regex_patterns import apply_regex_patterns
 
@@ -22,9 +22,7 @@ class WhitespaceCleanerTestCase(unittest.TestCase):
 
         for i, (test_input, expected) in enumerate(test_cases):
             with self.subTest(i=i, input=test_cases[i][0]):
-                actual = apply_regex_patterns(
-                    test_input, WHITESPACE_PATTERNS_AND_REPLACEMENT
-                )
+                actual = apply_regex_patterns(test_input, WHITESPACE_PATTERNS_AND_REPL)
 
                 self.assertEqual(
                     actual,
