@@ -28,31 +28,33 @@ PATTERNS_AND_REPLACEMENTS.extend(
 )
 
 
-def _clean_line(text: str) -> str:
+def _clean_line(text: str) -> str | None:
     text = remove_unmatched_parenthesis(text)
     text = apply_regex_patterns(text, PATTERNS_AND_REPLACEMENTS)
     text = " ".join(text.split()).strip()
 
     if not any(char.isalpha() for char in text):
-        return ""
+        return None
 
     return text
 
 
 def clean_text(text: list[str]) -> list[str]:
-    result = []
+    cleaned_text = []
+    previous_line = None
     text = list(filter(None, text))
 
-    for i, line in enumerate(text):
-        line = _clean_line(line)
+    for line in text:
+        if not (line := _clean_line(line).strip()):
+            continue
 
-        if i + 1 < len(text):
-            next_line = _clean_line(text[i + 1])
-            if has_line_break(line, next_line):
-                line = merge_line_break(line, next_line)
-                text[i + 1] = ""
+        if previous_line and has_line_break(line, previous_line):
+            line = merge_line_break(line, previous_line)
+            cleaned_text[-1] = line
+            previous_line = None
+            continue
 
-        if line := line.strip():
-            result.append(line)
+        previous_line = line
+        cleaned_text.append(line)
 
-    return result
+    return cleaned_text

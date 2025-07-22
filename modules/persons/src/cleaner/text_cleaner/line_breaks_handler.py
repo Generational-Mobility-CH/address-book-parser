@@ -5,16 +5,16 @@ ENDS_WITH_DASH_OR_DIGIT = re.compile(r"[-\d]$")
 STARTS_WITH_DIGIT = re.compile(r"^\s*\d")
 
 
-def has_line_break(line: str, next_line: str) -> bool:
-    return (
-        bool(line) and ENDS_WITH_DASH_OR_DIGIT.search(line)
-    ) or STARTS_WITH_DIGIT.match(next_line)
+def has_line_break(line: str, previous_line: str) -> bool:
+    return bool(line) and (
+        ENDS_WITH_DASH_OR_DIGIT.search(previous_line) or STARTS_WITH_DIGIT.match(line)
+    )
 
 
-def merge_line_break(current_line: str, next_line: str) -> str:
-    if next_line.lower().startswith("und"):
-        next_line = " und" + next_line[3:]
+def merge_line_break(line: str, previous_line: str) -> str:
+    if line.lower().startswith("und"):
+        line = " und" + line[3:]
 
-    line = current_line + " " + next_line
+    line = previous_line + " " + line
 
     return line.replace("- ", "")
