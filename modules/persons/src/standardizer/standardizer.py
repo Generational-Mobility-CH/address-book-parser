@@ -1,5 +1,5 @@
 from modules.persons.src.models.person.person import Person
-from modules.persons.src.standardizer.street_name_standardizer import (
+from modules.persons.src.standardizer.street_name_standardizer.street_name_standardizer import (
     standardize_street_name,
 )
 
