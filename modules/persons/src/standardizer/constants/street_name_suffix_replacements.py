@@ -1,12 +1,13 @@
-suffix_replacements = {
-    r"vorst$": "vorstadt",
-    r"vor$": "vorstadt",
-    r"str$": "strasse",
-    r"gr$": "graben",
-    r"pl$": "platz",
-    r"gässl$": "gässlein",
-    r"g$": "gasse",
-    r"w$": "weg",
+STREET_NAME_SUFFIXES_MAP = {
+    "g": "gasse",
+    "gässl": "gässlein",
+    "gr": "graben",
+    "pl": "platz",
+    "str": "strasse",
+    "vorst": "vorstadt",
+    "vor": "vorstadt",
+    "w": "weg",
+    # TODO: "unt": "Untere",
 }
 
-suffix_exceptions = ("ring", "berg", "egg", "thal", "rain")
+STREET_NAME_SUFFIXES_EXCLUSIONS = ("berg", "egg", "rain", "ring", "thal", "weg")

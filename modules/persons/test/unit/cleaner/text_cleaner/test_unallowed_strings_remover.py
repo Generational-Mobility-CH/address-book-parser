@@ -3,7 +3,7 @@ import unittest
 from modules.persons.src.cleaner.text_cleaner.unallowed_strings_remover import (
     UNALLOWED_STRINGS_PATTERNS_AND_REPL,
 )
-from modules.persons.src.util.apply_regex_patterns import apply_regex_patterns
+from modules.persons.src.util.regex.apply_regex_patterns import apply_regex_patterns
 
 
 class UnallowedStringsRemoverTestCase(unittest.TestCase):

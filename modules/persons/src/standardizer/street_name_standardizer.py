@@ -1,25 +1,20 @@
-import re
-
 from modules.persons.src.standardizer.constants.street_name_suffix_replacements import (
-    suffix_replacements,
-    suffix_exceptions,
+    STREET_NAME_SUFFIXES_MAP,
+    STREET_NAME_SUFFIXES_EXCLUSIONS,
 )
+from modules.persons.src.util.regex.substitute_with_map import substitute_with_map
+
+STREET_NAME_SUFFIXES_PATTERN_FORMAT = r"{PLACEHOLDER}$"
 
 
 def standardize_street_name(text: str) -> str:
-    text = replace_street_suffix(text)
+    text = text.replace(".", "").strip()
 
-    return text
-
-
-def replace_street_suffix(text: str) -> str:
-    text = text.replace(".", "")
-
-    if any(suffix in text.lower() for suffix in suffix_exceptions):
+    if any(suffix in text.lower() for suffix in STREET_NAME_SUFFIXES_EXCLUSIONS):
         return text
 
-    for abbrev, full in suffix_replacements.items():
-        if re.search(abbrev, text):
-            return re.sub(abbrev, full, text)
+    text = substitute_with_map(
+        text, STREET_NAME_SUFFIXES_MAP, STREET_NAME_SUFFIXES_PATTERN_FORMAT
+    )
 
     return text

@@ -4,7 +4,7 @@ from modules.persons.src.cleaner.text_cleaner.parenthesis_cleaner import (
     PARENTHESIS_PATTERNS_AND_REPL,
     remove_unmatched_parenthesis,
 )
-from modules.persons.src.util.apply_regex_patterns import apply_regex_patterns
+from modules.persons.src.util.regex.apply_regex_patterns import apply_regex_patterns
 
 
 class HandleParenthesisTestCase(unittest.TestCase):
