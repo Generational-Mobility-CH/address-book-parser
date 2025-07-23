@@ -1,4 +1,4 @@
-ALLOWED_SPECIAL_CHARACTERS = (
+ALLOWED_SPECIAL_CHARACTERS = {
     ",",
     ".",
     "-",
@@ -7,4 +7,4 @@ ALLOWED_SPECIAL_CHARACTERS = (
     "(",
     ")",
     "ß",
-)
+}

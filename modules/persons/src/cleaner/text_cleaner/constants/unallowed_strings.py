@@ -1,4 +1,4 @@
-UNALLOWED_STRINGS = (
+UNALLOWED_STRINGS = {
     "$\\S$ text ",
     "text ",
     " text",
@@ -35,5 +35,5 @@ UNALLOWED_STRINGS = (
     "@",
     "diamond",
     "()",
-)
-UNALLOWED_AT_START_OF_STRING = ("of ", "ž", "Š", "ß", ")")
+}
+UNALLOWED_AT_START_OF_STRING = {"of ", "ž", "Š", "ß", ")"}

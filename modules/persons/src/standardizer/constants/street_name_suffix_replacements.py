@@ -10,4 +10,4 @@ STREET_NAME_SUFFIXES_MAP = {
     # TODO: "unt": "Untere",
 }
 
-STREET_NAME_SUFFIXES_EXCLUSIONS = ("berg", "egg", "rain", "ring", "thal", "weg")
+STREET_NAME_SUFFIXES_EXCLUSIONS = {"berg", "egg", "rain", "ring", "thal", "weg"}
