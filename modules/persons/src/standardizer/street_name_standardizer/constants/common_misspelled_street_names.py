@@ -1,0 +1,15 @@
+COMMON_MISSPELLED_STREET_NAMES_MAP = {
+    "Albantal": "St. Alban-Tal",
+    "Albanthal": "St. Alban-Tal",
+    "Albangraben": "St. Alban-Graben",
+    "Albananlage": "St. Alban-Anlage",
+    "Albanvorstadt": "St. Alban-Vorstadt",
+    "Bleicheweg": "Bleichestrasse",
+    "Johannisring": "St. Johanns-Ring",
+    "Johannsring": "St. Johanns-Ring",
+    "Johannvorstadt": "St. Johanns-Vorstadt",
+    "Johannisvorstadt": "St. Johanns-Vorstadt",
+    "Nadelbgasse": "Nadelberg",
+    "Riehenteichweg": "Riehenteichstrasse",
+    "Thierst-Allee": "Thiersteinerallee",
+}
