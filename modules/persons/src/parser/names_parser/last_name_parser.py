@@ -56,9 +56,10 @@ def _extract_other_names(text: str) -> str:
 
 def _is_valid_next_last_name(current: str, name_range: NameRange) -> bool:
     current = prepare_str_for_comparison(current)
-    current = _find_last_name_in_str(current)
     start = prepare_str_for_comparison(name_range.start)
     end = prepare_str_for_comparison(name_range.end)
+
+    current = _find_last_name_in_str(current)
 
     return start <= current <= end
 

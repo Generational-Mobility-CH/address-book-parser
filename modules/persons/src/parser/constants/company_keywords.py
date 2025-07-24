@@ -1,4 +1,4 @@
-COMPANY_KEYWORDS = (
+COMPANY_KEYWORDS = {
     "a.g.",
     "a.-g.",
     "aktiengesel",
@@ -20,4 +20,4 @@ COMPANY_KEYWORDS = (
     "verein",
     "versicherung",
     "werkstatt",
-)
+}

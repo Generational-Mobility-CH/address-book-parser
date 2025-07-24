@@ -21,7 +21,7 @@ from modules.persons.src.cleaner.text_cleaner.whitespace_cleaner import (
 from modules.persons.src.cleaner.text_cleaner.words_separator import (
     SEPARATE_WORDS_PATTERNS_AND_REPL,
 )
-from modules.persons.src.util.apply_regex_patterns import apply_regex_patterns
+from modules.persons.src.util.regex.apply_regex_patterns import apply_regex_patterns
 
 
 PATTERNS_AND_REPLACEMENTS: list[PatternAndRepl] = []
@@ -34,14 +34,14 @@ PATTERNS_AND_REPLACEMENTS.extend(
 )
 
 
-def _clean_line(text: str) -> str | None:
-    text = remove_unmatched_parenthesis(text)
-    text = apply_regex_patterns(text, PATTERNS_AND_REPLACEMENTS)
+def _clean_line(line: str) -> str | None:
+    line = remove_unmatched_parenthesis(line)
+    line = apply_regex_patterns(line, PATTERNS_AND_REPLACEMENTS)
 
-    if not any(char.isalpha() for char in text):
+    if not any(char.isalpha() for char in line):
         return None
 
-    return text
+    return line
 
 
 def clean_text(text: list[str]) -> list[str]:
@@ -50,7 +50,7 @@ def clean_text(text: list[str]) -> list[str]:
     text = list(filter(None, text))
 
     for line in text:
-        if not (line := _clean_line(line).strip()):
+        if not (line := _clean_line(line)):
             continue
 
         if previous_line and has_line_break(line, previous_line):

@@ -17,8 +17,7 @@ from modules.persons.src.parser.names_parser.last_name_parser import (
     get_next_last_name_without_range,
 )
 from modules.persons.src.parser.names_parser.special_last_names_parser import (
-    find_multi_part_last_names_keyword,
-    handle_multi_part_last_names,
+    merge_last_names_with_prefixes,
 )
 from modules.persons.src.parser.person_parser import parse_person
 
@@ -97,12 +96,9 @@ def parse_persons(page: AddressBookPage) -> list[Person]:
         if is_company(group):
             continue
 
-        if special_last_name_keyword := find_multi_part_last_names_keyword(group.first):
-            group.first = handle_multi_part_last_names(
-                group.first, special_last_name_keyword
-            )
-
         if len(group) in (2, 3):
+            group.first = merge_last_names_with_prefixes(group.first)
+
             if has_valid_last_names_range:
                 group.first, current_last_name = get_next_last_name(
                     group.first, current_last_name, page.last_names_range

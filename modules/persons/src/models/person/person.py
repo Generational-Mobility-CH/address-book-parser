@@ -1,17 +1,7 @@
 import logging
-
+from typing import Optional
 
 from modules.persons.src.models.person.address import Address
-from modules.persons.src.standardizer.first_names_standardizer import (
-    FirstNamesStandardizer,
-)
-from modules.persons.src.standardizer.job_standardizer import JobStandardizer
-from modules.persons.src.standardizer.last_names_standardizer import (
-    LastNamesStandardizer,
-)
-from modules.persons.src.standardizer.street_name_standardizer import (
-    StreetNameStandardizer,
-)
 
 
 logger = logging.getLogger(__name__)
@@ -25,7 +15,7 @@ class Person:
         self.job = job
         self.address = address
         self.year: int = 0
-        self.pdf_page_number: int | None = None
+        self.pdf_page_number: Optional[int] = None
 
     @property
     def original_names(self) -> str:
@@ -101,13 +91,3 @@ class Person:
                 and self.year == other.year
             )
         return False
-
-    def standardize_attributes(self) -> "Person":
-        self.last_names = LastNamesStandardizer().standardize(self.last_names)
-        self.first_names = FirstNamesStandardizer().standardize(self.first_names)
-        self.job = JobStandardizer().standardize(self.job)
-        self.address.street_name = StreetNameStandardizer().standardize(
-            self.address.street_name
-        )
-
-        return self

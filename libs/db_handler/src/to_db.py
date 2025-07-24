@@ -2,35 +2,46 @@ import sqlite3
 from pathlib import Path
 from typing import TypeVar
 
-from libs.db_handler.src.constants.csv_column_names import CLEANED_PERSON_COLUMN_NAMES
+from libs.db_handler.src.constants.db_column_names import DB_COLUMN_NAMES
+from modules.persons.src.models.person.person import Person
 
 T = TypeVar("T")
 
 
-def save_to_db(input_data: list[T], output_file_path: Path) -> None:
+fields_str = ", ".join(f"{field_name} TEXT" for field_name in DB_COLUMN_NAMES)
+placeholders = ", ".join(["?"] * len(DB_COLUMN_NAMES))
+columns = ", ".join(DB_COLUMN_NAMES)
+
+
+def save_to_db(input_data: list[Person], output_file_path: Path) -> None:
     Path(output_file_path).parent.mkdir(parents=True, exist_ok=True)
 
     conn = sqlite3.connect(output_file_path)
     cursor = conn.cursor()
+    cursor.execute(f"CREATE TABLE IF NOT EXISTS persons ({fields_str})")
 
-    table_name = "persons"
-    columns = ", ".join(f"{col} TEXT" for col in CLEANED_PERSON_COLUMN_NAMES)
-
-    cursor.execute(f"""
-        CREATE TABLE IF NOT EXISTS {table_name} (
-            {columns}
-        )
-    """)
-
-    placeholders = ", ".join("?" for _ in CLEANED_PERSON_COLUMN_NAMES)
-    insert_query = f"INSERT INTO {table_name} ({', '.join(CLEANED_PERSON_COLUMN_NAMES)}) VALUES ({placeholders})"
+    # Speed up insertions
+    cursor.execute("PRAGMA synchronous = OFF")
+    cursor.execute("PRAGMA journal_mode = MEMORY")
 
     rows = [
-        tuple(str(getattr(obj, col, "")) for col in CLEANED_PERSON_COLUMN_NAMES)
-        for obj in input_data
+        (
+            str(getattr(person, "last_names", "")),
+            str(getattr(person, "first_names", "")),
+            person.address.street_name,
+            person.address.house_number,
+            str(getattr(person, "job", "")),
+            str(getattr(person, "year", "")),
+            str(getattr(person, "pdf_page_number", "")),
+            str(getattr(person, "original_names", "")),
+        )
+        for person in input_data
     ]
 
-    cursor.executemany(insert_query, rows)
+    cursor.executemany(
+        f"INSERT INTO persons ({columns}) VALUES ({placeholders})",
+        rows,
+    )
 
     conn.commit()
     conn.close()
