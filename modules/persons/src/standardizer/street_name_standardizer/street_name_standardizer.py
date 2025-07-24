@@ -41,4 +41,4 @@ def normalize_street_name(text: str) -> str:
 def correct_spelling(word: str, threshold: int = 80) -> str | None:
     word_list = HISTORICAL_STREET_NAMES_BASEL
     match = process.extractOne(word, word_list, score_cutoff=threshold)
-    return match[0] if match else None
+    return match[0] if match else f"{word}<TODO CORRECT STREET NAME>"
