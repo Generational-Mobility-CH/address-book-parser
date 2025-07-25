@@ -24,16 +24,6 @@ def load_table(db_path: Path, table: str) -> pd.DataFrame:
 
     conn = sqlite3.connect(db_path)
     df = pd.read_sql_query(f"SELECT * FROM {table}", conn)
-    df.columns = [
-        "last_names",
-        "first_names",
-        "street_name",
-        "house_number",
-        "job",
-        "year",
-        "pdf_page_number",
-        "original_names",
-    ]
     conn.close()
 
     return df
