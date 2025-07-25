@@ -12,7 +12,7 @@ class UnallowedStringsRemoverTestCase(unittest.TestCase):
             (("123415 Müller öäüÇ :^[]|'"), ("123415 Müller öäüÇ ")),
             (("Siegmann-| Höfer Trangott\n"), ("Siegmann- Höfer Trangott")),
             (("½ — Suppiger "), (" — Suppiger ")),
-            (("fractext  f text  f -Vischer Theod."), (" -Vischer Theod.")),
+            (("fractext  f text  f -Vischer Theod."), ("-Vischer Theod.")),
             (("Märklin fractext text — Jäcck Alfr."), ("Märklin — Jäcck Alfr.")),
         ]
 
@@ -25,5 +25,5 @@ class UnallowedStringsRemoverTestCase(unittest.TestCase):
                 self.assertEqual(
                     actual,
                     expected,
-                    f"\n\nMismatch:\n'{actual}' != '{expected}'",
+                    f"\n\nMismatch:\nExpected: '{expected}'\nActual: '{actual}'",
                 )

@@ -7,10 +7,9 @@ from modules.persons.src.models.person.person import Person
 
 T = TypeVar("T")
 
-
-fields_str = ", ".join(f"{field_name} TEXT" for field_name in DB_COLUMN_NAMES)
-placeholders = ", ".join(["?"] * len(DB_COLUMN_NAMES))
-columns = ", ".join(DB_COLUMN_NAMES)
+FIELDS_DECLARATION = ", ".join(f"{field_name} TEXT" for field_name in DB_COLUMN_NAMES)
+PLACEHOLDERS = ", ".join(["?"] * len(DB_COLUMN_NAMES))
+COLUMNS_STR = ", ".join(DB_COLUMN_NAMES)
 
 
 def save_to_db(input_data: list[Person], output_file_path: Path) -> None:
@@ -18,9 +17,7 @@ def save_to_db(input_data: list[Person], output_file_path: Path) -> None:
 
     conn = sqlite3.connect(output_file_path)
     cursor = conn.cursor()
-    cursor.execute(f"CREATE TABLE IF NOT EXISTS persons ({fields_str})")
-
-    # Speed up insertions
+    cursor.execute(f"CREATE TABLE IF NOT EXISTS persons ({FIELDS_DECLARATION})")
     cursor.execute("PRAGMA synchronous = OFF")
     cursor.execute("PRAGMA journal_mode = MEMORY")
 
@@ -39,7 +36,7 @@ def save_to_db(input_data: list[Person], output_file_path: Path) -> None:
     ]
 
     cursor.executemany(
-        f"INSERT INTO persons ({columns}) VALUES ({placeholders})",
+        f"INSERT INTO persons ({COLUMNS_STR}) VALUES ({PLACEHOLDERS})",
         rows,
     )
 

@@ -32,16 +32,15 @@ def normalize_street_name(text: str) -> str:
     return text
 
 
-def correct_spelling(
-    word: str, threshold: int = 80, word_list=HISTORICAL_STREET_NAMES_BASEL
-) -> str | None:
+def get_fuzzy_match(word: str, threshold: int = 80) -> str | None:
+    word_list = HISTORICAL_STREET_NAMES_BASEL
     match = process.extractOne(word, word_list, score_cutoff=threshold)
 
     return match[0] if match else None
 
 
 def fix_spelling(text: str) -> str:
-    if corrected_text := correct_spelling(text):
+    if corrected_text := get_fuzzy_match(text):
         return corrected_text
 
     if text in COMMON_MISSPELLED_STREET_NAMES_MAP:
