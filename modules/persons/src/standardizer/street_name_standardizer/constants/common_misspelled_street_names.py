@@ -12,4 +12,15 @@ COMMON_MISSPELLED_STREET_NAMES_MAP = {
     "Nadelbgasse": "Nadelberg",
     "Riehenteichweg": "Riehenteichstrasse",
     "Thierst-Allee": "Thiersteinerallee",
+    "Johannringweg": "St. Johanns-Rheinweg",
+    "Hint Gotterbarmweg": "Eugen Wullschleger-Strasse",
+    "Langasseegasse": "Lange Gasse",
+    "Spaleningasse": "Spalenberg",
+    "Spalenbgasse": "Spalenberg",
+    # Info: replace later for georeferencing (GitHub Issue #47)
+    "Gotterbarmweg": "Gotterbarmweg",
+    "Müllerweg": "Müllerweg",
+    "Militärstrasse": "Militärstrasse",
+    "Petersberg": "Petersberg",
+    "Schwanengasse": "Schwanengasse",
 }
