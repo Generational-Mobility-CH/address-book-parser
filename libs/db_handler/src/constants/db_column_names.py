@@ -1,4 +1,4 @@
-DB_COLUMN_NAMES = {
+DB_COLUMN_NAMES = [
     "last_names",
     "first_names",
     "street_name",
@@ -7,4 +7,4 @@ DB_COLUMN_NAMES = {
     "year",
     "pdf_page_number",
     "original_names",
-}
+]

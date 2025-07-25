@@ -1,4 +1,4 @@
-STREET_NAME_SUFFIXES_MAP = {
+STREET_NAME_SUFFIXES_ABBREVIATION_MAP = {
     "g": "gasse",
     "gässl": "gässlein",
     "gr": "graben",
@@ -7,7 +7,6 @@ STREET_NAME_SUFFIXES_MAP = {
     "vorst": "vorstadt",
     "vor": "vorstadt",
     "w": "weg",
-    # TODO: "unt": "Untere",
 }
 
-STREET_NAME_SUFFIXES_EXCLUSIONS = {"berg", "egg", "rain", "ring", "thal", "weg"}
+# TODO: "unt": "Untere", "obere", hinterer, vorderer
