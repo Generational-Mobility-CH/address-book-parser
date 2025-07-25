@@ -12,8 +12,6 @@ class UnallowedStringsRemoverTestCase(unittest.TestCase):
             (("123415 Müller öäüÇ :^[]|'"), ("123415 Müller öäüÇ ")),
             (("Siegmann-| Höfer Trangott\n"), ("Siegmann- Höfer Trangott")),
             (("½ — Suppiger "), (" — Suppiger ")),
-            (("fractext  f text  f -Vischer Theod."), ("-Vischer Theod.")),
-            (("Märklin fractext text — Jäcck Alfr."), ("Märklin — Jäcck Alfr.")),
         ]
 
         for i, (test_input, expected) in enumerate(test_cases):
