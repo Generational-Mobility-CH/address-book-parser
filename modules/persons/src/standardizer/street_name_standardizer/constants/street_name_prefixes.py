@@ -1,4 +1,4 @@
-prefixes = {
+STREET_NAME_PREFIXES = {
     "am",
     "an der",
     "auf dem",
@@ -9,4 +9,10 @@ prefixes = {
     "im",
     "in",
     "in der",
+    "untere",
+    "obere",
 }
+STREET_NAME_PREFIXES_ABBREVIATION_MAP = {
+    "unt": "untere",
+}
+# TODO: "obere", hinterer, vorderer

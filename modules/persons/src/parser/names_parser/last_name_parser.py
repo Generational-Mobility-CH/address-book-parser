@@ -11,11 +11,11 @@ from modules.persons.src.parser.names_parser.constants.names_special_keywords im
 logger = logging.getLogger(__name__)
 
 
-def _contains_umlaute(input_string: str) -> bool:
+def _contains_umlauts(input_string: str) -> bool:
     return any(char in GERMAN_UMLAUTE_MAP for char in input_string.lower())
 
 
-def _replace_umlaute(text: str) -> str:
+def _replace_umlauts(text: str) -> str:
     return "".join(GERMAN_UMLAUTE_MAP.get(char, char) for char in text.lower()).title()
 
 
@@ -29,12 +29,12 @@ def _find_last_name_in_str(text: str) -> str:
     first_part = name_parts[0]
 
     if "-" in first_part:
-        first_subparts = [p for p in first_part.split("-", 1) if bool(p)]
-        if not first_subparts:
+        first_sub_parts = [p for p in first_part.split("-", 1) if bool(p)]
+        if not first_sub_parts:
             logger.warning(f"Could not get last name from {text}")
             return text
 
-        first_part = first_subparts[0]
+        first_part = first_sub_parts[0]
 
     return first_part
 
@@ -85,7 +85,7 @@ def _is_valid_next_last_name_legacy(current: str, previous: str) -> bool:
 
 def prepare_str_for_comparison(text: str) -> str:
     text = text.strip()
-    text = _replace_umlaute(text) if _contains_umlaute(text) else text
+    text = _replace_umlauts(text) if _contains_umlauts(text) else text
     text = text.lower()
 
     return text

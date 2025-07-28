@@ -1,56 +1,67 @@
 from logging import getLogger
 
-from rapidfuzz import process
+from fuzzywuzzy import process
 
-from modules.persons.src.standardizer.street_name_standardizer.constants.common_misspelled_street_names import (
-    COMMON_MISSPELLED_STREET_NAMES_MAP,
+from modules.persons.src.standardizer.street_name_standardizer.constants.corrected_street_names import (
+    CORRECTED_STREET_NAMES_MAP,
 )
 from modules.persons.src.standardizer.street_name_standardizer.constants.historical_street_names_basel import (
     HISTORICAL_STREET_NAMES_BASEL,
 )
-from modules.persons.src.standardizer.street_name_standardizer.constants.street_name_suffixes_abbreviations import (
-    STREET_NAME_SUFFIXES_ABBREVIATION_MAP,
+from modules.persons.src.standardizer.street_name_standardizer.constants.street_name_prefixes import (
+    STREET_NAME_PREFIXES_ABBREVIATION_MAP,
 )
 from modules.persons.src.standardizer.street_name_standardizer.constants.street_name_suffixes import (
     STREET_NAME_SUFFIXES,
+    STREET_NAME_SUFFIXES_ABBREVIATION_MAP,
 )
 from modules.persons.src.util.regex.substitute_with_map import substitute_with_map
 
 logger = getLogger(__name__)
 
 
-def normalize_street_name(text: str) -> str:
-    text = text.replace(".", "").strip()
+def standardize_street_name_suffixes_and_prefixes(text: str) -> str:
+    text = text.replace(".", "").strip().lower()
 
-    if any(suffix in text.lower() for suffix in STREET_NAME_SUFFIXES):
-        return text
+    text = substitute_with_map(
+        text, STREET_NAME_PREFIXES_ABBREVIATION_MAP, r"^{PLACEHOLDER}\b"
+    )
+
+    if text.startswith("st "):
+        text = text.replace("st ", "St. ")
+
+    if any(text.endswith(suffix) for suffix in STREET_NAME_SUFFIXES):
+        return text.title()
 
     text = substitute_with_map(
         text, STREET_NAME_SUFFIXES_ABBREVIATION_MAP, r"{PLACEHOLDER}$"
     )
 
-    return text
+    return text.title()
 
 
-def get_fuzzy_match(word: str, threshold: int = 80) -> str | None:
-    word_list = HISTORICAL_STREET_NAMES_BASEL
-    match = process.extractOne(word, word_list, score_cutoff=threshold)
+def get_fuzzy_match(word: str) -> str | None:
+    threshold = 70
+    word = word.lower()
+    match = process.extractOne(
+        word, HISTORICAL_STREET_NAMES_BASEL, score_cutoff=threshold
+    )
 
     return match[0] if match else None
 
 
 def fix_spelling(text: str) -> str:
+    if text in CORRECTED_STREET_NAMES_MAP:
+        return CORRECTED_STREET_NAMES_MAP[text]
+
     if corrected_text := get_fuzzy_match(text):
         return corrected_text
-
-    if text in COMMON_MISSPELLED_STREET_NAMES_MAP:
-        return COMMON_MISSPELLED_STREET_NAMES_MAP[text]
 
     return f"{text}<TODO FIX SPELLING>"
 
 
 def standardize_street_name(text: str) -> str:
-    text = normalize_street_name(text)
+    text = standardize_street_name_suffixes_and_prefixes(text)
 
     if text not in HISTORICAL_STREET_NAMES_BASEL:
         return fix_spelling(text)
