@@ -13,6 +13,8 @@ from libs.file_handler.src.models.supported_file_types import SupportedFileTypes
 from modules.persons.src.cleaner.person_cleaner.person_cleaner import clean_person
 from modules.persons.src.common.logger import setup_logging
 from modules.persons.src.common.paths import INPUT_PATH, OUTPUT_PATH, DATA_PATH
+from modules.persons.src.models.person.person import Person
+from modules.persons.src.parser.constants.tags import TAG_NONE_FOUND
 from modules.persons.src.parser.parser import parse_address_book
 from modules.persons.src.standardizer.standardizer import standardize
 from modules.persons.src.util.get_subdirectories import get_subdirectories
@@ -30,20 +32,31 @@ def main(
     extractor = JsonExtractor()
 
     for path in all_paths:
-        book = extractor.extract(path)
+        book = extractor.extract(path)  # TODO: use functional programming style
         raw_persons = parse_address_book(book)
         cleaned_persons = [clean_person(p) for p in raw_persons]
         standardized_persons = [standardize(p) for p in cleaned_persons]
 
-        match output_type:
-            case SupportedFileTypes.DB:
-                save_to_db(standardized_persons, output_path)
-            case SupportedFileTypes.CSV:
-                save_to_csv(standardized_persons, output_path, csv_column_names)
+        save_persons(standardized_persons, output_path, output_type, csv_column_names)
 
-        logger.info(
-            f"Saved persons from year '{book.year}' to {output_type.value} at {output_path}"
-        )
+
+def save_persons(
+    persons: list[Person],
+    output_path: Path,
+    output_type: SupportedFileTypes,
+    csv_column_names: Optional[list[str]] = None,
+):
+    match output_type:
+        case SupportedFileTypes.DB:
+            save_to_db(persons, output_path)
+        case SupportedFileTypes.CSV:
+            save_to_csv(persons, output_path, csv_column_names)
+
+    year = persons[0].year if persons else TAG_NONE_FOUND
+
+    logger.info(
+        f"Saved persons from year '{year}' to '{output_type.value}' at '{output_path}'"
+    )
 
 
 if __name__ == "__main__":

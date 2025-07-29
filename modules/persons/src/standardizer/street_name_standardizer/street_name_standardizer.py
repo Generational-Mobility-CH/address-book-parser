@@ -63,7 +63,7 @@ def fix_spelling(text: str) -> str:
 def standardize_street_name(text: str) -> str:
     text = standardize_street_name_suffixes_and_prefixes(text)
 
-    if text not in HISTORICAL_STREET_NAMES_BASEL:
+    if bool(text) and text not in HISTORICAL_STREET_NAMES_BASEL:
         return fix_spelling(text)
 
     return text
