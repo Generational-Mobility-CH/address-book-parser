@@ -1,10 +1,11 @@
 import logging
+from pathlib import Path
 
-from modules.persons.src.common.paths import DATA_PATH
 
+def setup_logging(log_file_name: str, log_path: Path) -> None:
+    log_path.mkdir(parents=True, exist_ok=True)
 
-def setup_logging(log_file_name: str = "app"):
-    log_file = (DATA_PATH / log_file_name).with_suffix(".log")
+    log_file = (log_path / log_file_name).with_suffix(".log")
 
     logging.basicConfig(
         level=logging.INFO,
