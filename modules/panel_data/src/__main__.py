@@ -1,17 +1,46 @@
+import sqlite3
+import time
+import pandas as pd
+
+from datetime import datetime
+from logging import getLogger
 from pathlib import Path
+from time import strftime
 
 from libs.db_handler.src.open_db import load_table, get_latest_db_file
-from modules.panel_data.src.year_linker.year_linker import link_two_years
-from modules.persons.src.common.paths import DATA_PATH
+from modules.panel_data.src.year_linker.data_wrangler import wrangle_dataset
+from modules.persons.src.common.logger import setup_logging
+from modules.persons.src.common.paths import DATA_PATH, PROJECT_ROOT_PATH
+
+logger = getLogger(__name__)
 
 
-def main(data_path: Path) -> None:
-    df = load_table(data_path, "persons")
-    print(df.head())
-    link_two_years("1920", "1921", df)
+def main(input_path: Path, output_path: Path) -> None:
+    df = load_table(input_path, "persons")
+    df = wrangle_dataset(df)
+    print(input_path)
+    with pd.option_context("display.max_columns", None):
+        print(df.head())
+
+    df.to_sql("persons", sqlite3.connect(output_path), if_exists="replace", index=False)
+
+    # link_two_years("1920", "1921", df)
 
 
 if __name__ == "__main__":
     db_dir = DATA_PATH / "output" / "db"
-    latest_db_path = get_latest_db_file(db_dir)
-    main(latest_db_path)
+    demo_input_path = get_latest_db_file(db_dir)
+    time_stamp = f"{datetime.now():%b %d - %H%M}"
+    demo_output_path_db = (
+        Path(PROJECT_ROOT_PATH) / "modules" / "panel_data" / "dump" / f"{time_stamp}.db"
+    )
+    demo_output_path_log = Path(PROJECT_ROOT_PATH) / "modules" / "panel_data" / "dump"
+
+    setup_logging(time_stamp, demo_output_path_log)
+    start_time = time.time()
+
+    main(demo_input_path, demo_output_path_db)
+
+    logger.info(
+        strftime("Execution time: %M min %S s", time.gmtime(time.time() - start_time))
+    )
