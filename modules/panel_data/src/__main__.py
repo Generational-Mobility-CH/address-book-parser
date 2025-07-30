@@ -36,7 +36,7 @@ if __name__ == "__main__":
     )
     demo_output_path_log = Path(PROJECT_ROOT_PATH) / "modules" / "panel_data" / "dump"
 
-    setup_logging(time_stamp, demo_output_path_log)
+    setup_logging(time_stamp)
     start_time = time.time()
 
     main(demo_input_path, demo_output_path_db)
