@@ -2,6 +2,7 @@ from logging import getLogger
 
 from fuzzywuzzy import process
 
+from modules.persons.src.parser.constants.tags import TAG_NONE_FOUND
 from modules.persons.src.standardizer.street_name_standardizer.constants.corrected_street_names import (
     CORRECTED_STREET_NAMES_MAP,
 )
@@ -63,7 +64,11 @@ def fix_spelling(text: str) -> str:
 def standardize_street_name(text: str) -> str:
     text = standardize_street_name_suffixes_and_prefixes(text)
 
-    if bool(text) and text not in HISTORICAL_STREET_NAMES_BASEL:
+    if (
+        bool(text)
+        and text not in HISTORICAL_STREET_NAMES_BASEL
+        and text.lower() != TAG_NONE_FOUND.lower()
+    ):
         return fix_spelling(text)
 
     return text

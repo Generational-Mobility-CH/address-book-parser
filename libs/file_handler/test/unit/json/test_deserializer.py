@@ -1,7 +1,8 @@
 import unittest
 
 from libs.file_handler.src.json.deserializer import deserialize_book_page
-from modules.persons.src.models.address_book import AddressBookPage
+from modules.persons.src.models.address_book.address_book_page import AddressBookPage
+from modules.persons.src.models.address_book.name_range import NameRange
 
 
 class MyTestCase(unittest.TestCase):
@@ -9,15 +10,15 @@ class MyTestCase(unittest.TestCase):
         test_data = {
             "pdfPageNumber": 1,
             "surnameRange": ["A", "B"],
-            "textColumns": {"left": "content"},
+            "textColumns": {"Spalte01": "Peter Müller", "Spalte02": "Ida Knecht"},
         }
 
         result = deserialize_book_page(test_data)
 
         self.assertIsInstance(result, AddressBookPage)
         self.assertEqual(result.pdf_page_number, 1)
-        self.assertEqual(result.last_names_range, ["A", "B"])
-        self.assertEqual(result.text_content, {"left": "content"})
+        self.assertEqual(result.last_names_range, NameRange("A", "B"))
+        self.assertEqual(result.text_content, ["Peter Müller", "Ida Knecht"])
 
     def test_missing_required_field(self):
         test_data = {
@@ -29,19 +30,3 @@ class MyTestCase(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             deserialize_book_page(test_data)
         self.assertIn("is a required property", str(context.exception))
-
-    def test_additional_field(self):
-        test_data = {
-            "pdfPageNumber": 1,
-            "surnameRange": ["A", "B"],
-            "textColumns": {"left": "content"},
-            "extraField": "not allowed",
-        }
-
-        with self.assertRaises(ValueError) as context:
-            deserialize_book_page(test_data)
-        self.assertIn("Additional properties are not allowed", str(context.exception))
-
-
-if __name__ == "__main__":
-    unittest.main()

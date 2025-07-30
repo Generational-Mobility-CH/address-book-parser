@@ -14,5 +14,7 @@ STREET_NAME_PREFIXES = {
 }
 STREET_NAME_PREFIXES_ABBREVIATION_MAP = {
     "unt": "untere",
+    "hint": "hintere",
+    "ob": "obere",
+    "vord": "vordere",
 }
-# TODO: "obere", hinterer, vorderer

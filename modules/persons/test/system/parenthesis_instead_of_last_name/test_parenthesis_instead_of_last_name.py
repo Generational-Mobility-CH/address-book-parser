@@ -8,7 +8,7 @@ from system.util.assert_csv_files_are_equal import assert_csv_files_are_equal
 
 class ParenthesisInsteadOfLastNameTestCase(unittest.TestCase):
     def test_parenthesis_instead_of_last_name(self) -> None:
-        test_dir = Path("system/parenthesis_instead_of_last_name")
+        test_dir = Path("system") / "parenthesis_instead_of_last_name"
         test_input = test_dir / "fixtures"
         expected = test_input / "expected.csv"
         actual = test_dir / "actual.csv"

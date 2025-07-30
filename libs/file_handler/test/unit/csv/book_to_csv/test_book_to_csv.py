@@ -7,21 +7,14 @@ from system.util.assert_csv_files_are_equal import assert_csv_files_are_equal
 
 
 class TemplateBugReproductionTestCase(unittest.TestCase):
-    def test_bug(self) -> None:
-        test_dir = Path("system/template_bug_reproduction")
+    def test_when_no_give_column_names_then_all_attribute_names_are_deduced(
+        self,
+    ) -> None:
+        test_dir = Path("unit/csv/book_to_csv")
         test_input = test_dir / "fixtures"
         expected = test_input / "expected.csv"
         actual = test_dir / "actual.csv"
-        relevant_columns = [
-            "original_names",
-            "last_names",
-            "first_names",
-            # "job",
-            # "address",
-            # "year",
-            # "pdf_page_number",
-        ]
 
-        main(test_input, actual, SupportedFileTypes.CSV, relevant_columns)
+        main(test_input, actual, SupportedFileTypes.CSV)
 
         assert_csv_files_are_equal(expected, actual)

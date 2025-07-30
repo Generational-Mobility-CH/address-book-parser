@@ -2,12 +2,13 @@ import re
 
 
 ENDS_WITH_DASH_OR_DIGIT = re.compile(r"[-\d]$")
-STARTS_WITH_DIGIT = re.compile(r"^\s*\d")
+STARTS_WITH_DIGIT_AND_IS_NOT_PAGE_START = re.compile(r"\b\d+\s*[^\d*\s*-]")
 
 
 def has_line_break(line: str, previous_line: str) -> bool:
     return bool(line) and (
-        ENDS_WITH_DASH_OR_DIGIT.search(previous_line) or STARTS_WITH_DIGIT.match(line)
+        ENDS_WITH_DASH_OR_DIGIT.search(previous_line)
+        or STARTS_WITH_DIGIT_AND_IS_NOT_PAGE_START.match(line)
     )
 
 

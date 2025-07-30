@@ -24,6 +24,14 @@ class HandleLineBreaksTestCase(unittest.TestCase):
                 ["Struchen-Müller Emanuel, Schuhmacher, 93 Elsässerstr.", "abc"],
                 tag_no_line_break,
             ),
+            (
+                ["Müller-Egger Friedr., Tagl., 88 Amerbachstr.", "7 - Ammann"],
+                tag_no_line_break,
+            ),
+            (
+                ["Müller-Egger Friedr., Tagl., 88 Amerbachstr.", "22-Lämmli"],
+                tag_no_line_break,
+            ),
         ]
 
         for i, (test_input, expected) in enumerate(test_cases):

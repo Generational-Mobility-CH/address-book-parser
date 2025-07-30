@@ -18,7 +18,7 @@ def save_to_db(input_data: list[Person], output_file_path: Path) -> None:
     conn = sqlite3.connect(output_file_path)
     cursor = conn.cursor()
     cursor.execute(f"CREATE TABLE IF NOT EXISTS persons ({FIELDS_DECLARATION})")
-    cursor.execute("PRAGMA synchronous = OFF")  # evt. turn off
+    cursor.execute("PRAGMA synchronous = OFF")
     cursor.execute("PRAGMA journal_mode = MEMORY")
 
     rows = [
