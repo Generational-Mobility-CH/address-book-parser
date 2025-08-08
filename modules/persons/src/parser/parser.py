@@ -42,50 +42,15 @@ def _group_data(data: list[str]) -> list[PersonDataParts]:
     return result
 
 
-def parse_address_book(address_book: AddressBook) -> list[Person]:
-    persons_collection: list[Person] = []
-
-    if len(address_book.pages) < 1:
-        logger.warning(f"No pages found. Skipping book for year {address_book.year}.")
-        return persons_collection
-
-    pages_collection = address_book.pages
-    first_page = address_book.pages[0]
-
-    first_page.last_names_range = NameRange(
-        start="A", end=find_next_valid_name_range_start_or_end(pages_collection, 1)
-    )
-
-    persons_collection.extend(parse_address_book_page(first_page))
-
-    for page_index in range(1, len(pages_collection)):
-        page = address_book.pages[page_index]
-        logger.debug(f"Parsing page {page.pdf_page_number} from year {page.year}...")
-
-        if not is_valid_last_name_range(page.last_names_range):
-            if found_next_valid_range := find_next_valid_name_range(
-                pages_collection, page_index
-            ):
-                page.last_names_range = found_next_valid_range
-            else:
-                logger.warning(
-                    f"Could not approximate 'NameRange' for {address_book.year}-page_{page.pdf_page_number}"
-                )
-
-        persons_collection.extend(parse_address_book_page(page))
-
-    return persons_collection
-
-
-def parse_address_book_page(page: AddressBookPage) -> list[Person]:
+def _parse_address_book_page(page: AddressBookPage) -> list[Person]:
     splitted_lines = [line for text in page.text_content for line in text.split("\n")]
     cleaned_lines = clean_text(splitted_lines)
     page.text_content = cleaned_lines
 
-    return parse_persons(page)
+    return _parse_persons(page)
 
 
-def parse_persons(page: AddressBookPage) -> list[Person]:
+def _parse_persons(page: AddressBookPage) -> list[Person]:
     output = []
     current_last_name = ""
     previous_last_name = ""
@@ -114,6 +79,42 @@ def parse_persons(page: AddressBookPage) -> list[Person]:
             person.year = page.year
             person.pdf_page_number = page.pdf_page_number
 
-            output.append(person)
+            if person not in output:
+                output.append(person)
 
     return output
+
+
+def parse_address_book(address_book: AddressBook) -> list[Person]:
+    persons_collection: list[Person] = []
+
+    if len(address_book.pages) < 1:
+        logger.warning(f"No pages found. Skipping book for year {address_book.year}.")
+        return persons_collection
+
+    pages_collection = address_book.pages
+    first_page = address_book.pages[0]
+
+    first_page.last_names_range = NameRange(
+        start="A", end=find_next_valid_name_range_start_or_end(pages_collection, 1)
+    )
+
+    persons_collection.extend(_parse_address_book_page(first_page))
+
+    for page_index in range(1, len(pages_collection)):
+        page = address_book.pages[page_index]
+        logger.debug(f"Parsing page {page.pdf_page_number} from year {page.year}...")
+
+        if not is_valid_last_name_range(page.last_names_range):
+            if found_next_valid_range := find_next_valid_name_range(
+                pages_collection, page_index
+            ):
+                page.last_names_range = found_next_valid_range
+            else:
+                logger.warning(
+                    f"Could not approximate 'NameRange' for {address_book.year}-page_{page.pdf_page_number}"
+                )
+
+        persons_collection.extend(_parse_address_book_page(page))
+
+    return persons_collection
