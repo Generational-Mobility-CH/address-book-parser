@@ -43,6 +43,7 @@ def main(
         save_persons(standardized_persons, output_path, output_type, csv_column_names)
 
 
+# TODO: put this in another module
 def save_persons(
     persons: list[Person],
     output_path: Path,

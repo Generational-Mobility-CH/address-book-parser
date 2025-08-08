@@ -7,6 +7,7 @@ from modules.persons.src.models.person.person import Person
 
 T = TypeVar("T")
 
+# TODO: make column definition variable (e.g. pass as argument) instead of using const file
 FIELDS_DECLARATION = ", ".join(f"{field_name} TEXT" for field_name in DB_COLUMN_NAMES)
 PLACEHOLDERS = ", ".join(["?"] * len(DB_COLUMN_NAMES))
 COLUMNS_STR = ", ".join(DB_COLUMN_NAMES)

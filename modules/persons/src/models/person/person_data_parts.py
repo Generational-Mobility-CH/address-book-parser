@@ -1,6 +1,7 @@
 from typing import Optional, Iterator, List
 
 
+# TODO: is this class really necessary? (GitHub issue #4)
 class PersonDataParts:
     def __init__(self, first: str, second: str, third: Optional[str] = None):
         self.first = first

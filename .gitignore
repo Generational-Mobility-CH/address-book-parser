@@ -1,5 +1,6 @@
 .idea
-data/input/json
+data/address-books/basel
+data/persons
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -153,3 +154,4 @@ fabric.properties
 
 # PyPI configuration file
 .pypirc
+/data/address-books/basel/
