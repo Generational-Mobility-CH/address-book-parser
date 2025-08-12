@@ -1,8 +1,5 @@
 from logging import getLogger
 
-from modules.panel_data.src.names_handling.special_last_names_parser import (
-    merge_last_names_with_prefixes,
-)
 from modules.persons.src.cleaner.text_cleaner.text_cleaner import clean_text
 from modules.persons.src.models.address_book.address_book import AddressBook
 from modules.persons.src.models.address_book.address_book_page import AddressBookPage
@@ -63,8 +60,6 @@ def _parse_persons(page: AddressBookPage) -> list[Person]:
             continue
 
         if len(group) in (2, 3):
-            group.first = merge_last_names_with_prefixes(group.first)
-
             if has_valid_last_names_range:
                 group.first, current_last_name = get_next_last_name(
                     group.first, current_last_name, page.last_names_range

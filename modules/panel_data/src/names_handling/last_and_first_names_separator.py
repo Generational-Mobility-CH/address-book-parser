@@ -5,6 +5,9 @@ from modules.panel_data.src.names_handling.constants.names_special_keywords impo
     KEYWORDS_NAMES_SEPARATOR,
     KEYWORDS_DIVORCED,
 )
+from modules.panel_data.src.names_handling.special_last_names_parser import (
+    merge_last_names_with_prefixes,
+)
 from modules.persons.src.util.regex.apply_regex_patterns import apply_regex_patterns
 from modules.persons.src.cleaner.text_cleaner.words_separator import (
     SEPARATE_WORDS_PATTERNS_AND_REPL,
@@ -90,6 +93,7 @@ def separate_names_legacy(original_names: str) -> PersonNames:
     original_names = apply_regex_patterns(
         original_names, SEPARATE_WORDS_PATTERNS_AND_REPL
     ).strip()
+    original_names = merge_last_names_with_prefixes(original_names)
 
     if divorced_keyword := _find_divorced_keyword(original_names):
         original_names = _handle_divorced(original_names, divorced_keyword)
