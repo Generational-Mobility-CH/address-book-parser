@@ -1,5 +1,8 @@
 from logging import getLogger
 
+from modules.panel_data.src.names_parser.special_last_names_parser import (
+    merge_last_names_with_prefixes,
+)
 from modules.persons.src.cleaner.text_cleaner.text_cleaner import clean_text
 from modules.persons.src.models.address_book.address_book import AddressBook
 from modules.persons.src.models.address_book.address_book_page import AddressBookPage
@@ -7,18 +10,16 @@ from modules.persons.src.models.person.person_data_parts import PersonDataParts
 from modules.persons.src.models.address_book.name_range import NameRange
 from modules.persons.src.models.person.person import Person
 from modules.persons.src.parser.company_parser import is_company
+from modules.persons.src.parser.last_name_parser import (
+    get_next_last_name_without_range,
+    get_next_last_name,
+)
 from modules.persons.src.parser.name_range_handler import (
     find_next_valid_name_range_start_or_end,
     is_valid_last_name_range,
     find_next_valid_name_range,
 )
-from modules.persons.src.parser.names_parser.last_name_parser import (
-    get_next_last_name,
-    get_next_last_name_without_range,
-)
-from modules.persons.src.parser.names_parser.special_last_names_parser import (
-    merge_last_names_with_prefixes,
-)
+
 from modules.persons.src.parser.person_parser import parse_person
 
 

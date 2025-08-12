@@ -1,4 +1,3 @@
-PLACEHOLDERS_LAST_NAME = ("—", "-")
 KEYWORDS_DIVORCED = {
     "(geschieden",
     "geschieden",

@@ -1,22 +1,12 @@
 import logging
 
+from modules.persons.src.parser.constants.last_name_placeholders import (
+    LAST_NAME_PLACEHOLDERS,
+)
 from modules.persons.src.models.address_book.name_range import NameRange
-from modules.persons.src.parser.names_parser.constants.german_vowels import (
-    GERMAN_UMLAUTE_MAP,
-)
-from modules.persons.src.parser.names_parser.constants.names_special_keywords import (
-    PLACEHOLDERS_LAST_NAME,
-)
+from modules.shared.util.prepare_str_for_comparison import prepare_str_for_comparison
 
 logger = logging.getLogger(__name__)
-
-
-def _contains_umlauts(input_string: str) -> bool:
-    return any(char in GERMAN_UMLAUTE_MAP for char in input_string.lower())
-
-
-def _replace_umlauts(text: str) -> str:
-    return "".join(GERMAN_UMLAUTE_MAP.get(char, char) for char in text.lower()).title()
 
 
 def _find_last_name_in_str(text: str) -> str:
@@ -44,7 +34,7 @@ def _extract_other_names(text: str) -> str:
         case _ if text[1].isalpha():
             result = " " + text[1:]
         case " ":
-            if text[2] in PLACEHOLDERS_LAST_NAME:
+            if text[2] in LAST_NAME_PLACEHOLDERS:
                 result = text[2:]
             else:
                 result = text[1:]
@@ -83,14 +73,6 @@ def _is_valid_next_last_name_legacy(current: str, previous: str) -> bool:
     return False
 
 
-def prepare_str_for_comparison(text: str) -> str:
-    text = text.strip()
-    text = _replace_umlauts(text) if _contains_umlauts(text) else text
-    text = text.lower()
-
-    return text
-
-
 def get_next_last_name(
     all_names: str, current_last_name: str, last_names_range: NameRange
 ) -> tuple[str, str]:
@@ -102,7 +84,7 @@ def get_next_last_name(
             else last_names_range.start
         )
 
-    if all_names.startswith(PLACEHOLDERS_LAST_NAME):
+    if all_names.startswith(LAST_NAME_PLACEHOLDERS):
         all_names = current_last_name + _extract_other_names(all_names)
     elif _is_valid_next_last_name(all_names, last_names_range):
         current_last_name = _find_last_name_in_str(all_names)
@@ -123,7 +105,7 @@ def get_next_last_name_without_range(
             _find_last_name_in_str(all_names),
         )
 
-    if all_names.startswith(PLACEHOLDERS_LAST_NAME):
+    if all_names.startswith(LAST_NAME_PLACEHOLDERS):
         all_names = current_last_name + _extract_other_names(all_names)
     elif all_names.startswith("("):
         all_names = current_last_name + " " + all_names

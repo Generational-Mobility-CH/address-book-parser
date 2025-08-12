@@ -1,11 +1,6 @@
+from modules.shared.util.prepare_str_for_comparison import prepare_str_for_comparison
 from modules.persons.src.models.address_book.address_book_page import AddressBookPage
 from modules.persons.src.models.address_book.name_range import NameRange
-from modules.persons.src.parser.names_parser.constants.german_vowels import (
-    GERMAN_VOWELS,
-)
-from modules.persons.src.parser.names_parser.last_name_parser import (
-    prepare_str_for_comparison,
-)
 
 
 NAME_RANGE_FOR_I_J = NameRange("H", "K")
@@ -17,6 +12,7 @@ def _starts_with_i_or_j_and_vowel(name_range: NameRange) -> bool:
     ["Itin", "Jungck"] or ["Jenny", "Iffenthaler"]
     (this is the way they are written in the original address book).
     """
+    german_vowels = set("aeiouäöü")
     start = name_range.start
     end = name_range.end
 
@@ -24,7 +20,7 @@ def _starts_with_i_or_j_and_vowel(name_range: NameRange) -> bool:
         return False
 
     if start[0].lower() in set("ij") and end[0].lower() in set("ij"):
-        if start[1].lower() in GERMAN_VOWELS or end[1].lower() in GERMAN_VOWELS:
+        if start[1].lower() in german_vowels or end[1].lower() in german_vowels:
             return True
 
     return False

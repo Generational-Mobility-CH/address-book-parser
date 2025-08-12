@@ -1,7 +1,7 @@
 import unittest
 
+from modules.panel_data.src.names_parser.names_parser import parse_names
 from modules.persons.src.models.person.person_names import PersonNames
-from modules.persons.src.parser.names_parser.names_parser import parse_names
 
 
 class NamesSeparatorTest(unittest.TestCase):
