@@ -14,18 +14,24 @@ from modules.panel_data.src.common.paths import (
 )
 from modules.panel_data.src.year_linker.data_wrangler import wrangle_dataset
 from modules.persons.src.common.logger import setup_logging
+from modules.shared.database_table_names import PERSONS_ENTRIES_TABLE
 
 logger = getLogger(__name__)
 
 
 def main(input_path: Path, output_path: Path) -> None:
-    df = load_table(input_path, "persons")
+    df = load_table(input_path, PERSONS_ENTRIES_TABLE)
     df = wrangle_dataset(df)
     print(input_path)
     with pd.option_context("display.max_columns", None):
         print(df.head())
 
-    df.to_sql("persons", sqlite3.connect(output_path), if_exists="replace", index=False)
+    df.to_sql(
+        PERSONS_ENTRIES_TABLE,
+        sqlite3.connect(output_path),
+        if_exists="replace",
+        index=False,
+    )
 
     # link_two_years("1920", "1921", df)
 

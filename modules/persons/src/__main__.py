@@ -24,6 +24,7 @@ from modules.persons.src.street_name_standardizer.street_name_standardizer impor
     standardize_street_name,
 )
 from modules.persons.src.util.get_subdirectories import get_subdirectories
+from modules.shared.database_table_names import PERSONS_ENTRIES_TABLE
 
 logger = getLogger(__name__)
 
@@ -57,7 +58,7 @@ def save_persons(
 ):
     match output_type:
         case SupportedFileTypes.DB:
-            save_to_db(persons, output_path)
+            save_to_db(persons, output_path, PERSONS_ENTRIES_TABLE)
         case SupportedFileTypes.CSV:
             save_to_csv(persons, output_path, csv_column_names)
 

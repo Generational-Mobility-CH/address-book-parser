@@ -13,12 +13,14 @@ PLACEHOLDERS = ", ".join(["?"] * len(DB_COLUMN_NAMES))
 COLUMNS_STR = ", ".join(DB_COLUMN_NAMES)
 
 
-def save_to_db(input_data: list[Person], output_file_path: Path) -> None:
+def save_to_db(
+    input_data: list[Person], output_file_path: Path, table_name: str
+) -> None:
     Path(output_file_path).parent.mkdir(parents=True, exist_ok=True)
 
     conn = sqlite3.connect(output_file_path)
     cursor = conn.cursor()
-    cursor.execute(f"CREATE TABLE IF NOT EXISTS persons ({FIELDS_DECLARATION})")
+    cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({FIELDS_DECLARATION})")
     cursor.execute("PRAGMA synchronous = OFF")
     cursor.execute("PRAGMA journal_mode = MEMORY")
 
@@ -37,7 +39,7 @@ def save_to_db(input_data: list[Person], output_file_path: Path) -> None:
     ]
 
     cursor.executemany(
-        f"INSERT INTO persons ({COLUMNS_STR}) VALUES ({PLACEHOLDERS})",
+        f"INSERT INTO {table_name} ({COLUMNS_STR}) VALUES ({PLACEHOLDERS})",
         rows,
     )
 
