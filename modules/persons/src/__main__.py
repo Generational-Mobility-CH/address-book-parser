@@ -10,7 +10,7 @@ from libs.db_handler.src.to_db import save_to_db
 from libs.file_handler.src.csv.to_csv import save_to_csv
 from libs.file_handler.src.json.extractor import JsonExtractor
 from libs.file_handler.src.models.supported_file_types import SupportedFileTypes
-from modules.persons.src.cleaner.person_cleaner.person_cleaner import clean_person
+from modules.persons.src.cleaner.person_cleaner.person_cleaner import clean_row
 from modules.persons.src.common.logger import setup_logging
 from modules.persons.src.common.paths import (
     PERSONS_INPUT_PATH,
@@ -20,7 +20,9 @@ from modules.persons.src.common.paths import (
 from modules.persons.src.models.person.person import Person
 from modules.persons.src.parser.constants.tags import TAG_NONE_FOUND
 from modules.persons.src.parser.parser import parse_address_book
-from modules.persons.src.standardizer.standardizer import standardize
+from modules.persons.src.street_name_standardizer.street_name_standardizer import (
+    standardize_street_name,
+)
 from modules.persons.src.util.get_subdirectories import get_subdirectories
 
 logger = getLogger(__name__)
@@ -37,10 +39,13 @@ def main(
 
     for path in all_paths:
         book = extractor.extract(path)  # TODO: use functional programming style
-        raw_persons = parse_address_book(book)
-        cleaned_persons = [clean_person(p) for p in raw_persons]
-        standardized_persons = [standardize(p) for p in cleaned_persons]
-        save_persons(standardized_persons, output_path, output_type, csv_column_names)
+        book = parse_address_book(book)
+        cleaned_book = [clean_row(row) for row in book]
+        for person in cleaned_book:
+            person.address.street_name = standardize_street_name(
+                person.address.street_name
+            )
+        save_persons(cleaned_book, output_path, output_type, csv_column_names)
 
 
 # TODO: put this in another module

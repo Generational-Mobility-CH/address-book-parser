@@ -6,7 +6,7 @@ from modules.persons.src.models.person.person import Person
 from modules.persons.src.models.person.person_names import PersonNames
 
 
-def clean_person(person: Person) -> Person:
+def clean_row(person: Person) -> Person:
     cleaned_names = clean_first_names(
         PersonNames(person.first_names, person.last_names)
     )

@@ -3,19 +3,20 @@ from logging import getLogger
 from fuzzywuzzy import process
 
 from modules.persons.src.parser.constants.tags import TAG_NONE_FOUND
-from modules.persons.src.standardizer.street_name_standardizer.constants.corrected_street_names import (
+from modules.persons.src.street_name_standardizer.constants.corrected_street_names import (
     CORRECTED_STREET_NAMES_MAP,
 )
-from modules.persons.src.standardizer.street_name_standardizer.constants.historical_street_names_basel import (
+from modules.persons.src.street_name_standardizer.constants.historical_street_names_basel import (
     HISTORICAL_STREET_NAMES_BASEL,
 )
-from modules.persons.src.standardizer.street_name_standardizer.constants.street_name_prefixes import (
+from modules.persons.src.street_name_standardizer.constants.street_name_prefixes import (
     STREET_NAME_PREFIXES_ABBREVIATION_MAP,
 )
-from modules.persons.src.standardizer.street_name_standardizer.constants.street_name_suffixes import (
+from modules.persons.src.street_name_standardizer.constants.street_name_suffixes import (
     STREET_NAME_SUFFIXES,
     STREET_NAME_SUFFIXES_ABBREVIATION_MAP,
 )
+
 from modules.persons.src.util.regex.substitute_with_map import substitute_with_map
 
 logger = getLogger(__name__)
