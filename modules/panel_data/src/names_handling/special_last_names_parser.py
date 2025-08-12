@@ -1,4 +1,4 @@
-from modules.panel_data.src.names_parser.constants.last_name_prefixes import (
+from modules.panel_data.src.names_handling.constants.last_name_prefixes import (
     LAST_NAME_PREFIXES_MAP,
 )
 from modules.persons.src.util.regex.substitute_with_map import substitute_with_map

@@ -1,6 +1,8 @@
 import logging
 
-from modules.panel_data.src.names_parser.constants.names_special_keywords import (
+from pandas import DataFrame
+
+from modules.panel_data.src.names_handling.constants.names_special_keywords import (
     KEYWORDS_NAMES_SEPARATOR,
     KEYWORDS_DIVORCED,
 )
@@ -83,7 +85,7 @@ def _split_at_marker(data: str, keyword: str) -> PersonNames:
     return person_names
 
 
-def parse_names(original_names: str) -> PersonNames:
+def _separate_last_and_first_names(original_names: str) -> PersonNames:
     separated_names: PersonNames = PersonNames(
         last_names=TAG_NONE_FOUND, first_names=TAG_NONE_FOUND
     )
@@ -127,3 +129,13 @@ def parse_names(original_names: str) -> PersonNames:
             separated_names.last_names = original_names
 
     return separated_names
+
+
+def separate_last_and_first_names(df: DataFrame) -> DataFrame:
+    # TODO: clean handling with person objects
+    for index, og_name in enumerate(df["original_names"]):
+        separated_names = _separate_last_and_first_names(og_name)
+        df.at[index, "first_names"] = separated_names.first_names
+        df.at[index, "last_names"] = separated_names.last_names
+
+    return df

@@ -1,4 +1,6 @@
-from modules.panel_data.src.names_parser.names_parser import parse_names
+from modules.panel_data.src.names_handling.last_and_first_names_separator import (
+    separate_last_and_first_names,
+)
 from modules.persons.src.cleaner.text_cleaner.words_separator import (
     SEPARATE_WORDS_PATTERNS_AND_REPL,
 )
@@ -20,6 +22,6 @@ def clean_first_names(names: PersonNames) -> PersonNames:
                 )
                 return PersonNames(first_names, second)
 
-        return parse_names(names.last_names)
+        return separate_last_and_first_names(names.last_names)
 
     return names

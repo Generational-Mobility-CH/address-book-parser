@@ -1,6 +1,8 @@
 import unittest
 
-from modules.panel_data.src.names_parser.names_parser import parse_names
+from modules.panel_data.src.names_handling.last_and_first_names_separator import (
+    _separate_last_and_first_names,
+)
 from modules.persons.src.models.person.person_names import PersonNames
 
 
@@ -32,7 +34,7 @@ class NamesSeparatorTest(unittest.TestCase):
 
         for i, (input_str, expected) in enumerate(test_cases):
             with self.subTest(i=i, input=input_str):
-                actual = parse_names(input_str)
+                actual = _separate_last_and_first_names(input_str)
                 self.assertEqual(
                     actual,
                     expected,
@@ -62,7 +64,7 @@ class NamesSeparatorTest(unittest.TestCase):
 
         for i, (input_str, expected) in enumerate(test_cases):
             with self.subTest(i=i, input=input_str):
-                actual = parse_names(input_str)
+                actual = _separate_last_and_first_names(input_str)
                 self.assertEqual(
                     actual,
                     expected,
@@ -83,7 +85,7 @@ class NamesSeparatorTest(unittest.TestCase):
 
         for i, (input_str, expected) in enumerate(test_cases):
             with self.subTest(i=i, input=input_str):
-                actual = parse_names(input_str)
+                actual = _separate_last_and_first_names(input_str)
                 self.assertEqual(
                     actual,
                     expected,
@@ -112,7 +114,7 @@ class NamesSeparatorTest(unittest.TestCase):
 
         for i, (input_str, expected) in enumerate(test_cases):
             with self.subTest(i=i, input=input_str):
-                actual = parse_names(input_str)
+                actual = _separate_last_and_first_names(input_str)
                 self.assertEqual(
                     actual,
                     expected,

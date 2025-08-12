@@ -12,7 +12,7 @@ class ParenthesisAndLastNamePlaceholderTestCase(unittest.TestCase):
         test_input = test_dir / "fixtures"
         expected = test_input / "expected.csv"
         actual = test_dir / "actual.csv"
-        column_names = ["original_names", "last_names", "first_names"]
+        column_names = ["original_names"]
 
         main(test_input, actual, SupportedFileTypes.CSV, column_names)
 

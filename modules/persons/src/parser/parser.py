@@ -1,6 +1,6 @@
 from logging import getLogger
 
-from modules.panel_data.src.names_parser.special_last_names_parser import (
+from modules.panel_data.src.names_handling.special_last_names_parser import (
     merge_last_names_with_prefixes,
 )
 from modules.persons.src.cleaner.text_cleaner.text_cleaner import clean_text

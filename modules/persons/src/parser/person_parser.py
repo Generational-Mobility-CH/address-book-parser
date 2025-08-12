@@ -1,7 +1,6 @@
 from modules.persons.src.parser.constants.last_name_placeholders import (
     LAST_NAME_PLACEHOLDERS,
 )
-from modules.panel_data.src.names_parser.names_parser import parse_names
 from modules.persons.src.models.person.person_data_parts import PersonDataParts
 from modules.persons.src.models.person.address import Address
 from modules.persons.src.models.person.person import Person
@@ -24,9 +23,10 @@ def parse_person(data: PersonDataParts, current_last_name: str) -> Person:
 
     if (all_names := data.first) and _is_name(all_names, current_last_name):
         person.original_names = all_names
-        separated_names = parse_names(person.original_names)
-        person.last_names = separated_names.last_names
-        person.first_names = separated_names.first_names
+        # # TODO: put this in panel_data
+        # separated_names = separate_last_and_first_names(person.original_names)
+        # person.last_names = separated_names.last_names
+        # person.first_names = separated_names.first_names
 
     if len(data) == 2:
         is_address(data.second) and setattr(

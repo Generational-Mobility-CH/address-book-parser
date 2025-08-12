@@ -1,6 +1,13 @@
 import numpy as np
 import pandas as pd
 
+from modules.panel_data.src.names_handling.last_and_first_names_separator import (
+    separate_last_and_first_names,
+)
+from modules.panel_data.src.names_handling.last_names_separator import (
+    separate_last_names,
+)
+
 
 def identify_and_remove_pattern(
     pattern: str, old_column_name: str, new_column_name: str, df: pd.DataFrame
@@ -16,17 +23,12 @@ def identify_and_remove_pattern(
     return df
 
 
-def separate_last_names(df: pd.DataFrame) -> pd.DataFrame:
-    df[["own_last_name", "partner_last_name"]] = (
-        df["last_names"].str.split(r"[-\s]+", n=1, expand=True).fillna("")
-    )
-    return df
-
-
 def wrangle_dataset(df: pd.DataFrame) -> pd.DataFrame:
     ## TODO: delete the cases with "KEINE ANGABE"
     ## TODO: identify family names that occur > 500 times
     ## TODO: from names with more than two: move names that do not occur > 500 times to first name
+    # TODO: df = separate_last_and_first_names(df)
+    df = separate_last_and_first_names(df)
     df = separate_last_names(df)
     widow_pattern = r"(?i)\b(?:wwe\.|ww\.|wwe|wittwe)\b\.?"
     df = identify_and_remove_pattern(widow_pattern, "first_names", "widow", df)

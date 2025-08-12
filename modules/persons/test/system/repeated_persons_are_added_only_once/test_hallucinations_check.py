@@ -8,14 +8,12 @@ from system.util.assert_csv_files_are_equal import assert_csv_files_are_equal
 
 class HallucinationsCheckTestCase(unittest.TestCase):
     def test_when_same_person_repeated_on_same_page_then_ignore_person(self) -> None:
-        # TODO: handle Charas Dora cleanly
         test_dir = Path("system") / "repeated_persons_are_added_only_once"
         test_input = test_dir / "fixtures"
         expected = test_input / "expected.csv"
         actual = test_dir / "actual.csv"
         relevant_columns = [
-            "last_names",
-            "first_names",
+            "original_names",
             "job",
             "address__street_name",
             "address__house_number",

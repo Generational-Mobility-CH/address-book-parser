@@ -26,14 +26,12 @@ def save_to_db(
 
     rows = [
         (
-            str(getattr(person, "last_names", "")),
-            str(getattr(person, "first_names", "")),
+            str(getattr(person, "original_names", "")),
             person.address.street_name,
             person.address.house_number,
             str(getattr(person, "job", "")),
             str(getattr(person, "year", "")),
             str(getattr(person, "pdf_page_number", "")),
-            str(getattr(person, "original_names", "")),
         )
         for person in input_data
     ]

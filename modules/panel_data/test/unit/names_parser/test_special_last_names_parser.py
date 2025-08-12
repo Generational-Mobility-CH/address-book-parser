@@ -1,6 +1,6 @@
 import unittest
 
-from modules.panel_data.src.names_parser.special_last_names_parser import (
+from modules.panel_data.src.names_handling.special_last_names_parser import (
     merge_last_names_with_prefixes,
 )
 

@@ -16,8 +16,6 @@ class TemplateBugReproductionTestCase(unittest.TestCase):
         actual = test_dir / "actual.csv"
         relevant_columns = [
             "original_names",
-            "last_names",
-            "first_names",
             # "job",
             # "year",
             # "pdf_page_number",
