@@ -1,6 +1,6 @@
 import unittest
 
-from modules.persons.src.cleaner.person_cleaner.address_cleaner import clean_address
+from modules.persons.src.cleaner.address_cleaner import clean_address
 from modules.persons.src.models.person.address import Address
 
 

@@ -9,8 +9,6 @@ logger = logging.getLogger(__name__)
 
 class Person:
     def __init__(self, original_names: str, job: str, address: Address) -> None:
-        self.last_names: str = ""
-        self.first_names: str = ""
         self.original_names = original_names
         self.job = job
         self.address = address
@@ -26,22 +24,6 @@ class Person:
         if not value:
             print("original_names cannot be empty.")
         self._original_names = value
-
-    @property
-    def last_names(self) -> str:
-        return self._last_names
-
-    @last_names.setter
-    def last_names(self, value: str) -> None:
-        self._last_names = value
-
-    @property
-    def first_names(self) -> str:
-        return self._first_names
-
-    @first_names.setter
-    def first_names(self, value: str) -> None:
-        self._first_names = value
 
     @property
     def job(self) -> str:
@@ -76,16 +58,15 @@ class Person:
         self._pdf_page_number = value
 
     def __repr__(self) -> str:
-        return f"Person(Full name={self.last_names} {self.first_names}, job={self.job}, address={repr(self.address)}, year={self.year})"
+        return f"Person(Name={self.original_names}, job={self.job}, address={repr(self.address)}, year={self.year})"
 
     def __str__(self) -> str:
-        return f"Vollständiger Name: {self.last_names} {self.first_names}\nJob: {self.job}\nAddresse: {self.address}\nJahr: {self.year}"
+        return f"Name: {self.original_names}\nJob: {self.job}\nAddresse: {self.address}\nJahr: {self.year}"
 
     def __eq__(self, other: object) -> bool:
         if isinstance(other, Person):
             return (
-                self.last_names == other.last_names
-                and self.first_names == other.first_names
+                self.original_names == other.original_names
                 and self.job == other.job
                 and self.address == other.address
                 and self.year == other.year

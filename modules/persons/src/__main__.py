@@ -10,7 +10,7 @@ from libs.db_handler.src.to_db import save_to_db
 from libs.file_handler.src.csv.to_csv import save_to_csv
 from libs.file_handler.src.json.extractor import JsonExtractor
 from libs.file_handler.src.models.supported_file_types import SupportedFileTypes
-from modules.persons.src.cleaner.person_cleaner.person_cleaner import clean_row
+from modules.persons.src.cleaner.address_cleaner import clean_address
 from modules.persons.src.common.logger import setup_logging
 from modules.persons.src.common.paths import (
     PERSONS_INPUT_PATH,
@@ -41,12 +41,13 @@ def main(
     for path in all_paths:
         book = extractor.extract(path)  # TODO: use functional programming style
         book = parse_address_book(book)
-        cleaned_book = [clean_row(row) for row in book]
-        for person in cleaned_book:
+        for person in book:
+            person.address = clean_address(person.address)
             person.address.street_name = standardize_street_name(
                 person.address.street_name
             )
-        save_persons(cleaned_book, output_path, output_type, csv_column_names)
+
+        save_persons(book, output_path, output_type, csv_column_names)
 
 
 # TODO: put this in another module
