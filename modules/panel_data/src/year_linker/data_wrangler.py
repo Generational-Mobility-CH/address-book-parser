@@ -26,7 +26,6 @@ def identify_and_remove_pattern(
 
 
 def separate_last_and_first_names(df: DataFrame) -> DataFrame:
-    # TODO: clean handling with person objects
     for index, og_name in enumerate(df["original_names"]):
         separated_names = separate_names_legacy(og_name)
         cleaned_names = clean_first_names(separated_names)
