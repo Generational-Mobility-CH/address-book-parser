@@ -1,7 +1,9 @@
+from modules.address_books.parser.src.util.regex.substitute_with_map import (
+    substitute_with_map,
+)
 from modules.panel_data.src.names_handling.constants.last_name_prefixes import (
     LAST_NAME_PREFIXES_MAP,
 )
-from modules.persons.src.util.regex.substitute_with_map import substitute_with_map
 
 
 def merge_last_names_with_prefixes(text: str) -> str:

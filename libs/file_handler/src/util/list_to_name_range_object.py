@@ -1,4 +1,4 @@
-from modules.persons.src.models.address_book.name_range import NameRange
+from modules.address_books.parser.src.models.address_book.name_range import NameRange
 
 
 def list_to_name_range_object(data: list[str]) -> NameRange:

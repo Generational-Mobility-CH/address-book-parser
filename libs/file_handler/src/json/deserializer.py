@@ -7,7 +7,9 @@ from libs.file_handler.src.json.reader import read_json
 from libs.file_handler.src.util.list_to_name_range_object import (
     list_to_name_range_object,
 )
-from modules.persons.src.models.address_book.address_book_page import AddressBookPage
+from modules.address_books.parser.src.models.address_book.address_book_page import (
+    AddressBookPage,
+)
 
 PROJECT_ROOT = Path(__file__).resolve().parents[4]
 

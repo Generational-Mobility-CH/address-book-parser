@@ -2,9 +2,9 @@ from pathlib import Path
 
 from libs.file_handler.src.models.extractor_strategy import ExtractorStrategy
 from libs.file_handler.src.text.reader import read_text
-from modules.persons.src.models.address_book.address_book import AddressBook
-from modules.persons.src.models.address_book.address_book_page import AddressBookPage
-from modules.persons.src.models.address_book.name_range import NameRange
+from modules.parser.src.models.address_book.address_book import AddressBook
+from modules.parser.src.models.address_book.address_book_page import AddressBookPage
+from modules.parser.src.models.address_book.name_range import NameRange
 
 
 class TextExtractor(ExtractorStrategy):

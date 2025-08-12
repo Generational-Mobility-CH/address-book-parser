@@ -1,5 +1,12 @@
 import logging
 
+from modules.address_books.parser.src.cleaner.text_cleaner.words_separator import (
+    SEPARATE_WORDS_PATTERNS_AND_REPL,
+)
+from modules.address_books.parser.src.parser.constants.tags import TAG_NONE_FOUND
+from modules.address_books.parser.src.util.regex.apply_regex_patterns import (
+    apply_regex_patterns,
+)
 from modules.panel_data.src.model.person_names import PersonNames
 from modules.panel_data.src.names_handling.constants.names_special_keywords import (
     KEYWORDS_NAMES_SEPARATOR,
@@ -8,11 +15,6 @@ from modules.panel_data.src.names_handling.constants.names_special_keywords impo
 from modules.panel_data.src.names_handling.special_last_names_parser import (
     merge_last_names_with_prefixes,
 )
-from modules.persons.src.util.regex.apply_regex_patterns import apply_regex_patterns
-from modules.persons.src.cleaner.text_cleaner.words_separator import (
-    SEPARATE_WORDS_PATTERNS_AND_REPL,
-)
-from modules.persons.src.parser.constants.tags import TAG_NONE_FOUND
 
 
 logger = logging.getLogger(__name__)

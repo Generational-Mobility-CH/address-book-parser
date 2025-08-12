@@ -5,7 +5,9 @@ from libs.file_handler.src.models.extractor_strategy import ExtractorStrategy
 from libs.file_handler.src.json.deserializer import deserialize_book_page
 from libs.file_handler.src.json.reader import read_json
 from libs.file_handler.src.util.get_year_from_file_name import get_year_from_file_name
-from modules.persons.src.models.address_book.address_book import AddressBook
+from modules.address_books.parser.src.models.address_book.address_book import (
+    AddressBook,
+)
 
 logger = logging.getLogger(__name__)
 

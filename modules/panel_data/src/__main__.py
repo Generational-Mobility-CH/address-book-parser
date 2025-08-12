@@ -14,7 +14,7 @@ from modules.panel_data.src.common.paths import (
 )
 from modules.panel_data.src.constants.table_names import PANEL_DATA_PERSON_TABLE
 from modules.panel_data.src.year_linker.data_wrangler import wrangle_dataset
-from modules.persons.src.common.logger import setup_logging
+from modules.parser.src.common.logger import setup_logging
 from modules.shared.database_table_names import PERSONS_ENTRIES_TABLE
 
 logger = getLogger(__name__)
