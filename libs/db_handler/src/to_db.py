@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import TypeVar
 
 from libs.db_handler.src.constants.db_column_names import DB_COLUMN_NAMES
-from modules.address_books.parser.src.models.person.person import Person
+from modules.address_books.persons_data_processor.src.models.person.person import Person
 
 T = TypeVar("T")
 

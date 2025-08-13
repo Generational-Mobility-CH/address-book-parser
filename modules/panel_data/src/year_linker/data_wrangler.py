@@ -1,12 +1,12 @@
 import numpy as np
 from pandas import DataFrame
 
-from modules.panel_data.src.names_handling.first_names_cleaner import clean_first_names
-from modules.panel_data.src.names_handling.last_and_first_names_separator import (
+from modules.panel_data.src.names_handler.first_names_cleaner import clean_first_names
+from modules.panel_data.src.names_handler.last_and_first_names_separator import (
     separate_names_legacy,
 )
 
-from modules.panel_data.src.names_handling.last_names_separator import (
+from modules.panel_data.src.names_handler.last_names_separator import (
     separate_last_names,
 )
 

@@ -1,8 +1,12 @@
 import unittest
 
 from libs.file_handler.src.json.deserializer import deserialize_book_page
-from modules.parser.src.models.address_book.address_book_page import AddressBookPage
-from modules.parser.src.models.address_book.name_range import NameRange
+from modules.address_books.persons_data_processor.src.models.address_book.address_book_page import (
+    AddressBookPage,
+)
+from modules.address_books.persons_data_processor.src.models.address_book.name_range import (
+    NameRange,
+)
 
 
 class MyTestCase(unittest.TestCase):

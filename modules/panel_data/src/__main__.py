@@ -8,14 +8,16 @@ from pathlib import Path
 from time import strftime
 
 from libs.db_handler.src.open_db import load_table, get_latest_db_file
+from modules.address_books.persons_data_processor.src.common.logger import setup_logging
+from modules.address_books.persons_data_processor.src.constants.database_table_names import (
+    PERSONS_ENTRIES_TABLE,
+)
 from modules.panel_data.src.common.paths import (
     PANEL_DATA_OUTPUT_PATH,
     PANEL_DATA_INPUT_PATH,
 )
 from modules.panel_data.src.constants.table_names import PANEL_DATA_PERSON_TABLE
 from modules.panel_data.src.year_linker.data_wrangler import wrangle_dataset
-from modules.parser.src.common.logger import setup_logging
-from modules.shared.database_table_names import PERSONS_ENTRIES_TABLE
 
 logger = getLogger(__name__)
 
