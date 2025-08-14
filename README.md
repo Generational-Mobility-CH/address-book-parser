@@ -6,16 +6,20 @@
 
 This project processes Swiss address books into a panel dataset containing person per year that can be used for academical research.
 
-Books so far processed:
+**Books so far processed:**
 - [x] 1877 - 1954: [Stadt Basel](https://dls.staatsarchiv.bs.ch/records/hierarchy/1225845?context=%2Frecords%2F1225845)
 - [ ] 1859 - 1975: [Stadt Zürich](https://zop.zb.uzh.ch/collections/9e5087c3-e5f8-4b76-a106-3b5fc830a0f7?spc.page=1&query=Adressbuch%20der%20Stadt%20Z%C3%BCrich%20und%20Umgebung&spc.sf=dc.title&spc.sd=ASC)
 
-The pipeline consists of the following modules:
-1. **pages_downloader**: Download the relevant chapter containing the residents register from the address books website.
-2. **pages_preprocessor**: Cut the address book pages colums into single pages, so the OCR can process them more easily.
-3. **Text Extraction**: Extract the text from the scanned address book pages with [ChronoMiner](https://github.com/Paullllllllllllllllll/ChronoMiner), provided by @Paullllllllllllllllll.
-4. **persons_data_processor**: Parse the extracted text from step 3. and save the information into a SQL database that contains all the found person's names, address and job.
-5. **panel_data**: Create a panel dataset from the SQL database that can be used for academic research.
+**The pipeline consists of the following modules:** 
+
+`address_books/`
+1. _pages_downloader_: Download the relevant chapter containing the residents register from the address books website.
+2. _pages_preprocessor_: Cut the address book pages colums into single pages, so the OCR can process them more easily.
+3. _Text Extraction_: Extract the text from the scanned address book pages with [ChronoMiner](https://github.com/Paullllllllllllllllll/ChronoMiner), provided by @Paullllllllllllllllll.
+4. _persons_data_processor_: Parse the extracted text from step 3. and save each person's name, address and job into a SQL database.
+
+`panel_data/`  
+5. _panel_data_: Create the final panel data set that will be used for research from the databese created in step 4. 
 
 All relevant data is stored under the `data/` directory.
 
