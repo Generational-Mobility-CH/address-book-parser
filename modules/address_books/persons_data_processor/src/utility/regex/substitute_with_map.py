@@ -1,7 +1,7 @@
 import re
 from logging import getLogger
 
-from modules.address_books.persons_data_processor.src.util.regex.build_regex_pattern_from_map import (
+from modules.address_books.persons_data_processor.src.utility.regex.build_regex_pattern_from_map import (
     build_regex_pattern_from_map,
 )
 

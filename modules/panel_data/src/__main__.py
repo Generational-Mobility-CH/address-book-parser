@@ -40,6 +40,10 @@ def main(input_path: Path, output_path: Path) -> None:
 
 
 if __name__ == "__main__":
+    PANEL_DATA_OUTPUT_PATH.mkdir(exist_ok=True)
+    (PANEL_DATA_OUTPUT_PATH / "db").mkdir(exist_ok=True)
+    (PANEL_DATA_OUTPUT_PATH / "logs").mkdir(exist_ok=True)
+
     demo_input_path = get_latest_db_file(PANEL_DATA_INPUT_PATH)
     time_stamp = f"{datetime.now():%b %d - %H%M}"
     demo_output_path = Path(PANEL_DATA_OUTPUT_PATH) / "db" / f"{time_stamp}.db"

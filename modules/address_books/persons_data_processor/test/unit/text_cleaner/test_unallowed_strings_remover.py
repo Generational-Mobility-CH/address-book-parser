@@ -3,7 +3,7 @@ import unittest
 from modules.address_books.persons_data_processor.src.text_cleaner.unallowed_strings_remover import (
     UNALLOWED_STRINGS_PATTERNS_AND_REPL,
 )
-from modules.address_books.persons_data_processor.src.util.regex.apply_regex_patterns import (
+from modules.address_books.persons_data_processor.src.utility.regex.apply_regex_patterns import (
     apply_regex_patterns,
 )
 

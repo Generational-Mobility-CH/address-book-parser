@@ -18,7 +18,7 @@ from modules.address_books.persons_data_processor.src.address_handler.street_nam
     STREET_NAME_SUFFIXES,
     STREET_NAME_SUFFIXES_ABBREVIATION_MAP,
 )
-from modules.address_books.persons_data_processor.src.util.regex.substitute_with_map import (
+from modules.address_books.persons_data_processor.src.utility.regex.substitute_with_map import (
     substitute_with_map,
 )
 

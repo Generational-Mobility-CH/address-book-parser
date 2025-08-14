@@ -4,7 +4,7 @@ from modules.address_books.persons_data_processor.src.models.address_book.addres
 from modules.address_books.persons_data_processor.src.models.address_book.name_range import (
     NameRange,
 )
-from modules.shared.util.prepare_str_for_comparison import prepare_str_for_comparison
+from modules.shared.utility.prepare_str_for_comparison import prepare_str_for_comparison
 
 
 NAME_RANGE_FOR_I_J = NameRange("H", "K")

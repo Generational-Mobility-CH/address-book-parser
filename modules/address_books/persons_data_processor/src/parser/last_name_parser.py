@@ -6,7 +6,7 @@ from modules.address_books.persons_data_processor.src.models.address_book.name_r
 from modules.address_books.persons_data_processor.src.parser.constants.last_name_placeholders import (
     LAST_NAME_PLACEHOLDERS,
 )
-from modules.shared.util.prepare_str_for_comparison import prepare_str_for_comparison
+from modules.shared.utility.prepare_str_for_comparison import prepare_str_for_comparison
 
 logger = logging.getLogger(__name__)
 

@@ -32,7 +32,7 @@ from modules.address_books.persons_data_processor.src.parser.parser import (
 from modules.address_books.persons_data_processor.src.address_handler.street_name_standardizer.street_name_standardizer import (
     standardize_street_name,
 )
-from modules.address_books.persons_data_processor.src.util.get_subdirectories import (
+from modules.address_books.persons_data_processor.src.utility.get_subdirectories import (
     get_subdirectories,
 )
 

@@ -3,7 +3,7 @@ import unittest
 from modules.address_books.persons_data_processor.src.text_cleaner.dashes_cleaner import (
     DASHES_PATTERNS_AND_REPL,
 )
-from modules.address_books.persons_data_processor.src.util.regex.apply_regex_patterns import (
+from modules.address_books.persons_data_processor.src.utility.regex.apply_regex_patterns import (
     apply_regex_patterns,
 )
 
