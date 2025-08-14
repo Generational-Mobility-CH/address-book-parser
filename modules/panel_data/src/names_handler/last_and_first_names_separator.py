@@ -1,13 +1,10 @@
 import logging
 
-
-from modules.address_books.persons_data_processor.src.parser.constants.tags import (
-    TAG_NONE_FOUND,
-)
-from modules.address_books.persons_data_processor.src.text_cleaner.words_separator import (
+from modules.persons_data_processor.src.parser.constants.tags import TAG_NONE_FOUND
+from modules.persons_data_processor.src.text_cleaner.words_separator import (
     SEPARATE_WORDS_PATTERNS_AND_REPL,
 )
-from modules.address_books.persons_data_processor.src.utility.regex.apply_regex_patterns import (
+from modules.persons_data_processor.src.utility.regex.apply_regex_patterns import (
     apply_regex_patterns,
 )
 from modules.panel_data.src.model.person_names import PersonNames

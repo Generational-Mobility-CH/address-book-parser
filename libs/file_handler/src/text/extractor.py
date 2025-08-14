@@ -2,13 +2,13 @@ from pathlib import Path
 
 from libs.file_handler.src.models.extractor_strategy import ExtractorStrategy
 from libs.file_handler.src.text.reader import read_text
-from modules.address_books.persons_data_processor.src.models.address_book.address_book import (
+from modules.persons_data_processor.src import (
     AddressBook,
 )
-from modules.address_books.persons_data_processor.src.models.address_book.address_book_page import (
+from modules.persons_data_processor.src.models.address_book.address_book_page import (
     AddressBookPage,
 )
-from modules.address_books.persons_data_processor.src.models.address_book.name_range import (
+from modules.persons_data_processor.src.models.address_book.name_range import (
     NameRange,
 )
 

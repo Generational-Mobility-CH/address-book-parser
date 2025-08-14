@@ -2,8 +2,8 @@ import unittest
 from pathlib import Path
 
 from libs.file_handler.src.models.supported_file_types import SupportedFileTypes
-from modules.address_books.persons_data_processor.src.__main__ import main
-from system.util.assert_csv_files_are_equal import assert_csv_files_are_equal
+from modules.persons_data_processor.src.__main__ import main
+from util import assert_csv_files_are_equal
 
 
 class TemplateBugReproductionTestCase(unittest.TestCase):

@@ -1,4 +1,4 @@
-from modules.address_books.persons_data_processor.src.utility.regex.substitute_with_map import (
+from modules.persons_data_processor.src.utility.regex.substitute_with_map import (
     substitute_with_map,
 )
 from modules.panel_data.src.names_handler.constants.last_name_prefixes import (

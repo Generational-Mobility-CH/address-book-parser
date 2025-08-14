@@ -1,0 +1,11 @@
+from dataclasses import dataclass, field
+
+from modules.persons_data_processor.src.models.address_book.address_book_page import (
+    AddressBookPage,
+)
+
+
+@dataclass
+class AddressBook:
+    year: int = None
+    pages: list[AddressBookPage] = field(default_factory=list)

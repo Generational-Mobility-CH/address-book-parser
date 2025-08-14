@@ -8,8 +8,8 @@ from pathlib import Path
 from time import strftime
 
 from libs.db_handler.src.open_db import load_table, get_latest_db_file
-from modules.address_books.persons_data_processor.src.common.logger import setup_logging
-from modules.address_books.persons_data_processor.src.constants.database_table_names import (
+from modules.persons_data_processor.src.common.logger import setup_logging
+from modules.persons_data_processor.src.constants import (
     PERSONS_ENTRIES_TABLE,
 )
 from modules.panel_data.src.common.paths import (
