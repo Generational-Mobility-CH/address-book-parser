@@ -13,7 +13,7 @@ This project processes Swiss address books into a panel dataset containing perso
 **The pipeline consists of the following modules:** 
 
 `address_books/`
-1. _pages_downloader_: Download the relevant chapter containing the residents register from the address books website.
+1. _pages_downloader_: Download the chapter containing the residents register from the address books website.
 2. _pages_preprocessor_: Cut the address book pages colums into single pages, so the OCR can process them more easily.
 3. _Text Extraction_: Extract the text from the scanned address book pages with [ChronoMiner](https://github.com/Paullllllllllllllllll/ChronoMiner), provided by @Paullllllllllllllllll.
 4. _persons_data_processor_: Parse the extracted text from step 3. and save each person's name, address and job into a SQL database.
