@@ -1,4 +1,6 @@
-from modules.pages_preprocessor.src.constants import (
+from pathlib import Path
+
+from modules.pages_preprocessor.src.paths import (
     GENERAL_INPUT_PATH,
     GENERAL_OUTPUT_PATH,
 )
@@ -11,18 +13,21 @@ from modules.pages_preprocessor.src.jpg_preprocessing.get_page_borders_metadata 
     get_page_borders_metadata,
 )
 from modules.pages_preprocessor.src.jpg_preprocessing.resize_jpg import resize_jpg
+from modules.pages_preprocessor.src.pdf_jpg_conversion.pdf_to_jpg_converter import (
+    pdf_to_jpg_converter,
+)
 
 
 def main(
-    demo_table_of_content_path: str,
-    pdf_input_path: str,
+    table_of_content_path: Path,
+    pdf_input_path: Path,
     columns_output_folder: str,
     header_output_folder: str,
-    input_folder: str,
+    input_folder: Path,
     border_tolerance: int,
     cut_range: int,
 ) -> None:
-    # pdf_to_jpg_converter(pdf_input_path, demo_table_of_content_path)
+    pdf_to_jpg_converter(pdf_input_path, table_of_content_path)
     resize_jpg(input_folder)
     borders_metadata = get_page_borders_metadata(input_folder, cut_range)
     blackout_page_borders(input_folder, input_folder, borders_metadata)
@@ -34,13 +39,17 @@ def main(
 
 if __name__ == "__main__":
     demo_file = "Basel_1943"
-    demo_table_of_content_path = f"{GENERAL_INPUT_PATH}/json/toc/{demo_file}_toc.json"
-    demo_pdf_file = f"{GENERAL_INPUT_PATH}/pdf/{demo_file}.pdf"
-    demo_columns_output_path = f"{GENERAL_OUTPUT_PATH}/jpg/person_register/{demo_file}"
-    demo_header_output_path = (
-        f"{GENERAL_OUTPUT_PATH}/jpg/person_register_namerange/{demo_file}"
+    demo_table_of_content_path = (
+        GENERAL_INPUT_PATH / "json" / "toc" / f"{demo_file}_toc.json"
     )
-    demo_input_folder = f"{GENERAL_INPUT_PATH}/jpg/person_register/{demo_file}"
+    demo_pdf_file = GENERAL_INPUT_PATH / "pdf" / f"{demo_file}.pdf"
+    demo_columns_output_path = (
+        GENERAL_OUTPUT_PATH / "jpg" / "person_register" / f"{demo_file}"
+    )
+    demo_header_output_path = (
+        GENERAL_OUTPUT_PATH / "jpg" / "person_register" / f"{demo_file}"
+    )
+    demo_input_folder = GENERAL_INPUT_PATH / "jpg" / "person_register" / f"{demo_file}"
 
     main(
         demo_table_of_content_path,

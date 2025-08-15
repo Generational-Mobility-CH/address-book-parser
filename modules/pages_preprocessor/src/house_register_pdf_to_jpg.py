@@ -5,7 +5,7 @@ from pdf2image import convert_from_path
 import os
 import re
 
-from modules.pages_preprocessor.src.constants import (
+from modules.pages_preprocessor.src.paths import (
     GENERAL_INPUT_PATH,
     GENERAL_OUTPUT_PATH,
 )

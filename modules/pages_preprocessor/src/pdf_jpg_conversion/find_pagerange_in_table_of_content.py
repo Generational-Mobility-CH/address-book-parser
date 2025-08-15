@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pandas as pd
 
 from modules.pages_preprocessor.src.file_handling.read_json import read_json
@@ -22,7 +24,7 @@ def get_entry_by_pos(
 
 
 def get_register_range(
-    table_of_content_path: str,
+    table_of_content_path: Path,
     search_term_start: str,
     search_term_end: str,
     search_term_start_pos: int,

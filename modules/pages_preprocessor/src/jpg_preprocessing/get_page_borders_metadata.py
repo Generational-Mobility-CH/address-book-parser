@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 import cv2
 import numpy as np
@@ -116,7 +117,7 @@ def detect_page_borders(img: np.ndarray, cut_area: dict) -> dict:
     return metadata
 
 
-def get_page_borders_metadata(input_folder: str, cut_range: int) -> dict:
+def get_page_borders_metadata(input_folder: Path, cut_range: int) -> dict:
     all_pages = os.listdir(input_folder)
     borders_metadata = {}
     for page in all_pages:

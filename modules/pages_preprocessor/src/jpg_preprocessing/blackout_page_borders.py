@@ -1,5 +1,5 @@
-import os
 import re
+from pathlib import Path
 
 import cv2
 import numpy as np
@@ -48,9 +48,9 @@ def update_page_metadata(
 
 
 def blackout_page_borders(
-    input_folder: str, output_folder: str, borders_metadata: dict
+    input_folder: Path, output_folder: Path, borders_metadata: dict
 ) -> None:
-    all_pages = os.listdir(input_folder)
+    all_pages = list(input_folder.iterdir())
 
     avg_even_page, avg_uneven_page = get_avg_coords(
         borders_metadata,
@@ -69,14 +69,13 @@ def blackout_page_borders(
     for page in all_pages:
         img = cv2.imread(f"{input_folder}/{page}")
 
-        page_is_even = is_even_page(page)
-        if page_is_even:
+        if is_even_page(str(page)):
             book_avg_series = avg_even_page
         else:
             book_avg_series = avg_uneven_page
 
         page_metadata_new = update_page_metadata(
-            borders_metadata_df, book_avg_series, page
+            borders_metadata_df, book_avg_series, str(page)
         )
 
         if page not in all_output_pages:
