@@ -13,6 +13,7 @@ dependencies = [
     "recordlinkage>=0.16",
     "opencv-python>=4.12.0.88",
     "pdf2image>=1.17.0",
+    "selenium>=4.35.0",
 ]
 
 [tool.ruff]

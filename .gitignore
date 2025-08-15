@@ -155,3 +155,4 @@ fabric.properties
 # PyPI configuration file
 .pypirc
 /data/address-books/basel/
+/.env.local
