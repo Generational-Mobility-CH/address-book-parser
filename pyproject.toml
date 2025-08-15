@@ -11,6 +11,8 @@ dependencies = [
     "pre-commit>=4.2.0",
     "python-levenshtein>=0.27.1",
     "recordlinkage>=0.16",
+    "opencv-python>=4.12.0.88",
+    "pdf2image>=1.17.0",
 ]
 
 [tool.ruff]
