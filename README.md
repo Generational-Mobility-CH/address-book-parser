@@ -4,6 +4,7 @@
 [![Linting: Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
 
+## Project Description
 This project processes Swiss address books into a panel dataset containing person per year that can be used for academical research.
 
 Books processed so far:
@@ -12,13 +13,10 @@ Books processed so far:
 
 **The pipeline consists of the following modules:** 
 
-`address_books/`
 1. _pages_downloader_: Download the chapter containing the residents register from the address books website.
-2. _pages_preprocessor_: Cut the address book pages colums into single pages, so the OCR can process them more easily.
+2. _pages_preprocessor_: Cut the address book pages columns into single pages, so the OCR can process them more easily.
 3. _Text Extraction_: Extract the text from the scanned address book pages with [ChronoMiner](https://github.com/Paullllllllllllllllll/ChronoMiner), provided by @Paullllllllllllllllll.
 4. _persons_data_processor_: Parse the extracted text from step 3. and save each person's name, address and job into a SQL database.
-
-`panel_data/`  
 5. _panel_data_: Create the final panel data set that will be used for research from the databese created in step 4. 
 
 All relevant data is stored under the `data/` directory.
@@ -37,6 +35,11 @@ These instructions will get you a copy of the project up and running on your loc
 ```bash
 uv pip install
 ```
+**Setup Chrome WebDriver (needed for module 'pages_downloader')**
+- Download and install the chrome webbrowser
+- Download and install the [chrome webdriver](https://developer.chrome.com/docs/chromedriver/downloads)
+- Copy the file '.env.local_example' and rename it to '.env.local'
+- Add the path to your Chrome WebDriver in '.env.local' 
 
 ### Running the tests
 
