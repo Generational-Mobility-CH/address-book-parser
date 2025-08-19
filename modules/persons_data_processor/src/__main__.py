@@ -1,9 +1,6 @@
-import time
-
 from datetime import datetime
 from logging import getLogger
 from pathlib import Path
-from time import strftime
 from typing import Optional
 
 from libs.db_handler.src.to_db import save_to_db
@@ -13,14 +10,13 @@ from libs.file_handler.src.models.supported_file_types import SupportedFileTypes
 from modules.persons_data_processor.src.address_handler.address_cleaner import (
     clean_address,
 )
-from modules.persons_data_processor.src.common.logger import setup_logging
 from modules.persons_data_processor.src.common.paths import (
     PERSONS_OUTPUT_PATH,
     PERSONS_INPUT_PATH,
 )
-from modules.shared.paths import DATA_PATH
+from modules.persons_data_processor.src.setup import setup
 from modules.persons_data_processor.src.constants.database_table_names import (
-    PERSONS_ENTRIES_TABLE,
+    PERSONS_ENTRIES_TABLE_NAME,
 )
 from modules.persons_data_processor.src.models.person.person import Person
 from modules.persons_data_processor.src.parser.constants.tags import (
@@ -69,7 +65,7 @@ def save_persons(
 ):
     match output_type:
         case SupportedFileTypes.DB:
-            save_to_db(persons, output_path, PERSONS_ENTRIES_TABLE)
+            save_to_db(persons, output_path, PERSONS_ENTRIES_TABLE_NAME)
         case SupportedFileTypes.CSV:
             save_to_csv(persons, output_path, csv_column_names)
 
@@ -81,20 +77,12 @@ def save_persons(
 
 
 if __name__ == "__main__":
-    DATA_PATH.mkdir(parents=True, exist_ok=True)
     demo_output_type = SupportedFileTypes.DB.value
     time_stamp = f"{datetime.now():%b %d - %H%M}"
     demo_output_path = (
-        Path(PERSONS_OUTPUT_PATH)
-        / demo_output_type
-        / f"{time_stamp}.{demo_output_type}"
+        PERSONS_OUTPUT_PATH / demo_output_type / f"{time_stamp}.{demo_output_type}"
     )
 
-    setup_logging(time_stamp, PERSONS_OUTPUT_PATH / "logs")
-    start_time = time.time()
+    setup(time_stamp)
 
     main(PERSONS_INPUT_PATH, demo_output_path)
-
-    logger.info(
-        strftime("Execution time: %M min %S s", time.gmtime(time.time() - start_time))
-    )

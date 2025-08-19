@@ -1,9 +1,6 @@
 from pathlib import Path
 
-from modules.pages_preprocessor.src.paths import (
-    GENERAL_INPUT_PATH,
-    GENERAL_OUTPUT_PATH,
-)
+from modules.pages_downloader.src.constants.paths import JPG_OUTPUT_PATH, PDF_INPUT_PATH
 from modules.pages_preprocessor.src.cutter.column_cutter import cut_columns
 from modules.pages_preprocessor.src.cutter.header_cutter import cut_header
 from modules.pages_preprocessor.src.jpg_preprocessing.blackout_page_borders import (
@@ -13,9 +10,14 @@ from modules.pages_preprocessor.src.jpg_preprocessing.get_page_borders_metadata 
     get_page_borders_metadata,
 )
 from modules.pages_preprocessor.src.jpg_preprocessing.resize_jpg import resize_jpg
+from modules.pages_preprocessor.src.paths import (
+    GENERAL_INPUT_PATH,
+    JPG_INPUT_PATH,
+)
 from modules.pages_preprocessor.src.pdf_jpg_conversion.pdf_to_jpg_converter import (
     pdf_to_jpg_converter,
 )
+from modules.pages_preprocessor.src.setup import setup
 
 
 def main(
@@ -42,14 +44,12 @@ if __name__ == "__main__":
     demo_table_of_content_path = (
         GENERAL_INPUT_PATH / "json" / "toc" / f"{demo_file}_toc.json"
     )
-    demo_pdf_file = GENERAL_INPUT_PATH / "pdf" / f"{demo_file}.pdf"
-    demo_columns_output_path = (
-        GENERAL_OUTPUT_PATH / "jpg" / "person_register" / f"{demo_file}"
-    )
-    demo_header_output_path = (
-        GENERAL_OUTPUT_PATH / "jpg" / "person_register" / f"{demo_file}"
-    )
-    demo_input_folder = GENERAL_INPUT_PATH / "jpg" / "person_register" / f"{demo_file}"
+    demo_pdf_file = PDF_INPUT_PATH / f"{demo_file}.pdf"
+    demo_columns_output_path = JPG_OUTPUT_PATH / "person_register" / f"{demo_file}"
+    demo_header_output_path = JPG_OUTPUT_PATH / "person_register" / f"{demo_file}"
+    demo_input_folder = JPG_INPUT_PATH / "person_register" / f"{demo_file}"
+
+    setup()
 
     main(
         demo_table_of_content_path,

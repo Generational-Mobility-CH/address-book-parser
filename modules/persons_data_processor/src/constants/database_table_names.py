@@ -1,1 +1,1 @@
-PERSONS_ENTRIES_TABLE = "persons_entries"
+PERSONS_ENTRIES_TABLE_NAME = "persons_entries"

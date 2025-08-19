@@ -1,13 +1,15 @@
-from modules.pages_downloader.src.constants.paths import PDF_OUTPUT_PATH
-from modules.pages_downloader.src.create_folders import create_folders
+from modules.pages_downloader.src.setup import setup
 
 
-def main():
-    create_folders()
-    # TODO: Put pipeline steps into main function
+def main() -> None:
+    pass
+    # TODO: add pipeline steps to main
+    # save_first_page_preview_links() # "extract_books_urls"
+    # extract_content_tables()
+    # render_book_pdfs()
+    # download_entire_book_pdfs()
 
 
 if __name__ == "__main__":
-    PDF_OUTPUT_PATH.mkdir(parents=True, exist_ok=True)
-
+    setup()
     main()

@@ -1,7 +1,5 @@
 import sqlite3
 import time
-import pandas as pd
-
 from datetime import datetime
 from logging import getLogger
 from pathlib import Path
