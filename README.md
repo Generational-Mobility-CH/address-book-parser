@@ -36,8 +36,8 @@ These instructions will get you a copy of the project up and running on your loc
 uv pip install
 ```
 **Setup Chrome WebDriver (needed for module 'pages_downloader')**
-- Download and install the chrome webbrowser (always ensure that the versions of chrome and chromedriver match)
-- Download and install the [chrome webdriver](https://developer.chrome.com/docs/chromedriver/downloads)
+- Download and install the chrome webbrowser
+- Download and install the [chrome webdriver](https://developer.chrome.com/docs/chromedriver/downloads) (always ensure that the versions of chrome and chromedriver match)
 - Copy the file '.env.local_example' and rename it to '.env.local'
 - Add the path to your Chrome WebDriver in '.env.local' 
 
