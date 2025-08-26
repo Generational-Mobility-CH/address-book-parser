@@ -1,18 +1,18 @@
 import sqlite3
-import time
 from datetime import datetime
 from logging import getLogger
 from pathlib import Path
-from time import strftime
 
 import pandas as pd
 
 from libs.db_handler.src.open_db import load_table, get_latest_db_file
-from modules.panel_data.src.common.paths import (
+from modules.panel_data.src.constants.paths import (
     PANEL_DATA_OUTPUT_PATH,
     PANEL_DATA_INPUT_PATH,
 )
-from modules.panel_data.src.constants.table_names import PANEL_DATA_PERSON_TABLE
+from modules.panel_data.src.constants.table_definitions.panel_data_table import (
+    PANEL_DATA_TABLE_NAME,
+)
 from modules.panel_data.src.setup import setup
 from modules.panel_data.src.year_linker.data_wrangler import wrangle_dataset
 from modules.persons_data_processor.src.constants.database_table_names import (
@@ -23,14 +23,15 @@ logger = getLogger(__name__)
 
 
 def main(input_path: Path, output_path: Path) -> None:
-    df = load_table(input_path, PERSONS_ENTRIES_TABLE_NAME)
-    df = wrangle_dataset(df)
     logger.info(f"Reading data from {input_path}")
+    df = load_table(input_path, PERSONS_ENTRIES_TABLE_NAME)
+    df = wrangle_dataset(df, output_path)
+
     with pd.option_context("display.max_columns", None):
         logger.info("\n%s", df.head())
 
     df.to_sql(
-        PANEL_DATA_PERSON_TABLE,
+        PANEL_DATA_TABLE_NAME,
         sqlite3.connect(output_path),
         if_exists="replace",
         index=False,
@@ -45,11 +46,4 @@ if __name__ == "__main__":
     demo_output_path = PANEL_DATA_OUTPUT_PATH / "db" / f"{time_stamp}.db"
 
     setup(time_stamp)
-
-    start_time = time.time()
-
     main(demo_input_path, demo_output_path)
-
-    logger.info(
-        strftime("Execution time: %M min %S s", time.gmtime(time.time() - start_time))
-    )
