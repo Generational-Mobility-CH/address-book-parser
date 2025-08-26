@@ -1,6 +1,6 @@
 import unittest
 
-from modules.panel_data.src.model.person_names import PersonNames
+from modules.panel_data.src.models.person_names import PersonNames
 from modules.panel_data.src.names_handler.last_and_first_names_separator import (
     separate_names_legacy,
 )

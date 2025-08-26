@@ -13,7 +13,7 @@ class TemplateBugReproductionTestCase(unittest.TestCase):
         )  # rename path end according to test directory
         test_input = test_dir / "fixtures"
         expected = test_input / "expected.csv"
-        actual = test_dir / "actual.csv"
+        actual = test_dir / "expected.csv"
         relevant_columns = [
             "original_names",
             # "job",

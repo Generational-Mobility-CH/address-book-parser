@@ -11,7 +11,7 @@ class HallucinationsCheckTestCase(unittest.TestCase):
         test_dir = Path("system") / "repeated_persons_are_added_only_once"
         test_input = test_dir / "fixtures"
         expected = test_input / "expected.csv"
-        actual = test_dir / "actual.csv"
+        actual = test_dir / "expected.csv"
         relevant_columns = [
             "original_names",
             "job",

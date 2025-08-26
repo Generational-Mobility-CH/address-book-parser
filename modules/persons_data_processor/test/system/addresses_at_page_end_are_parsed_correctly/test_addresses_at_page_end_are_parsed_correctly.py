@@ -13,7 +13,7 @@ class TemplateBugReproductionTestCase(unittest.TestCase):
         test_dir = Path("system") / "addresses_at_page_end_are_parsed_correctly"
         test_input = test_dir / "fixtures"
         expected = test_input / "expected.csv"
-        actual = test_dir / "actual.csv"
+        actual = test_dir / "expected.csv"
         relevant_columns = [
             "address__street_name",
             "address__house_number",

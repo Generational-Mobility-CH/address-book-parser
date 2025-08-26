@@ -11,7 +11,7 @@ class ParenthesisAndLastNamePlaceholderTestCase(unittest.TestCase):
         test_dir = Path("system") / "parenthesis_and_last_name_placeholder"
         test_input = test_dir / "fixtures"
         expected = test_input / "expected.csv"
-        actual = test_dir / "actual.csv"
+        actual = test_dir / "expected.csv"
         column_names = ["original_names"]
 
         main(test_input, actual, SupportedFileTypes.CSV, column_names)

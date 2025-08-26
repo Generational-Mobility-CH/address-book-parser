@@ -7,7 +7,7 @@ from modules.persons_data_processor.src.text_cleaner.words_separator import (
 from modules.persons_data_processor.src.utility.regex.apply_regex_patterns import (
     apply_regex_patterns,
 )
-from modules.panel_data.src.model.person_names import PersonNames
+from modules.panel_data.src.models.person_names import PersonNames
 from modules.panel_data.src.names_handler.constants.names_special_keywords import (
     KEYWORDS_NAMES_SEPARATOR,
     KEYWORDS_DIVORCED,
