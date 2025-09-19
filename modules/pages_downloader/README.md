@@ -1,4 +1,5 @@
 # Module Description
+***Careful: Always make sure that the same versions of Chrome and Chrome WebDriver are installed!***
 
 **Main Goal:** To download the pdfs from Basel's city archive
 
