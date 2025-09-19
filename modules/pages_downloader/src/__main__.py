@@ -15,6 +15,7 @@ from modules.pages_downloader.src.webscraper.extract_content_tables import (
     write_jsons_with_table_of_content,
 )
 from modules.pages_downloader.src.setup import setup
+from modules.pages_downloader.src.webscraper.render_book_pdfs import render_book_pdfs
 
 
 def main(list_of_urls: Path = ALL_BOOK_LINKS_FILE) -> None:
@@ -22,7 +23,7 @@ def main(list_of_urls: Path = ALL_BOOK_LINKS_FILE) -> None:
         urls_collection=BASEL_ADRESS_BOOKS_OVERVIEW_URLS, test_case=1917
     )
     write_jsons_with_table_of_content(list_of_urls)
-    # render_book_pdfs() ## rendering only needs to be run once
+    render_book_pdfs(list_of_urls)  ## rendering only needs to be run once
     download_all_pdfs(list_of_urls)
 
 
