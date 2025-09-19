@@ -39,7 +39,8 @@ uv pip install
 - Download and install the chrome webbrowser
 - Download and install the [chrome webdriver](https://developer.chrome.com/docs/chromedriver/downloads) (always ensure that the versions of chrome and chromedriver match)
 - Copy the file '.env.local_example' and rename it to '.env.local'
-- Add the path to your Chrome WebDriver in '.env.local' 
+- Add the path to your Chrome WebDriver in '.env.local'
+- Always make sure that the installed versions of Chrome and Chrome WebDriver correspond!
 
 ### Running the tests
 
