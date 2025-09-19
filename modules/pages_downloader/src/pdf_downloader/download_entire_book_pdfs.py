@@ -1,11 +1,13 @@
 import json
 import re
+from pathlib import Path
 
 import requests
 
 from modules.pages_downloader.src.constants.paths import (
     PDF_OUTPUT_PATH,
     ALL_BOOK_LINKS_FILE,
+    PDF_INPUT_PATH,
 )
 from modules.pages_downloader.src.constants.urls import (
     PDF_DOWNLOAD_BASE_URL,
@@ -15,7 +17,7 @@ from modules.pages_downloader.src.constants.urls import (
 def download_one_pdf(year: int, book_id: str) -> None:
     book_id = book_id.replace("/", "-")
     book_download_url = f"{PDF_DOWNLOAD_BASE_URL}/{book_id}.pdf"
-    output_path = PDF_OUTPUT_PATH / f"Basel_{year}.pdf"
+    output_path = PDF_INPUT_PATH / f"Basel_{year}.pdf"
 
     response = requests.get(book_download_url)
 
@@ -37,8 +39,8 @@ def get_book_id_from_url(text: str) -> str:
     return result
 
 
-if __name__ == "__main__":
-    with open(ALL_BOOK_LINKS_FILE, "r", encoding="utf-8") as f:
+def download_all_pdfs(list_of_urls: Path = ALL_BOOK_LINKS_FILE) -> None:
+    with open(list_of_urls, "r", encoding="utf-8") as f:
         books_urls = json.load(f)
 
     for item in books_urls:
