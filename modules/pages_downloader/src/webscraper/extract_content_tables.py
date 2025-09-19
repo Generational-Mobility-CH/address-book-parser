@@ -1,37 +1,19 @@
 import json
 import random
 import time
+from pathlib import Path
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from modules.pages_downloader.src.common.driver import get_web_driver
+from modules.pages_downloader.src.common.web_navigation_tools import click_btn
 from modules.pages_downloader.src.constants.paths import (
-    GENERAL_INPUT_PATH,
-    ALL_BOOK_LINKS_FILE,
+    GENERAL_OUTPUT_PATH,
 )
 
-
 WAIT_TIME = 5
-
-
-def click_btn(driver, btn_string):
-    wait = WebDriverWait(driver, WAIT_TIME)
-    btn = wait.until(
-        EC.presence_of_element_located(
-            (
-                By.XPATH,
-                f"//button[contains(@class, 'tify-header-button') and contains(@aria-controls, '{btn_string}')]",
-            )
-        )
-    )
-
-    driver.execute_script("arguments[0].scrollIntoView(true);", btn)
-    time.sleep(0.5)
-
-    driver.execute_script("arguments[0].click();", btn)
-    time.sleep(1)
 
 
 def extract_content_table(preview_url: str) -> str | None:
@@ -60,18 +42,21 @@ def extract_content_table(preview_url: str) -> str | None:
         driver.quit()
 
 
-if __name__ == "__main__":
-    with open(ALL_BOOK_LINKS_FILE, "r", encoding="utf-8") as f:
-        books_urls = json.load(f)
+def write_jsons_with_table_of_content(url_collection: Path) -> None:
+    with open(url_collection, "r", encoding="utf-8") as f:
+        book_urls = json.load(f)
 
-    for item in books_urls:
+    for item in book_urls:
         book_year = item[0][0]
         book_url = item[1]
 
+        output_file = (
+            GENERAL_OUTPUT_PATH / "json" / "toc" / f"Basel_{book_year}_toc.json"
+        )
+
+        if output_file.exists():
+            continue
+
         extracted_toc = extract_content_table(book_url)
-        with open(
-            GENERAL_INPUT_PATH / "json" / "toc" / f"Basel_{book_year}_toc.json",
-            "w",
-            encoding="utf-8",
-        ) as f:
+        with open(output_file, "w", encoding="utf-8") as f:
             json.dump(extracted_toc, f, ensure_ascii=False, indent=4)

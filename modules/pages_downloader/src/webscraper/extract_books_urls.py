@@ -1,21 +1,18 @@
 import json
 import re
 import time
+from pathlib import Path
 
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 
 from modules.pages_downloader.src.common.driver import get_web_driver
-from modules.pages_downloader.src.constants.paths import ALL_BOOK_LINKS_FILE
+from modules.pages_downloader.src.constants.paths import (
+    ALL_BOOK_LINKS_FILE,
+    TEST_BOOK_LINK_FILE,
+)
 
 RENDERING_WAIT_TIME = 5
-
-overview_urls = [
-    "https://dls.staatsarchiv.bs.ch/records/1225908",
-    "https://dls.staatsarchiv.bs.ch/records/1225909",
-    "https://dls.staatsarchiv.bs.ch/records/1231853",
-    "https://dls.staatsarchiv.bs.ch/records/1231854",
-]
 
 
 def get_book_urls(urls_collection: list[str], driver: WebDriver) -> list[str]:
@@ -76,8 +73,24 @@ def save_first_page_preview_links(
         json.dump(first_page_urls, f, ensure_ascii=False, indent=4)
 
 
-if __name__ == "__main__":
-    ALL_BOOK_LINKS_FILE.touch(exist_ok=True)
-    demo_driver = get_web_driver()
-    save_first_page_preview_links(overview_urls, demo_driver)
-    demo_driver.quit()
+def get_single_book_example(all_book_links_json: Path, chosen_year: int) -> None:
+    with open(all_book_links_json, "r", encoding="utf-8") as f:
+        all_book_links = json.load(f)
+
+    single_link = [link for link in all_book_links if link[0][0] == str(chosen_year)]
+
+    with open(TEST_BOOK_LINK_FILE, "w", encoding="utf-8") as f:
+        json.dump(single_link, f, ensure_ascii=False, indent=4)
+
+
+def extract_books_urls_from_overview(
+    urls_collection: list[str], test_case: int = 1917
+) -> None:
+    if not ALL_BOOK_LINKS_FILE.exists():
+        ALL_BOOK_LINKS_FILE.touch(exist_ok=True)
+        demo_driver = get_web_driver()
+        save_first_page_preview_links(urls_collection, demo_driver)
+        demo_driver.quit()
+
+    TEST_BOOK_LINK_FILE.touch(exist_ok=True)
+    get_single_book_example(ALL_BOOK_LINKS_FILE, chosen_year=test_case)

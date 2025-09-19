@@ -24,6 +24,7 @@ def setup() -> None:
         JPG_OUTPUT_PATH,
         *((JSON_OUTPUT_PATH / f"Basel_{year}") for year in YEARS_RANGE),
         *((JPG_OUTPUT_PATH / f"Basel_{year}") for year in YEARS_RANGE),
+        JSON_OUTPUT_PATH / "toc",
     ]
 
     [directory.mkdir(parents=True, exist_ok=True) for directory in module_directories]

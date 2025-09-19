@@ -4,6 +4,7 @@ from modules.shared.constants.paths import DATA_PATH
 GENERAL_INPUT_PATH = DATA_PATH / "pages-downloader" / "input"
 GENERAL_OUTPUT_PATH = DATA_PATH / "pages-downloader" / "output"
 ALL_BOOK_LINKS_FILE = GENERAL_INPUT_PATH / "json" / "Basel_all_book_links.json"
+TEST_BOOK_LINK_FILE = GENERAL_INPUT_PATH / "json" / "Basel_test_book_link.json"
 PDF_INPUT_PATH = GENERAL_INPUT_PATH / "pdf"
 PDF_OUTPUT_PATH = GENERAL_OUTPUT_PATH / "pdf"
 JPG_OUTPUT_PATH = GENERAL_OUTPUT_PATH / "jpg"
