@@ -1,4 +1,4 @@
-# Generate A Panel Dataset from old Swiss Address Books
+# Generate A Panel Dataset from historical Swiss Address Books
 ![Built with](https://img.shields.io/badge/Built%20With-Python-blue)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Linting: Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
