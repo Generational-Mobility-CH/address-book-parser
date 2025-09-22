@@ -2,7 +2,9 @@ import sqlite3
 import pandas as pd
 from pathlib import Path
 
-from libs.file_handler.src.models.supported_file_types import SupportedFileTypes
+from modules.persons_data_processor.src.repository.supported_file_types import (
+    SupportedFileTypes,
+)
 
 
 def get_latest_db_file(
