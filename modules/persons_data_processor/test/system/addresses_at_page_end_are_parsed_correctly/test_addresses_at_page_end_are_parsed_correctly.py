@@ -1,8 +1,10 @@
 import unittest
 from pathlib import Path
 
-from libs.file_handler.src.models.supported_file_types import SupportedFileTypes
 from modules.persons_data_processor.src.__main__ import main
+from modules.persons_data_processor.src.repository.supported_file_types import (
+    SupportedFileTypes,
+)
 from system.util.assert_csv_files_are_equal import assert_csv_files_are_equal
 
 
