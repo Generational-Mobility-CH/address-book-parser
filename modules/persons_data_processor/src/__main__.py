@@ -61,7 +61,7 @@ def main(
 
 
 if __name__ == "__main__":
-    demo_output_type = SupportedFileTypes.CSV
+    demo_output_type = SupportedFileTypes.DB
     time_stamp = f"{datetime.now():%b %d - %H%M}"
     demo_output_path = (
         PERSONS_OUTPUT_PATH
