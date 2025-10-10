@@ -1,10 +1,12 @@
 import sqlite3
-import pandas as pd
 from pathlib import Path
+from typing import TypeVar, Optional
 
 from modules.persons_data_processor.src.repository.supported_file_types import (
     SupportedFileTypes,
 )
+
+T = TypeVar("T")
 
 
 def get_latest_db_file(
@@ -20,12 +22,26 @@ def get_latest_db_file(
     return db_files[0]
 
 
-def load_table(db_path: Path, table: str) -> pd.DataFrame:
+def get_table_entries(
+    db_path: Path, table_name: str, entries_filter: Optional[str] = None
+) -> list[T]:
     if not db_path.exists():
-        raise FileNotFoundError(f"File {db_path} does not exist")
+        raise FileNotFoundError(f"File not found: {db_path}")
 
     conn = sqlite3.connect(db_path)
-    df = pd.read_sql_query(f"SELECT * FROM {table}", conn)
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name=?", (table_name,)
+    )
+    if not cursor.fetchone():
+        raise ValueError(f"Table '{table_name}' does not exist in the '{db_path}'.")
+
+    query = f"SELECT * FROM {table_name}" + (entries_filter if entries_filter else "")
+    cursor.execute(query)
+    rows = cursor.fetchall()
+
+    cursor.close()
     conn.close()
 
-    return df
+    return rows

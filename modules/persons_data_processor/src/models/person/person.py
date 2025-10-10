@@ -9,12 +9,19 @@ logger = logging.getLogger(__name__)
 
 
 class Person:
-    def __init__(self, original_names: str, job: str, address: Address) -> None:
+    def __init__(
+        self,
+        original_names: str,
+        job: str,
+        address: Address,
+        year: int = 0,
+        pdf_page_number: Optional[int] = None,
+    ) -> None:
         self.original_names = original_names
         self.job = job
         self.address = address
-        self.year: int = 0
-        self.pdf_page_number: Optional[int] = None
+        self.year = year
+        self.pdf_page_number = pdf_page_number
 
     @property
     def original_names(self) -> str:

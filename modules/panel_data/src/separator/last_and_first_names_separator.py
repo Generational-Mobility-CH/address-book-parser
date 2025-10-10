@@ -1,5 +1,8 @@
 import logging
 
+
+from modules.panel_data.src.models.new_person import NewPerson
+from modules.persons_data_processor.src.models.person.person import Person
 from modules.persons_data_processor.src.parser.constants.tags import TAG_NONE_FOUND
 from modules.persons_data_processor.src.text_cleaner.words_separator import (
     SEPARATE_WORDS_PATTERNS_AND_REPL,
@@ -8,11 +11,11 @@ from modules.persons_data_processor.src.utility.regex.apply_regex_patterns impor
     apply_regex_patterns,
 )
 from modules.panel_data.src.models.person_names import PersonNames
-from modules.panel_data.src.names_handler.constants.names_special_keywords import (
+from modules.panel_data.src.separator.constants.names_special_keywords import (
     KEYWORDS_NAMES_SEPARATOR,
     KEYWORDS_DIVORCED,
 )
-from modules.panel_data.src.names_handler.special_last_names_parser import (
+from modules.panel_data.src.separator.special_last_names_parser import (
     merge_last_names_with_prefixes,
 )
 
@@ -133,3 +136,44 @@ def separate_names_legacy(original_names: str) -> PersonNames:
             separated_names.last_names = original_names
 
     return separated_names
+
+
+def clean_first_names(names: PersonNames) -> PersonNames:
+    if names.first_names == TAG_NONE_FOUND and names.last_names not in [
+        TAG_NONE_FOUND,
+        "",
+    ]:
+        if "-" in names.last_names:
+            first, separator, second = names.last_names.partition("-")
+            if second:
+                first_names = apply_regex_patterns(
+                    first, SEPARATE_WORDS_PATTERNS_AND_REPL
+                )
+                return PersonNames(first_names, second)
+
+        return separate_names_legacy(names.last_names)
+
+    return names
+
+
+def separate_last_and_first_names(persons_collection: list[Person]) -> list[NewPerson]:
+    updated_persons = []
+
+    for person in persons_collection:
+        separated_names = separate_names_legacy(person.original_names)
+        cleaned_names = clean_first_names(separated_names)
+
+        new_person = NewPerson(
+            first_names=cleaned_names.first_names,
+            last_names=cleaned_names.last_names,
+            original_names=person.original_names,
+            street_name=person.address.street_name,
+            house_number=person.address.house_number,
+            job=person.job,
+            year=person.year,
+            pdf_page_number=person.pdf_page_number,
+        )
+
+        updated_persons.append(new_person)
+
+    return updated_persons
