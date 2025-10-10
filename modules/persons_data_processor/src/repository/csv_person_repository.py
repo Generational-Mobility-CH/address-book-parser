@@ -1,7 +1,7 @@
 import csv
 from logging import getLogger
 from pathlib import Path
-from typing import List, Optional, TypeVar
+from typing import Optional, TypeVar
 
 from .person_repository import PersonRepository
 from ..models.person.person import Person
@@ -12,10 +12,10 @@ logger = getLogger(__name__)
 
 
 class CsvPersonRepository(PersonRepository):
-    def __init__(self, column_names: Optional[List[str]] = None) -> None:
+    def __init__(self, column_names: Optional[list[str]] = None) -> None:
         self.column_names = column_names
 
-    def save(self, persons_collection: List[Person], output_path: Path) -> None:
+    def save(self, persons_collection: list[Person], output_path: Path) -> None:
         if not persons_collection:
             raise ValueError("Persons collection must not be empty.")
 

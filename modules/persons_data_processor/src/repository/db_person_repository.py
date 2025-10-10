@@ -1,6 +1,5 @@
 import sqlite3
 from pathlib import Path
-from typing import List
 
 from .constants.db_column_names import DB_COLUMN_NAMES
 from .person_repository import PersonRepository
@@ -17,7 +16,7 @@ class DbPersonRepository(PersonRepository):
     def __init__(self, table_name: str = PERSONS_ENTRIES_TABLE_NAME) -> None:
         self.table_name = table_name
 
-    def save(self, persons_collection: List[Person], output_path: Path) -> None:
+    def save(self, persons_collection: list[Person], output_path: Path) -> None:
         Path(output_path).parent.mkdir(parents=True, exist_ok=True)
 
         conn = sqlite3.connect(output_path)

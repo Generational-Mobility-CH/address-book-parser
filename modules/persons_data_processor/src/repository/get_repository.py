@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional
 
 from modules.persons_data_processor.src.repository.csv_person_repository import (
     CsvPersonRepository,
@@ -16,7 +16,7 @@ from modules.persons_data_processor.src.repository.supported_file_types import (
 
 def get_person_repository(
     output_type: SupportedFileTypes,
-    csv_column_names: Optional[List[str]] = None,
+    csv_column_names: Optional[list[str]] = None,
 ) -> PersonRepository:
     match output_type.value:
         case SupportedFileTypes.DB.value:
