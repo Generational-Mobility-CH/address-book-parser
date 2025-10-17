@@ -2,7 +2,12 @@ from datetime import datetime
 from logging import getLogger
 from pathlib import Path
 
-from libs.db_handler.src.open_db import get_table_entries, get_latest_db_file
+from modules.panel_data.src.repository.utility.get_table_entries import (
+    get_table_entries,
+)
+from modules.panel_data.src.repository.utility.get_latest_db_file import (
+    get_latest_db_file,
+)
 from modules.panel_data.src.constants.paths import (
     PANEL_DATA_OUTPUT_PATH,
     PANEL_DATA_INPUT_PATH,
