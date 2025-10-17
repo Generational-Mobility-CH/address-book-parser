@@ -2,15 +2,15 @@ import sqlite3
 from pathlib import Path
 
 from modules.panel_data.src.constants.paths import PANEL_DATA_OUTPUT_PATH
-from modules.panel_data.src.constants.table_definitions.gender_factors_table import (
+from modules.panel_data.src.repository.constants.gender_factors_table import (
     GENDER_FACTORS_TABLE_COLUMNS,
     GENDER_FACTORS_TABLE_NAME,
 )
-from modules.panel_data.src.constants.table_definitions.panel_data_table import (
+from modules.panel_data.src.repository.constants.panel_data_table import (
     PANEL_DATA_TABLE_COLUMNS,
     PANEL_DATA_TABLE_NAME,
 )
-from modules.panel_data.src.constants.table_definitions.gender_factors_definitions_table import (
+from modules.panel_data.src.repository.constants.gender_factors_definitions_table import (
     GENDER_FACTORS_DEFINITIONS_TABLE_NAME,
     GENDER_FACTORS_DEFINITIONS_TABLE_COLUMNS,
     GENDER_FACTORS_DEFINITIONS,
@@ -25,17 +25,16 @@ def setup_database_tables(file_path: Path) -> None:
     cursor = conn.cursor()
 
     cursor.execute(
-        f"CREATE TABLE {GENDER_FACTORS_TABLE_NAME} ({GENDER_FACTORS_TABLE_COLUMNS})"
+        f"CREATE TABLE IF NOT EXISTS {GENDER_FACTORS_TABLE_NAME} ({GENDER_FACTORS_TABLE_COLUMNS})"
     )
     cursor.execute(
         f"CREATE TABLE IF NOT EXISTS {PANEL_DATA_TABLE_NAME} ({PANEL_DATA_TABLE_COLUMNS})"
     )
-    cursor.execute("DROP TABLE IF EXISTS gender_factors_definitions")
     cursor.execute(
-        f"CREATE TABLE {GENDER_FACTORS_DEFINITIONS_TABLE_NAME} ({GENDER_FACTORS_DEFINITIONS_TABLE_COLUMNS})"
+        f"CREATE TABLE IF NOT EXISTS {GENDER_FACTORS_DEFINITIONS_TABLE_NAME} ({GENDER_FACTORS_DEFINITIONS_TABLE_COLUMNS})"
     )
     cursor.executemany(
-        f"INSERT INTO {GENDER_FACTORS_DEFINITIONS_TABLE_NAME} (id, factor_name, weight) VALUES (?, ?, ?)",
+        f"INSERT INTO {GENDER_FACTORS_DEFINITIONS_TABLE_NAME} (factor_id, factor_name, factor_weight) VALUES (?, ?, ?)",
         GENDER_FACTORS_DEFINITIONS,
     )
 

@@ -1,6 +1,7 @@
 import logging
 from typing import Optional
 
+from modules.panel_data.src.models.gender import Gender
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +18,7 @@ class NewPerson:  # TODO: pick better names for both persons classes
         year: int,
         pdf_page_number: int,
         partner_last_names: Optional[str] = "",
-        gender: str = "M",
+        gender: Gender = Gender.MALE,
         gender_confidence: Optional[float] = 0.0,
     ) -> None:
         self._first_names = first_names
@@ -121,11 +122,11 @@ class NewPerson:  # TODO: pick better names for both persons classes
         self._house_number = value
 
     @property
-    def gender(self) -> str | None:
+    def gender(self) -> Gender:
         return self._gender
 
     @gender.setter
-    def gender(self, value: str) -> None:
+    def gender(self, value: Gender) -> None:
         self._gender = value
 
     @property

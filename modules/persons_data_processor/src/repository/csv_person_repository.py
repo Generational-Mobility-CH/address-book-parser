@@ -3,7 +3,7 @@ from logging import getLogger
 from pathlib import Path
 from typing import Optional, TypeVar
 
-from .person_repository import PersonRepository
+from modules.shared.repository.repository import Repository
 from ..models.person.person import Person
 
 T = TypeVar("T")
@@ -11,7 +11,7 @@ T = TypeVar("T")
 logger = getLogger(__name__)
 
 
-class CsvPersonRepository(PersonRepository):
+class CsvPersonRepository(Repository):
     def __init__(self, column_names: Optional[list[str]] = None) -> None:
         self.column_names = column_names
 

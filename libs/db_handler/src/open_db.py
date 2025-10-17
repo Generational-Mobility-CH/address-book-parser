@@ -2,7 +2,7 @@ import sqlite3
 from pathlib import Path
 from typing import TypeVar, Optional
 
-from modules.persons_data_processor.src.repository.supported_file_types import (
+from modules.shared.repository.supported_file_types import (
     SupportedFileTypes,
 )
 

@@ -2,7 +2,7 @@ import sqlite3
 from pathlib import Path
 
 from .constants.db_column_names import DB_COLUMN_NAMES
-from .person_repository import PersonRepository
+from modules.shared.repository.repository import Repository
 from ..constants.database_table_names import PERSONS_ENTRIES_TABLE_NAME
 from ..models.person.person import Person
 
@@ -12,7 +12,7 @@ PLACEHOLDERS = ", ".join(["?"] * len(DB_COLUMN_NAMES))
 COLUMNS_STR = ", ".join(DB_COLUMN_NAMES)
 
 
-class DbPersonRepository(PersonRepository):
+class DbPersonRepository(Repository):
     def __init__(self, table_name: str = PERSONS_ENTRIES_TABLE_NAME) -> None:
         self.table_name = table_name
 

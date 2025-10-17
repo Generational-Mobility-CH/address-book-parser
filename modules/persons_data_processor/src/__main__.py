@@ -23,7 +23,7 @@ from modules.persons_data_processor.src.parser.parser import (
 from modules.persons_data_processor.src.repository.get_repository import (
     get_person_repository,
 )
-from modules.persons_data_processor.src.repository.supported_file_types import (
+from modules.shared.repository.supported_file_types import (
     SupportedFileTypes,
 )
 from modules.persons_data_processor.src.setup import setup

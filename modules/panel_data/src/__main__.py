@@ -1,4 +1,3 @@
-import sqlite3
 from datetime import datetime
 from logging import getLogger
 from pathlib import Path
@@ -8,12 +7,9 @@ from modules.panel_data.src.constants.paths import (
     PANEL_DATA_OUTPUT_PATH,
     PANEL_DATA_INPUT_PATH,
 )
-from modules.panel_data.src.constants.table_definitions.panel_data_table import (
-    PANEL_DATA_TABLE_NAME,
-    PANEL_DATA_TABLE_COLUMNS_NAMES,
-    PANEL_DATA_TABLE_COLUMNS,
-)
+from modules.panel_data.src.gender_calculator.gender_calculator import identify_females
 from modules.panel_data.src.models.new_person import NewPerson
+from modules.panel_data.src.repository.panel_data_repository import PanelDataRepository
 from modules.panel_data.src.separator.separator import separate_information
 from modules.panel_data.src.setup import setup
 from modules.persons_data_processor.src.constants.database_table_names import (
@@ -33,9 +29,7 @@ logger = getLogger(__name__)
 def main(input_path: Path, output_path: Path) -> None:
     logger.info(f"Reading data from {input_path}")
 
-    for (
-        year
-    ) in YEARS_RANGE:  # TODO: check if this actually parses the very last year in rage
+    for year in YEARS_RANGE:
         entries = get_table_entries(
             input_path, PERSONS_ENTRIES_TABLE_NAME, f" WHERE year LIKE {year}"
         )
@@ -51,60 +45,18 @@ def main(input_path: Path, output_path: Path) -> None:
             persons.append(person)
 
         logger.info(f"Parsing persons from year {year}")
-        persons = parse_panel_data_set(persons, input_path)
+        persons = parse_panel_data_set(persons, output_path)
 
-        save_panel_data_set(persons, output_path)
+        PanelDataRepository().save(persons, output_path)
         logger.info(f"Saved persons to '{output_path}'")
 
 
 def parse_panel_data_set(persons: list[Person], db_path: Path) -> list[NewPerson]:
     persons = separate_information(persons)
-    # persons = infer_gender(persons, db_path)
+    persons = identify_females(persons, db_path)
     # persons = standardize_information(persons)
 
     return persons
-
-
-def save_panel_data_set(
-    persons_collection: list[NewPerson], output_path: Path
-):  # TODO: use factory like in other module
-    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
-
-    cols_str = ", ".join(PANEL_DATA_TABLE_COLUMNS_NAMES)
-    placeholders = ", ".join(["?"] * len(PANEL_DATA_TABLE_COLUMNS_NAMES))
-
-    conn = sqlite3.connect(output_path)
-    cursor = conn.cursor()
-    cursor.execute(
-        f"CREATE TABLE IF NOT EXISTS {PANEL_DATA_TABLE_NAME} ({PANEL_DATA_TABLE_COLUMNS})"
-    )
-    cursor.execute("PRAGMA synchronous = OFF")
-    cursor.execute("PRAGMA journal_mode = MEMORY")
-
-    rows = [
-        (
-            str(getattr(person, "first_names", "")),
-            str(getattr(person, "last_names", "")),
-            str(getattr(person, "partner_last_names", "")),
-            str(getattr(person, "gender", "")),
-            str(getattr(person, "gender_confidence", "")),
-            str(getattr(person, "street_name", "")),
-            str(getattr(person, "house_number", "")),
-            str(getattr(person, "job", "")),
-            str(getattr(person, "year", "")),
-            str(getattr(person, "pdf_page_number", "")),
-            str(getattr(person, "original_names", "")),
-        )
-        for person in persons_collection
-    ]
-
-    cursor.executemany(
-        f"INSERT INTO {PANEL_DATA_TABLE_NAME} ({cols_str}) VALUES ({placeholders})",
-        rows,
-    )
-
-    conn.commit()
-    conn.close()
 
 
 if __name__ == "__main__":
