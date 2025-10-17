@@ -1,7 +1,7 @@
-from modules.panel_data.src.models.new_person import NewPerson
+from modules.panel_data.src.models.panel_data_entry import PanelDataEntry
 
 
-def separate_partner_last_name(persons: list[NewPerson]) -> list[NewPerson]:
+def separate_partner_last_name(persons: list[PanelDataEntry]) -> list[PanelDataEntry]:
     for person in persons:
         if "-" in person.last_names:  # TODO: make better
             splitted = person.last_names.split(r"[-\s]+", 1)

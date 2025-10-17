@@ -1,13 +1,16 @@
 import logging
 
 
-from modules.panel_data.src.models.new_person import NewPerson
-from modules.persons_data_processor.src.models.person.person import Person
-from modules.persons_data_processor.src.parser.constants.tags import TAG_NONE_FOUND
-from modules.persons_data_processor.src.text_cleaner.words_separator import (
+from modules.panel_data.src.models.panel_data_entry import PanelDataEntry
+
+from modules.address_books.src.models.address_book.address_book_entry import (
+    AddressBookEntry,
+)
+from modules.address_books.src.parser.constants.tags import TAG_NONE_FOUND
+from modules.address_books.src.text_cleaner.words_separator import (
     SEPARATE_WORDS_PATTERNS_AND_REPL,
 )
-from modules.persons_data_processor.src.utility.regex.apply_regex_patterns import (
+from modules.address_books.src.utility.regex.apply_regex_patterns import (
     apply_regex_patterns,
 )
 from modules.panel_data.src.models.person_names import PersonNames
@@ -156,14 +159,16 @@ def clean_first_names(names: PersonNames) -> PersonNames:
     return names
 
 
-def separate_last_and_first_names(persons_collection: list[Person]) -> list[NewPerson]:
+def separate_last_and_first_names(
+    persons_collection: list[AddressBookEntry],
+) -> list[PanelDataEntry]:
     updated_persons = []
 
     for person in persons_collection:
         separated_names = separate_names_legacy(person.original_names)
         cleaned_names = clean_first_names(separated_names)
 
-        new_person = NewPerson(
+        new_person = PanelDataEntry(
             first_names=cleaned_names.first_names,
             last_names=cleaned_names.last_names,
             original_names=person.original_names,

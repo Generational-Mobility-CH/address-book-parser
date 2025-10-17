@@ -6,7 +6,7 @@ from modules.panel_data.src.repository.constants.gender_factors_table import (
     GENDER_FACTORS_TABLE_NAME,
 )
 from modules.panel_data.src.models.gender import Gender
-from modules.panel_data.src.models.new_person import NewPerson
+from modules.panel_data.src.models.panel_data_entry import PanelDataEntry
 
 
 def _add_gender_factor(
@@ -37,13 +37,11 @@ def found_female_job(data: str) -> bool:
 
 
 def identify_females(
-    persons_collection: list[NewPerson], db_path: Path
-) -> list[NewPerson]:
+    persons_collection: list[PanelDataEntry], db_path: Path
+) -> list[PanelDataEntry]:
     for person in persons_collection:
         first_names = person.first_names.lower().strip()
-        person_key = (
-            f"TODO-{person.first_names}-{person.last_names}-{person.street_name}"
-        )
+        person_key = f"TODO-{person.first_names}-{person.last_names}-{person.address.street_name}"
 
         if found_female_keyword(first_names):
             person.gender = Gender.FEMALE

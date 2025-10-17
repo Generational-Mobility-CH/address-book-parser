@@ -21,7 +21,9 @@ from modules.shared.constants.paths import DATA_PATH
 
 def setup_database_tables(file_path: Path) -> None:
     file_path.touch(exist_ok=True)
-    conn = sqlite3.connect(file_path)
+    conn = sqlite3.connect(
+        file_path
+    )  # TODO: use context manager for all sql queries "with..."
     cursor = conn.cursor()
 
     cursor.execute(

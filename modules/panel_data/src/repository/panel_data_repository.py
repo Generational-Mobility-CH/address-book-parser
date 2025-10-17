@@ -6,7 +6,7 @@ from modules.panel_data.src.repository.constants.panel_data_table import (
     PANEL_DATA_TABLE_COLUMNS_NAMES,
     PANEL_DATA_TABLE_COLUMNS,
 )
-from modules.panel_data.src.models.new_person import NewPerson
+from modules.panel_data.src.models.panel_data_entry import PanelDataEntry
 from modules.shared.repository.repository import Repository
 
 
@@ -17,7 +17,7 @@ class PanelDataRepository(Repository):
         self.cols_str = ", ".join(column_names)
         self.placeholders = ", ".join(["?"] * len(column_names))
 
-    def save(self, persons_collection: list[NewPerson], output_path: Path) -> None:
+    def save(self, persons_collection: list[PanelDataEntry], output_path: Path) -> None:
         Path(output_path).parent.mkdir(parents=True, exist_ok=True)
 
         with sqlite3.connect(output_path) as conn:

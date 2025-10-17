@@ -8,16 +8,18 @@ from modules.panel_data.src.constants.paths import (
     PANEL_DATA_INPUT_PATH,
 )
 from modules.panel_data.src.gender_calculator.gender_calculator import identify_females
-from modules.panel_data.src.models.new_person import NewPerson
+from modules.panel_data.src.models.panel_data_entry import PanelDataEntry
 from modules.panel_data.src.repository.panel_data_repository import PanelDataRepository
 from modules.panel_data.src.separator.separator import separate_information
 from modules.panel_data.src.setup import setup
-from modules.persons_data_processor.src.constants.database_table_names import (
+from modules.address_books.src.constants.database_table_names import (
     PERSONS_ENTRIES_TABLE_NAME,
 )
-from modules.persons_data_processor.src.models.person.address import Address
-from modules.persons_data_processor.src.models.person.person import Person
-from modules.persons_data_processor.src.repository.constants.db_column_names import (
+from modules.address_books.src.models.address import Address
+from modules.address_books.src.models.address_book.address_book_entry import (
+    AddressBookEntry,
+)
+from modules.address_books.src.repository.constants.db_column_names import (
     DB_COLUMN_NAMES,
 )
 from modules.shared.constants.years_range import YEARS_RANGE
@@ -25,7 +27,6 @@ from modules.shared.constants.years_range import YEARS_RANGE
 logger = getLogger(__name__)
 
 
-# TODO: move Persons+Address classes into /shared
 def main(input_path: Path, output_path: Path) -> None:
     logger.info(f"Reading data from {input_path}")
 
@@ -34,29 +35,31 @@ def main(input_path: Path, output_path: Path) -> None:
             input_path, PERSONS_ENTRIES_TABLE_NAME, f" WHERE year LIKE {year}"
         )
 
-        persons = []
+        address_book_entries = []
         for row in entries:
-            person_data = dict(zip(DB_COLUMN_NAMES, row))
+            entry_data = dict(zip(DB_COLUMN_NAMES, row))
             address = Address(
-                street_name=person_data.pop("street_name"),
-                house_number=person_data.pop("house_number"),
+                street_name=entry_data.pop("street_name"),
+                house_number=entry_data.pop("house_number"),
             )
-            person = Person(address=address, **person_data)
-            persons.append(person)
+            entry = AddressBookEntry(address=address, **entry_data)
+            address_book_entries.append(entry)
 
         logger.info(f"Parsing persons from year {year}")
-        persons = parse_panel_data_set(persons, output_path)
+        panel_data = parse_panel_data_set(address_book_entries, output_path)
 
-        PanelDataRepository().save(persons, output_path)
+        PanelDataRepository().save(panel_data, output_path)
         logger.info(f"Saved persons to '{output_path}'")
 
 
-def parse_panel_data_set(persons: list[Person], db_path: Path) -> list[NewPerson]:
-    persons = separate_information(persons)
-    persons = identify_females(persons, db_path)
+def parse_panel_data_set(
+    address_book_entries: list[AddressBookEntry], db_path: Path
+) -> list[PanelDataEntry]:
+    panel_data_entries = separate_information(address_book_entries)
+    panel_data_entries = identify_females(panel_data_entries, db_path)
     # persons = standardize_information(persons)
 
-    return persons
+    return panel_data_entries
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 .idea
-data/address-books/basel
+data/address-books/transcriptions/basel
 data/persons
 
 # Byte-compiled / optimized / DLL files
@@ -154,5 +154,5 @@ fabric.properties
 
 # PyPI configuration file
 .pypirc
-/data/address-books/basel/
+/data/address-books/transcriptions/basel/
 /.env.local

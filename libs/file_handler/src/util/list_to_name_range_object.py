@@ -1,4 +1,4 @@
-from modules.persons_data_processor.src.models.address_book.name_range import (
+from modules.address_books.src.models.address_book.name_range import (
     NameRange,
 )
 

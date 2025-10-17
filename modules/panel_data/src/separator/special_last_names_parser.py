@@ -1,4 +1,4 @@
-from modules.persons_data_processor.src.utility.regex.substitute_with_map import (
+from modules.address_books.src.utility.regex.substitute_with_map import (
     substitute_with_map,
 )
 from modules.panel_data.src.separator.constants.last_name_prefixes import (
@@ -6,7 +6,7 @@ from modules.panel_data.src.separator.constants.last_name_prefixes import (
 )
 
 
-# TODO: move into persons_data_processor sub-module
+# TODO: move into address_books sub-module
 def merge_last_names_with_prefixes(text: str) -> str:
     text = substitute_with_map(
         text,
