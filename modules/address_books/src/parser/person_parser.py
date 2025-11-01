@@ -29,6 +29,7 @@ def parse_person(data: PersonDataParts, current_last_name: str) -> AddressBookEn
         original_names=TAG_NONE_FOUND,
         address=Address(street_name=TAG_NONE_FOUND, house_number=TAG_NONE_FOUND),
         job=TAG_NO_JOB,
+        original_entry=f"{data.first}, {data.second}, {data.third}",
     )
 
     if (all_names := data.first) and _is_name(all_names, current_last_name):

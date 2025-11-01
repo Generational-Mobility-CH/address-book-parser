@@ -10,7 +10,7 @@ PANEL_DATA_TABLE_COLUMNS = """
     job TEXT,
     year INTEGER,
     pdf_page_number INTEGER,
-    original_names TEXT
+    original_entry TEXT
 """
 PANEL_DATA_TABLE_COLUMNS_NAMES = [
     "first_names",
@@ -23,5 +23,5 @@ PANEL_DATA_TABLE_COLUMNS_NAMES = [
     "job",
     "year",
     "pdf_page_number",
-    "original_names",
+    "original_entry",
 ]
