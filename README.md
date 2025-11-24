@@ -15,9 +15,9 @@ Books processed so far:
 
 1. _pages_downloader_: Download the chapter containing the residents register from the address books website.
 2. _pages_preprocessor_: Cut the address book pages columns into single pages, so the OCR can process them more easily.
-3. _Text Extraction_: Extract the text from the scanned address book pages with [ChronoMiner](https://github.com/Paullllllllllllllllll/ChronoMiner), provided by @Paullllllllllllllllll.
-4. _persons_data_processor_: Parse the extracted text from step 3. and save each person's name, address and job into a SQL database.
-5. _panel_data_: Create the final panel data set that will be used for research from the databese created in step 4. 
+3. _transcriptor_: Extract the text from the address book pages by using LLM (OpenAI).
+4. _persons_data_processor_: Parse the extracted text and save each person's information into a SQL database.
+5. _panel_data_: From the SQL database. create the final panel data set that will be used for research. 
 
 All relevant data is stored under the `data/` directory.
 
@@ -37,10 +37,11 @@ uv pip install
 ```
 **Setup Chrome WebDriver (needed for module 'pages_downloader')**
 - Download and install the chrome webbrowser
-- Download and install the [chrome webdriver](https://developer.chrome.com/docs/chromedriver/downloads) (always ensure that the versions of chrome and chromedriver match)
+- Download and install the [chrome webdriver](https://developer.chrome.com/docs/chromedriver/downloads)
+  - Make sure the installed versions of Chrome and Chrome WebDriver correspond
 - Copy the file '.env.local_example' and rename it to '.env.local'
 - Add the path to your Chrome WebDriver in '.env.local'
-- Always make sure that the installed versions of Chrome and Chrome WebDriver correspond!
+
 
 ### Running the tests
 
