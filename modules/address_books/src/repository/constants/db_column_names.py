@@ -5,4 +5,5 @@ DB_COLUMN_NAMES = [
     "job",
     "year",
     "pdf_page_number",
+    "original_entry",
 ]

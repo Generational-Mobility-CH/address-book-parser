@@ -16,12 +16,14 @@ class AddressBookEntry:
         address: Address,
         year: int = 0,
         pdf_page_number: Optional[int] = None,
+        original_entry: str = None,
     ) -> None:
         self.original_names = original_names
         self.job = job
         self.address = address
         self.year = year
         self.pdf_page_number = pdf_page_number
+        self.original_entry = original_entry
 
     @property
     def original_names(self) -> str:
@@ -64,6 +66,14 @@ class AddressBookEntry:
     @pdf_page_number.setter
     def pdf_page_number(self, value: int) -> None:
         self._pdf_page_number = value
+
+    @property
+    def original_entry(self) -> str | None:
+        return self._original_entry
+
+    @original_entry.setter
+    def original_entry(self, value: str) -> None:
+        self._original_entry = value
 
     def __repr__(self) -> str:
         return f"Person(Name={self.original_names}, job={self.job}, address={repr(self.address)}, year={self.year})"

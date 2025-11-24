@@ -40,7 +40,7 @@ class PanelDataRepository(Repository):
                     str(getattr(person, "job", "")),
                     str(getattr(person, "year", "")),
                     str(getattr(person, "pdf_page_number", "")),
-                    str(getattr(person, "original_names", "")),
+                    str(getattr(person, "original_entry", "")),
                 )
                 for person in persons_collection
             ]
