@@ -29,6 +29,6 @@ def substitute_with_map(
                     text,
                 )
             else:
-                logger.error(f"Could not find key {key} in mapping {mapping}")
+                logger.warning(f"Could not find key {key} in mapping {mapping}")
 
     return text

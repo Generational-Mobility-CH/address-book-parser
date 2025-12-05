@@ -5,17 +5,16 @@ from pathlib import Path
 from modules.panel_data.src.repository.utility.get_table_entries import (
     get_table_entries,
 )
-from modules.panel_data.src.repository.utility.get_latest_db_file import (
-    get_latest_db_file,
-)
 from modules.panel_data.src.constants.paths import (
     PANEL_DATA_OUTPUT_PATH,
-    PANEL_DATA_INPUT_PATH,
 )
-from modules.panel_data.src.gender_calculator.gender_calculator import identify_females
+from modules.panel_data.src.gender_calculator.gender_calculator import identify_gender
 from modules.panel_data.src.models.panel_data_entry import PanelDataEntry
 from modules.panel_data.src.repository.panel_data_repository import PanelDataRepository
-from modules.panel_data.src.separator.separator import separate_information
+from modules.panel_data.src.separator.separator import (
+    separate_information,
+    separate_partner,
+)
 from modules.panel_data.src.setup import setup
 from modules.address_books.src.constants.database_table_names import (
     PERSONS_ENTRIES_TABLE_NAME,
@@ -27,13 +26,15 @@ from modules.address_books.src.models.address_book.address_book_entry import (
 from modules.address_books.src.repository.constants.db_column_names import (
     DB_COLUMN_NAMES,
 )
+from modules.panel_data.src.standardizer.standardizer import standardize_information
+from modules.shared.constants.paths import DATA_PATH
 from modules.shared.constants.years_range import YEARS_RANGE
 
-logger = getLogger(__name__)
+_logger = getLogger(__name__)
 
 
 def main(input_path: Path, output_path: Path) -> None:
-    logger.info(f"Reading data from {input_path}")
+    _logger.info(f"Reading data from {input_path} ...")
 
     for year in YEARS_RANGE:
         entries = get_table_entries(
@@ -50,25 +51,31 @@ def main(input_path: Path, output_path: Path) -> None:
             entry = AddressBookEntry(address=address, **entry_data)
             address_book_entries.append(entry)
 
-        logger.info(f"Parsing persons from year {year}")
-        panel_data = parse_panel_data_set(address_book_entries, output_path)
-
+        panel_data = parse_panel_data_set(address_book_entries)
         PanelDataRepository().save(panel_data, output_path)
-        logger.info(f"Saved persons to '{output_path}'")
 
 
 def parse_panel_data_set(
-    address_book_entries: list[AddressBookEntry], db_path: Path
+    address_book_entries: list[AddressBookEntry],
 ) -> list[PanelDataEntry]:
-    panel_data_entries = separate_information(address_book_entries)
-    panel_data_entries = identify_females(panel_data_entries, db_path)
-    # persons = standardize_information(persons)
+    _logger.info(f"Parsing persons from year {address_book_entries[0].year} ...")
 
-    return panel_data_entries
+    separated_entries = separate_information(address_book_entries)
+
+    gendered_entries_first_run = identify_gender(separated_entries)
+    standardized_entries_first_run = standardize_information(gendered_entries_first_run)
+    gendered_entries = identify_gender(standardized_entries_first_run)
+    standardized_entries = standardize_information(gendered_entries)
+
+    result = separate_partner(standardized_entries)
+
+    return result
 
 
 if __name__ == "__main__":
-    demo_input_path = get_latest_db_file(PANEL_DATA_INPUT_PATH)
+    demo_input_path = (
+        DATA_PATH / "db" / "STABLE - BOOKS - Oct 22 - 1926.db"
+    )  # get_latest_db_file(PANEL_DATA_INPUT_PATH)
     time_stamp = f"{datetime.now():%b %d - %H%M%S}"
     demo_output_path = PANEL_DATA_OUTPUT_PATH / "db" / f"{time_stamp}.db"
 

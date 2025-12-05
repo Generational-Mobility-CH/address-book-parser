@@ -1,4 +1,5 @@
 import sqlite3
+from logging import getLogger
 from pathlib import Path
 
 from modules.panel_data.src.repository.constants.panel_data_table import (
@@ -8,6 +9,8 @@ from modules.panel_data.src.repository.constants.panel_data_table import (
 )
 from modules.panel_data.src.models.panel_data_entry import PanelDataEntry
 from modules.shared.repository.repository import Repository
+
+_logger = getLogger(__name__)
 
 
 class PanelDataRepository(Repository):
@@ -49,3 +52,5 @@ class PanelDataRepository(Repository):
                 f"INSERT INTO {PANEL_DATA_TABLE_NAME} ({self.cols_str}) VALUES ({self.placeholders})",
                 rows,
             )
+
+        _logger.info(f"Saved persons to '{output_path}'")

@@ -1,11 +1,11 @@
 import logging
 from typing import Optional
 
-from modules.panel_data.src.models.gender import Gender
 from modules.address_books.src.models.address import Address
 from modules.address_books.src.models.address_book.address_book_entry import (
     AddressBookEntry,
 )
+from modules.panel_data.src.constants.gender_descriptors import GENDER_UNKNOWN
 
 logger = logging.getLogger(__name__)
 
@@ -15,18 +15,18 @@ class PanelDataEntry(AddressBookEntry):
         self,
         first_names: str,
         last_names: str,
-        original_names: str,
         job: str,
         street_name: str,
         house_number: str,
         year: int,
         pdf_page_number: int,
+        original_entry: str,
         partner_last_names: Optional[str] = "",
-        gender: Gender = Gender.MALE,
-        gender_confidence: Optional[float] = 0.0,
+        gender: str = GENDER_UNKNOWN,
+        gender_from: Optional[str] = "",
     ) -> None:
         super().__init__(
-            original_names=original_names,
+            original_names=original_entry,
             job=job,
             address=Address(street_name=street_name, house_number=house_number),
             year=year,
@@ -36,7 +36,8 @@ class PanelDataEntry(AddressBookEntry):
         self._last_names = last_names
         self._partner_last_names = partner_last_names
         self._gender = gender
-        self._gender_confidence = gender_confidence
+        self._gender_confidence = gender_from
+        self._original_entry = f"{self._last_names} {self._partner_last_names} {self._first_names}, {self.address}, {self.job}"
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(first_names='{self.first_names}', last_names='{self.last_names}', partner_last_names='{self.partner_last_names}, gender='{self.gender}', gender_confidence={self.gender_confidence}, year={self.year}, {super().__repr__()}"
@@ -88,17 +89,17 @@ class PanelDataEntry(AddressBookEntry):
         self._partner_last_names = value
 
     @property
-    def gender(self) -> Gender:
+    def gender(self) -> str:
         return self._gender
 
     @gender.setter
-    def gender(self, value: Gender) -> None:
+    def gender(self, value: str) -> None:
         self._gender = value
 
     @property
-    def gender_confidence(self) -> float:
+    def gender_confidence(self) -> str:
         return self._gender_confidence
 
     @gender_confidence.setter
-    def gender_confidence(self, value: float) -> None:
+    def gender_confidence(self, value: str) -> None:
         self._gender_confidence = value

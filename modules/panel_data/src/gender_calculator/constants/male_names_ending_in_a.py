@@ -1,1 +1,1 @@
-MALE_NAMES_ENDING_IN_A = {"Beda"}
+MALE_NAMES_ENDING_IN_A = {"andrea", "beda"}

@@ -23,8 +23,8 @@ def save_data(data: DataFrame, output_path: Path) -> None:
 
 
 if __name__ == "__main__":
-    input_dir = DATA_PATH / "transcriptions" / "basel_test"
-    output_dir = DATA_PATH / "db" / f"Basel-{datetime.now():%b %d - %H%M}.db"
+    input_dir = DATA_PATH / "test" / "transcriptions" / "persons"
+    output_dir = DATA_PATH / "test" / "db" / f"Basel-{datetime.now():%b %d - %H%M}.db"
 
     for book in input_dir.iterdir():
         year_match = re.search(r"\d{4}$", book.name)
@@ -34,9 +34,9 @@ if __name__ == "__main__":
                 page_data = pd.read_csv(page)
                 page_data["year"] = year
                 page_data["page_number"] = page.stem
-                page_data["original_entry"] = page_data.apply(
-                    lambda row: f"{row['last_name']} {row['partner_last_name']} {row['first_names']}, {row['street_name']} {row['house_number']}, {row['job']}",
-                    axis=1,
-                )
+                # page_data["original_entry"] = page_data.apply(
+                #     lambda row: f"{row['last_name']} {row['partner_last_name']} {row['first_names']}, {row['street_name']} {row['house_number']}, {row['job']}",
+                #     axis=1,
+                # )
 
                 save_data(page_data, output_dir)

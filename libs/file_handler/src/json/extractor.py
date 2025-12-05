@@ -4,7 +4,7 @@ from pathlib import Path
 from libs.file_handler.src.models.extractor_strategy import ExtractorStrategy
 from libs.file_handler.src.json.deserializer import deserialize_book_page
 from libs.file_handler.src.json.reader import read_json
-from libs.file_handler.src.util.get_year_from_file_name import get_year_from_file_name
+from libs.file_handler.src.util.get_year_from_file_name import get_year_from_file
 from modules.address_books.src.models.address_book.address_book import (
     AddressBook,
 )
@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 class JsonExtractor(ExtractorStrategy):
     def extract(self, data_path: Path) -> AddressBook:
-        year = get_year_from_file_name(data_path)
+        year = get_year_from_file(data_path)
         book: AddressBook = AddressBook(year=year, pages=[])
 
         for file_path in sorted(data_path.iterdir()):

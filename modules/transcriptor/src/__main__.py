@@ -1,20 +1,19 @@
 import csv
 import json
-import os
 import re
+import sqlite3
+from datetime import datetime
 from logging import getLogger
 from pathlib import Path
 
-from openai import OpenAI
+import pandas as pd
 from pydantic import ValidationError
 
-from modules.shared.common.config import config_instance
+from libs.file_handler.src.util.get_year_from_file_name import get_year_from_file
 from modules.shared.constants.paths import DATA_PATH, CITY
-from modules.transcriptor.src.api_openai.create_batch_jobs import create_batch_jobs
-from modules.transcriptor.src.api_openai.retrieve_batch_response import (
-    retrieve_batch_response,
-)
 from modules.transcriptor.src.api_openai.write_batch_files import write_batch_files
+from modules.transcriptor.src.clean_persons import clean_persons_csv
+from modules.transcriptor.src.constants.csv_header import CSV_HEADER
 from modules.transcriptor.src.data_convertors.to_batch_api_request import (
     to_batch_api_request,
 )
@@ -75,6 +74,7 @@ def extract_persons(data_input_dir: Path, data_output_dir: Path) -> None:
         file_name = out_dir / f"{file.stem}.csv"
         with open(file_name, "w", encoding="utf-8") as f:
             writer = csv.writer(f, delimiter=";")
+            writer.writerow(CSV_HEADER)
             for person in persons:
                 writer.writerow(person)
         _logger.info(f"Wrote persons to {file_name}")
@@ -84,22 +84,19 @@ if __name__ == "__main__":
     base64_dir = DATA_PATH / "base64"
     jsonl_dir = DATA_PATH / "jsonl"
     transcriptions_dir = DATA_PATH / "transcriptions"
+    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
 
-    setup([DATA_PATH, base64_dir, jsonl_dir, transcriptions_dir])
+    setup([DATA_PATH, base64_dir, jsonl_dir, transcriptions_dir], timestamp)
 
-    client = OpenAI()
-    os.environ["OPENAI_API_KEY"] = config_instance.openai_api_key
+    # client = OpenAI()
+    # os.environ["OPENAI_API_KEY"] = config_instance.openai_api_key
 
     # base64 -> jsonl
     for book in base64_dir.iterdir():
         all_requests: list[BatchRequest] = []
-        year = (
-            re.search(r"\d{4}", book.name).group(0)
-            if re.search(r"\d{4}", book.name)
-            else None
-        )
+        year = get_year_from_file(book)
 
-        if year and int(year) in range(1922, 1950):
+        if year > 0 and year in range(1922, 1950):
             for page in book.iterdir():
                 base64_image = page.open().read()
                 all_requests.append(
@@ -108,21 +105,46 @@ if __name__ == "__main__":
 
         write_batch_files(all_requests, jsonl_dir, year)
 
-    for batch in jsonl_dir.glob("*.jsonl"):
-        create_batch_jobs(batch, client)
+    # for batch in jsonl_dir.glob("*.jsonl"):
+    #     create_batch_jobs(batch, client)
 
-    # get responses
-    batch_ids_file = (
-        DATA_PATH / "transcriptions" / "batch_ids" / "batch_ids-1922-1949.txt"
-    )
-    for batch_id in batch_ids_file.open("r").readlines():
-        if response := retrieve_batch_response(batch_id, client):
-            (transcriptions_dir / "jsonl" / f"output-{batch_id}.jsonl").open("w").write(
-                response.text
-            )
-            _logger.info(
-                f"Successfully wrote output for batch with id='{batch_id}' under f'{transcriptions_dir}'"
-            )
+    # # get responses
+    # batch_ids_file = (
+    #     DATA_PATH / "transcriptions" / "batch_ids" / "batch_ids-1922-1949.txt"
+    # )
+    # for batch_id in batch_ids_file.open("r").readlines():
+    #     if response := retrieve_batch_response(batch_id, client):
+    #         (transcriptions_dir / "jsonl" / f"output-{batch_id}.jsonl").open("w").write(
+    #             response.text
+    #         )
+    #         _logger.info(
+    #             f"Successfully wrote output for batch with id='{batch_id}' under f'{transcriptions_dir}'"
+    #         )
 
-    extract_relevant_text(transcriptions_dir / "jsonl", transcriptions_dir / "text")
-    extract_persons(transcriptions_dir / "text", transcriptions_dir / "persons")
+    # extract_relevant_text(transcriptions_dir / "jsonl", transcriptions_dir / "text")
+    # extract_persons(transcriptions_dir / "text", transcriptions_dir / "persons")
+
+    book_entries = clean_persons_csv(transcriptions_dir / "persons")
+    df = pd.DataFrame(book_entries)
+    sql_db = DATA_PATH / "db" / f"address_books-{timestamp}.db"
+
+    with sqlite3.connect(sql_db) as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+                       CREATE TABLE IF NOT EXISTS persons
+                       (
+                           own_last_name     TEXT,
+                           partner_last_name TEXT,
+                           first_names       TEXT,
+                           gender            TEXT,
+                           street_name       TEXT,
+                           house_number      TEXT,
+                           job               TEXT,
+                           remarks           TEXT,
+                           original_entry    TEXT,
+                           year              INTEGER,
+                           page_reference    TEXT
+                       )
+                       """)
+        conn.commit()
+        df.to_sql("persons", conn, if_exists="append", index=False)

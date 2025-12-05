@@ -27,9 +27,7 @@ from modules.shared.repository.supported_file_types import (
     SupportedFileTypes,
 )
 from modules.address_books.src.setup import setup
-from modules.address_books.src.utility.get_subdirectories import (
-    get_subdirectories,
-)
+
 
 logger = getLogger(__name__)
 
@@ -40,12 +38,12 @@ def main(
     output_type: SupportedFileTypes = SupportedFileTypes.DB,
     csv_column_names: Optional[list[str]] = None,
 ) -> None:
-    all_paths = get_subdirectories(data_path)
+    book_paths = [entry for entry in data_path.iterdir() if entry.is_dir()]
     extractor = JsonExtractor()
     repository = get_person_repository(output_type, csv_column_names)
 
-    for path in all_paths:
-        book = extractor.extract(path)  # TODO: use functional programming style
+    for book in book_paths:
+        book = extractor.extract(book)
         book = parse_address_book(book)
         for person in book:
             person.address = clean_address(person.address)
