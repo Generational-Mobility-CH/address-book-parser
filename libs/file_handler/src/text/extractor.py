@@ -5,10 +5,10 @@ from libs.file_handler.src.text.reader import read_text
 from modules.address_books.src import (
     AddressBook,
 )
-from modules.address_books.src.models.address_book.address_book_page import (
+from modules.shared.models.address_book.address_book_page import (
     AddressBookPage,
 )
-from modules.address_books.src.models.address_book.name_range import (
+from modules.shared.models.address_book.name_range import (
     NameRange,
 )
 

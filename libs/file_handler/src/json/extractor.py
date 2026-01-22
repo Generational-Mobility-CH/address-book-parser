@@ -5,7 +5,7 @@ from libs.file_handler.src.models.extractor_strategy import ExtractorStrategy
 from libs.file_handler.src.json.deserializer import deserialize_book_page
 from libs.file_handler.src.json.reader import read_json
 from libs.file_handler.src.util.get_year_from_file_name import get_year_from_file
-from modules.address_books.src.models.address_book.address_book import (
+from modules.shared.models.address_book.address_book import (
     AddressBook,
 )
 

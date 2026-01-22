@@ -6,7 +6,7 @@ from pathlib import Path
 import pandas as pd
 from pandas import DataFrame
 
-from modules.address_books.src.constants.table_definition import (
+from modules.shared.constants.table_definition import (
     PERSONS_TABLE_NAME,
     PERSONS_TABLE_COLUMNS_DECLARATION,
 )

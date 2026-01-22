@@ -1,4 +1,4 @@
-from modules.address_books.src.models.address_book.name_range import (
+from modules.shared.models.address_book.name_range import (
     NameRange,
 )
 

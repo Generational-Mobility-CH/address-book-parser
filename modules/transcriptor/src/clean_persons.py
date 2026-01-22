@@ -5,14 +5,14 @@ from libs.file_handler.src.util.get_page_information_from_file import (
     get_page_info_from_file,
 )
 from libs.file_handler.src.util.get_year_from_file_name import get_year_from_file
-from modules.address_books.src.address_handler.street_name_standardizer.street_name_standardizer import (
+from modules.text_standardizer.src.street_name_standardizer import (
     standardize_street_name,
 )
-from modules.address_books.src.utility.regex.substitute_with_map import (
+from modules.utility import (
     substitute_with_map,
 )
 from modules.transcriptor.src.constants.csv_header import CSV_HEADER
-from modules.panel_data.src.standardizer.constants.name_abbreviations import (
+from modules.text_standardizer.src.constants.name_abbreviations import (
     FIRST_NAME_ABBREVIATIONS_MAP_FEMALE,
     FIRST_NAME_ABBREVIATIONS_MAP_MALE,
 )
