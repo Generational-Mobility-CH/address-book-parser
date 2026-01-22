@@ -30,6 +30,7 @@ JOBS_SUBSTITUTION_MAP = {
     "handl.": "handel",
     "haushält.": "Haushälter",
     "händl.": "händler",
+    "hdlr.": "händler",
     "jur.": "jurist",
     "kaufm.": "Kaufmännischer Angestellter",
     "kfm.": "Kaufmann",
