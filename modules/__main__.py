@@ -18,10 +18,6 @@ from modules.text_parser.src.gender_identifier import identify_gender
 from modules.text_parser.src.parser import (
     parse_address_book,
 )
-from modules.text_parser.src.separator.separator import (
-    separate_partner,
-    separate_information,
-)
 from modules.text_standardizer.src.standardizer import standardize_information
 
 _logger = getLogger(__name__)
@@ -41,17 +37,13 @@ def main(
 
     for path in book_paths:
         book = extractor.extract(path)
-        persons_entries = parse_address_book(book)
-
-        panel_data = separate_information(persons_entries)  # TODO: put this in parser
+        panel_data = parse_address_book(book)
 
         # TODO: find cleaner solution - some job/name standardization depends on the gender, but the gender is also identified via job/name ...
         panel_data = identify_gender(panel_data)
         panel_data = standardize_information(panel_data)
         panel_data = identify_gender(panel_data)
         panel_data = standardize_information(panel_data)
-
-        panel_data = separate_partner(panel_data)  # TODO: put this in parser
 
         repository.save(panel_data, output_path)
 

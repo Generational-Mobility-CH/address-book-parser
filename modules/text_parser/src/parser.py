@@ -1,6 +1,7 @@
 from logging import getLogger
 
 from modules.shared.models.address_book.address_book_entry import AddressBookEntry
+from modules.shared.models.panel_data_entry import PanelDataEntry
 from modules.text_cleaner.src.text_cleaner import (
     clean_text,
 )
@@ -31,6 +32,7 @@ from modules.text_parser.src.name_range_handler import (
 from modules.text_parser.src.person_parser import (
     parse_person,
 )
+from modules.text_parser.src.separator.separator import separate_information
 
 _logger = getLogger(__name__)
 
@@ -93,12 +95,12 @@ def _parse_persons(page: AddressBookPage) -> list[AddressBookEntry]:
     return output
 
 
-def parse_address_book(address_book: AddressBook) -> list[AddressBookEntry]:
+def parse_address_book(address_book: AddressBook) -> list[PanelDataEntry]:
     persons_collection: list[AddressBookEntry] = []
 
     if len(address_book.pages) < 1:
         _logger.warning(f"No pages found. Skipping book for year {address_book.year}.")
-        return persons_collection
+        return []
 
     _logger.info(f"Parsing book from year {address_book.year}...")
 
@@ -127,4 +129,6 @@ def parse_address_book(address_book: AddressBook) -> list[AddressBookEntry]:
 
         persons_collection.extend(_parse_address_book_page(page))
 
-    return persons_collection
+    panel_data = separate_information(persons_collection)
+
+    return panel_data

@@ -13,6 +13,7 @@ from modules.text_parser.src.separator.partner_last_name_separator import (
 def separate_information(persons: list[AddressBookEntry]) -> list[PanelDataEntry]:
     persons = separate_last_and_first_names(persons)
     persons = separate_partner_last_name(persons)
+    persons = separate_partner(persons)
 
     return persons
 
