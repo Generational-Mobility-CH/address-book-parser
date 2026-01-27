@@ -1,4 +1,5 @@
-original_names,job,address__street_name,address__house_number,pdf_page_number
-A IGNORE,IGNORE,<Keine Angabe Gefunden>,<KEINE ANGABE GEFUNDEN>,1035
-Cecchin-Matzinger Frida,Haushälterin,Strassburgerallee,21,152
-Charpie Henri,<KEINEN JOB GEFUNDEN>,<Keine Angabe Gefunden>,<KEINE ANGABE GEFUNDEN>,152
+first_names,last_names,partner_last_names,job,address__street_name,address__house_number,pdf_page_number
+IGNORE,A,,IGNORE,<Keine Angabe Gefunden>,<Keine Angabe gefunden>,1035
+Frida,Cecchin,Matzinger,Haushälterin,Strassburgerallee,21,152
+Henri,Charpie,,<Keinen Job gefunden>,<Keine Angabe Gefunden>,<Keine Angabe gefunden>,152
+<Keine Angabe gefunden>,Matzinger,Cecchin,<Keinen Job gefunden>,Strassburgerallee,21,152

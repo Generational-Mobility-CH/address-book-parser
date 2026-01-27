@@ -2,10 +2,10 @@ import sqlite3
 from logging import getLogger
 from pathlib import Path
 
-from modules.repository.src.constants.panel_data_table import (
-    PANEL_DATA_TABLE_NAME,
-    PANEL_DATA_TABLE_COLUMNS_NAMES,
-    PANEL_DATA_TABLE_COLUMNS,
+from modules.repository.src.constants.table_definitions import (
+    PERSONS_TABLE_NAME,
+    PERSONS_TABLE_COLUMNS_NAMES,
+    PERSONS_TABLE_COLUMNS,
 )
 from modules.shared.models.panel_data_entry import PanelDataEntry
 from modules.repository.src.repository import Repository
@@ -13,10 +13,10 @@ from modules.repository.src.repository import Repository
 _logger = getLogger(__name__)
 
 
-class PanelDataRepository(Repository):
-    table_name = PANEL_DATA_TABLE_NAME
+class PersonsRepositoryDb(Repository):
+    table_name = PERSONS_TABLE_NAME
 
-    def __init__(self, column_names=PANEL_DATA_TABLE_COLUMNS_NAMES) -> None:
+    def __init__(self, column_names=PERSONS_TABLE_COLUMNS_NAMES) -> None:
         self.cols_str = ", ".join(column_names)
         self.placeholders = ", ".join(["?"] * len(column_names))
 
@@ -26,7 +26,7 @@ class PanelDataRepository(Repository):
         with sqlite3.connect(output_path) as conn:
             cursor = conn.cursor()  # TODO:
             cursor.execute(
-                f"CREATE TABLE IF NOT EXISTS {PANEL_DATA_TABLE_NAME} ({PANEL_DATA_TABLE_COLUMNS})"
+                f"CREATE TABLE IF NOT EXISTS {PERSONS_TABLE_NAME} ({PERSONS_TABLE_COLUMNS})"
             )
             cursor.execute("PRAGMA synchronous = OFF")
             cursor.execute("PRAGMA journal_mode = MEMORY")
@@ -48,9 +48,16 @@ class PanelDataRepository(Repository):
                 for person in persons_collection
             ]
 
+            normalized_rows = [
+                tuple(
+                    " ".join(attribute.strip().split()).title() for attribute in person
+                )
+                for person in rows
+            ]
+
             cursor.executemany(
-                f"INSERT INTO {PANEL_DATA_TABLE_NAME} ({self.cols_str}) VALUES ({self.placeholders})",
-                rows,
+                f"INSERT INTO {PERSONS_TABLE_NAME} ({self.cols_str}) VALUES ({self.placeholders})",
+                normalized_rows,
             )
 
         _logger.info(f"Saved persons to '{output_path}'")

@@ -4,7 +4,7 @@ from modules.shared.models.address import Address
 from modules.text_parser.src.constants.street_name_keywords import (
     KEYWORDS_STREET_NAME,
 )
-from modules.text_parser.src.constants.tags import TAG_NONE_FOUND
+from modules.shared.constants.tags import TAG_NONE_FOUND
 
 
 def is_address(text: str) -> bool:

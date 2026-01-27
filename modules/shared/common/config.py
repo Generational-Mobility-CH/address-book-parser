@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
-from modules.shared.constants.paths import PROJECT_ROOT_PATH
+from modules.shared.common.paths import PROJECT_ROOT_PATH
 
 
 def get_config_info():

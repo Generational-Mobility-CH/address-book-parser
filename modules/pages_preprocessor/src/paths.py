@@ -1,4 +1,4 @@
-from modules.shared.constants.paths import DATA_PATH
+from modules.shared.common.paths import DATA_PATH
 
 GENERAL_OUTPUT_PATH = DATA_PATH / "preprocessed-pages" / "output"
 GENERAL_INPUT_PATH = DATA_PATH / "preprocessed-pages" / "input"

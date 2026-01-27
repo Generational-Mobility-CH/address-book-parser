@@ -11,7 +11,7 @@ from modules.text_parser.src.address_parser import (
 from modules.text_parser.src.constants.last_name_placeholders import (
     LAST_NAME_PLACEHOLDERS,
 )
-from modules.text_parser.src.constants.tags import TAG_NONE_FOUND, TAG_NO_JOB
+from modules.shared.constants.tags import TAG_NONE_FOUND, TAG_NO_JOB
 
 
 def _is_name(text: str, last_name: str) -> bool:

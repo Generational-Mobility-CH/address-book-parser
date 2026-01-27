@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from modules.shared.common.logger import setup_logging
-from modules.shared.constants.paths import DATA_PATH
+from modules.shared.common.paths import DATA_PATH
 
 
 def setup(time_stamp: str, needed_directories: list[Path]) -> None:

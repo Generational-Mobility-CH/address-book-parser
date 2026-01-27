@@ -10,7 +10,7 @@ from modules.shared.constants.table_definition import (
     PERSONS_TABLE_NAME,
     PERSONS_TABLE_COLUMNS_DECLARATION,
 )
-from modules.shared.constants.paths import DATA_PATH
+from modules.shared.common.paths import DATA_PATH
 
 
 def save_data(data: DataFrame, output_path: Path) -> None:

@@ -5,7 +5,7 @@ from typing import Optional
 
 from charset_normalizer.md import getLogger
 
-from modules.shared.constants.paths import CITY
+from modules.shared.common.paths import CITY
 from modules.transcriptor.src.model.BacthRequest import BatchRequest
 
 _logger = getLogger(__name__)

@@ -1,7 +1,7 @@
 import unittest
 from pathlib import Path
 
-from modules.__main__ import create_address_books_db
+from modules.__main__ import main
 from modules.repository.src.supported_file_types import (
     SupportedFileTypes,
 )
@@ -19,16 +19,11 @@ class TemplateBugReproductionTestCase(unittest.TestCase):
         actual = test_resources / "actual.csv"
 
         relevant_columns = [
-            "original_names",
-            # "job",
-            # "year",
-            # "pdf_page_number",
-            # "address__street_name",
-            # "address__house_number",
+            "original_entry",
+            "address__street_name",
+            "address__house_number",
         ]
 
-        create_address_books_db(
-            test_input, actual, SupportedFileTypes.CSV, relevant_columns
-        )
+        main(test_input, actual, SupportedFileTypes.CSV, relevant_columns)
 
         assert_csv_files_are_equal(expected, actual)

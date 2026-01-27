@@ -16,7 +16,7 @@ from modules.text_parser.src.separator.constants.names_special_keywords import (
     KEYWORDS_DIVORCED,
 )
 from modules.text_parser.src.last_name_parser import merge_last_names_with_prefixes
-from modules.text_parser.src.constants.tags import TAG_NONE_FOUND
+from modules.shared.constants.tags import TAG_NONE_FOUND
 
 logger = logging.getLogger(__name__)
 
