@@ -24,7 +24,7 @@ class PersonsRepositoryDb(Repository):
         Path(output_path).parent.mkdir(parents=True, exist_ok=True)
 
         with sqlite3.connect(output_path) as conn:
-            cursor = conn.cursor()  # TODO:
+            cursor = conn.cursor()
             cursor.execute(
                 f"CREATE TABLE IF NOT EXISTS {PERSONS_TABLE_NAME} ({PERSONS_TABLE_COLUMNS})"
             )

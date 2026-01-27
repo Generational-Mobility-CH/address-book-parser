@@ -1,35 +1,35 @@
 original_entry,address__street_name,address__house_number
-"A  IGNORE, <Keine Angabe Gefunden> <Keine Angabe gefunden>, IGNORE",<Keine Angabe Gefunden>,<Keine Angabe gefunden>
-"Häusel (-Baschung)  K., Kastanienweg 8, Maurerges.",Kastanienweg,8
-"Häusel Buser  Aug., Lauberweg 25, Schachtelmach.",Lauberweg,25
-"Häusel Dörflinger  F., Mittlere Strasse 44, Kommis",Mittlere Strasse,44
-"Häusel (Gisler)  Joh. Fr., Hammerstrasse 168, Appreturmstr.",Hammerstrasse,168
-"Häusel Herzig  Gottl., Solothurnerstrasse 19, Lok.-Heizer",Solothurnerstrasse,19
-"Häusel  Jak., Klingelbergstrasse 9, Maurerges.",Klingelbergstrasse,9
-"Häusel (Kreis)  Karl, Colmarerstrasse 60, Gipserges.",Colmarerstrasse,60
-"Häusel Kunz  Wwe. Maria, Hebelstrasse 2, Pfründerin",Hebelstrasse,2
-"Häusel Lehner  Melch., Hammerstrasse 168, Tagl.",Hammerstrasse,168
-"Häusel  Maria, Hammerstrasse 168, Schneiderin",Hammerstrasse,168
-"Häusel Oeschger  Ad., Lindengasse 9, Gipserges.",Lindengasse,9
-"Häusel Schweizer  Ros., Imbergässlein 14, Tagl.",Imbergässlein,14
-"Häusel Wüst  G., Wiesenschanzweg 8, Schlosserges.",Wiesenschanzweg,8
-"Häusermann-Bucher  Gottl., Wiesenschanzweg 10, Fabrikarb.",Wiesenschanzweg,10
-"Häusermann Fäs  Rud., Blauenstrasse 56, Schreinerges.",Blauenstrasse,56
-"Häusermann Gärny  Joh., Sperrstrasse 6, Schmiedmstr.",Sperrstrasse,6
-"Häusermann  Gottl., Brantgasse 4, Fuhrkn.",Brantgasse,4
-"Häusermann Köchlin  Johann, Herrengrabenweg 15, Schreinermstr.",Herrengrabenweg,15
-"Baschung) Häusel ( <Keine Angabe gefunden>, Kastanienweg 8, <Keinen Job gefunden>",Kastanienweg,8
-"Buser Häusel <Keine Angabe gefunden>, Lauberweg 25, <Keinen Job gefunden>",Lauberweg,25
-"Dörflinger Häusel <Keine Angabe gefunden>, Mittlere Strasse 44, <Keinen Job gefunden>",Mittlere Strasse,44
-"(Gisler) Häusel <Keine Angabe gefunden>, Hammerstrasse 168, <Keinen Job gefunden>",Hammerstrasse,168
-"Herzig Häusel <Keine Angabe gefunden>, Solothurnerstrasse 19, <Keinen Job gefunden>",Solothurnerstrasse,19
-"(Kreis) Häusel <Keine Angabe gefunden>, Colmarerstrasse 60, <Keinen Job gefunden>",Colmarerstrasse,60
-"Kunz Häusel <Keine Angabe gefunden>, Hebelstrasse 2, <Keinen Job gefunden>",Hebelstrasse,2
-"Lehner Häusel <Keine Angabe gefunden>, Hammerstrasse 168, <Keinen Job gefunden>",Hammerstrasse,168
-"Oeschger Häusel <Keine Angabe gefunden>, Lindengasse 9, <Keinen Job gefunden>",Lindengasse,9
-"Schweizer Häusel <Keine Angabe gefunden>, Imbergässlein 14, <Keinen Job gefunden>",Imbergässlein,14
-"Wüst Häusel <Keine Angabe gefunden>, Wiesenschanzweg 8, <Keinen Job gefunden>",Wiesenschanzweg,8
-"Bucher Häusermann <Keine Angabe gefunden>, Wiesenschanzweg 10, <Keinen Job gefunden>",Wiesenschanzweg,10
-"Fäs Häusermann <Keine Angabe gefunden>, Blauenstrasse 56, <Keinen Job gefunden>",Blauenstrasse,56
-"Gärny Häusermann <Keine Angabe gefunden>, Sperrstrasse 6, <Keinen Job gefunden>",Sperrstrasse,6
-"Köchlin Häusermann <Keine Angabe gefunden>, Herrengrabenweg 15, <Keinen Job gefunden>",Herrengrabenweg,15
+"A IGNORE, IGNORE, IGNORE",<Keine Angabe Gefunden>,<Keine Angabe gefunden>
+"Häusel (-Baschung) K., Maurerges., 8 Fasanenweg.",Kastanienweg,8
+"Häusel Buser Aug., Schachtelmach., 25 Maulbeerweg.",Lauberweg,25
+"Häusel Dörflinger F., Kommis, 44 Mittlerestr.",Mittlere Strasse,44
+"Häusel (Gisler) Joh. Fr., Appreturmstr., 168 Hammerstr.",Hammerstrasse,168
+"Häusel Herzig Gottl., Lok.-Heizer, 19 Solothurnerstr.",Solothurnerstrasse,19
+"Häusel Jak., Maurerges., 9 Klingelbergstr.",Klingelbergstrasse,9
+"Häusel (Kreis) Karl, Gipserges., 60 Colmarerstr.",Colmarerstrasse,60
+"Häusel Kunz Wwe. Maria, Pfründerin, 2 Hebelstr.",Hebelstrasse,2
+"Häusel Lehner Melch., Tagl., 168 Hammerstr.",Hammerstrasse,168
+"Häusel Maria, Schneiderin, 168 Hammerstr.",Hammerstrasse,168
+"Häusel Oeschger Ad., Gipserges., 9 Lindenbg.",Lindengasse,9
+"Häusel Schweizer Ros., Tagl., 14 Badergässl.",Imbergässlein,14
+"Häusel Wüst G., Schlosserges., 8 Wiesenschanzweg.",Wiesenschanzweg,8
+"Häusermann-Bucher Gottl., Fabrikarb., 10 Wiesenschanzweg.",Wiesenschanzweg,10
+"Häusermann Fäs Rud., Schreinerges., 56 Blauenstr.",Blauenstrasse,56
+"Häusermann Gärny Joh., Schmiedmstr., 6 Sperrstr.",Sperrstrasse,6
+"Häusermann Gottl., Fuhrkn., 4 Brandg.",Brantgasse,4
+"Häusermann Köchlin Johann, Schreinermstr., 15 Herrengrabenweg.",Herrengrabenweg,15
+"Häusel (-Baschung) K., Maurerges., 8 Fasanenweg.",Kastanienweg,8
+"Häusel Buser Aug., Schachtelmach., 25 Maulbeerweg.",Lauberweg,25
+"Häusel Dörflinger F., Kommis, 44 Mittlerestr.",Mittlere Strasse,44
+"Häusel (Gisler) Joh. Fr., Appreturmstr., 168 Hammerstr.",Hammerstrasse,168
+"Häusel Herzig Gottl., Lok.-Heizer, 19 Solothurnerstr.",Solothurnerstrasse,19
+"Häusel (Kreis) Karl, Gipserges., 60 Colmarerstr.",Colmarerstrasse,60
+"Häusel Kunz Wwe. Maria, Pfründerin, 2 Hebelstr.",Hebelstrasse,2
+"Häusel Lehner Melch., Tagl., 168 Hammerstr.",Hammerstrasse,168
+"Häusel Oeschger Ad., Gipserges., 9 Lindenbg.",Lindengasse,9
+"Häusel Schweizer Ros., Tagl., 14 Badergässl.",Imbergässlein,14
+"Häusel Wüst G., Schlosserges., 8 Wiesenschanzweg.",Wiesenschanzweg,8
+"Häusermann-Bucher Gottl., Fabrikarb., 10 Wiesenschanzweg.",Wiesenschanzweg,10
+"Häusermann Fäs Rud., Schreinerges., 56 Blauenstr.",Blauenstrasse,56
+"Häusermann Gärny Joh., Schmiedmstr., 6 Sperrstr.",Sperrstrasse,6
+"Häusermann Köchlin Johann, Schreinermstr., 15 Herrengrabenweg.",Herrengrabenweg,15

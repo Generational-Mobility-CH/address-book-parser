@@ -166,12 +166,13 @@ def separate_last_and_first_names(
         new_person = PanelDataEntry(
             first_names=cleaned_names.first_names,
             last_names=cleaned_names.last_names,
-            original_entry=person.original_names,
+            original_entry=person.original_entry,
             street_name=person.address.street_name,
             house_number=person.address.house_number,
             job=person.job,
             year=person.year,
             pdf_page_number=person.pdf_page_number,
+            original_names=person.original_names,
         )
 
         updated_persons.append(new_person)

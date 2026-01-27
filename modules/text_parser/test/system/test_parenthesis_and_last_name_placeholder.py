@@ -18,7 +18,13 @@ class ParenthesisAndLastNamePlaceholderTestCase(unittest.TestCase):
         expected = test_resources / "expected.csv"
         actual = test_resources / "actual.csv"
 
-        relevant_columns = ["original_names"]
+        relevant_columns = [
+            "first_names",
+            "last_names",
+            "partner_last_names",
+            "original_names",
+            "original_entry",
+        ]
 
         main(test_input, actual, SupportedFileTypes.CSV, relevant_columns)
 
