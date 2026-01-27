@@ -8,6 +8,9 @@ from modules.text_standardizer.src.constants.name_abbreviations import (
     FIRST_NAME_ABBREVIATIONS_MAP_MALE,
     FIRST_NAME_ABBREVIATIONS_MAP_FEMALE,
 )
+from modules.text_standardizer.src.street_name_standardizer import (
+    standardize_street_name,
+)
 
 ABBREVIATED_NAME_PATTERN = r"\b{PLACEHOLDER}"
 
@@ -51,7 +54,9 @@ def standardize_information(persons: list[PanelDataEntry]) -> list[PanelDataEntr
     for p in persons:
         standardized_person = standardize_first_names(p)
         standardized_person = standardize_job(standardized_person)
-        # TODO: standardized_person.address.street_name = standardize_street_name(standardized_person.address.street_name)
+        standardized_person.address.street_name = standardize_street_name(
+            standardized_person.address.street_name
+        )
         standardized_persons.append(standardized_person)
 
     return standardized_persons

@@ -4,6 +4,7 @@ from modules.shared.models.address_book.address_book_entry import AddressBookEnt
 from modules.shared.models.person_data_parts import (
     PersonDataParts,
 )
+from modules.text_cleaner.src.address_cleaner import clean_address
 from modules.text_parser.src.address_parser import (
     is_address,
     extract_address,
@@ -40,5 +41,7 @@ def parse_person(data: PersonDataParts, current_last_name: str) -> AddressBookEn
             person, "address", extract_address(data.third)
         )
         person.job = data.second
+
+    person.address = clean_address(person.address)
 
     return person
