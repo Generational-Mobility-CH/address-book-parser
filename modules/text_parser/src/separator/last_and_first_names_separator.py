@@ -16,7 +16,7 @@ from modules.text_parser.src.separator.constants.names_special_keywords import (
     KEYWORDS_DIVORCED,
 )
 from modules.text_parser.src.last_name_parser import merge_last_names_with_prefixes
-from modules.text_parser.src.constants.tags import TAG_NONE_FOUND
+from modules.shared.constants.tags import TAG_NONE_FOUND
 
 logger = logging.getLogger(__name__)
 
@@ -166,12 +166,13 @@ def separate_last_and_first_names(
         new_person = PanelDataEntry(
             first_names=cleaned_names.first_names,
             last_names=cleaned_names.last_names,
-            original_entry=person.original_names,
+            original_entry=person.original_entry,
             street_name=person.address.street_name,
             house_number=person.address.house_number,
             job=person.job,
             year=person.year,
             pdf_page_number=person.pdf_page_number,
+            original_names=person.original_names,
         )
 
         updated_persons.append(new_person)

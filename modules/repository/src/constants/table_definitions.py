@@ -1,5 +1,5 @@
-PANEL_DATA_TABLE_NAME = "panel_data"
-PANEL_DATA_TABLE_COLUMNS = """
+PERSONS_TABLE_NAME = "persons"
+PERSONS_TABLE_COLUMNS = """
     first_names TEXT,
     last_names TEXT,
     partner_last_names TEXT, 
@@ -12,7 +12,7 @@ PANEL_DATA_TABLE_COLUMNS = """
     pdf_page_number INTEGER,
     original_entry TEXT
 """
-PANEL_DATA_TABLE_COLUMNS_NAMES = [
+PERSONS_TABLE_COLUMNS_NAMES = [
     "first_names",
     "last_names",
     "partner_last_names",

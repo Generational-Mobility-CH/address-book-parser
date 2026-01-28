@@ -7,7 +7,7 @@ from modules.text_cleaner.src.constants.unallowed_strings import (
     UNALLOWED_STRINGS,
     UNALLOWED_AT_START_OF_STRING,
 )
-from modules.text_cleaner.src.types.pattern_and_repl_type import PatternAndRepl
+from libs.regex.src.types.pattern_and_repl_type import PatternAndRepl
 
 UNALLOWED_STRINGS_PATTERN = re.compile(
     rf"({'|'.join(map(re.escape, UNALLOWED_STRINGS))})"

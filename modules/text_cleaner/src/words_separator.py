@@ -1,6 +1,6 @@
 import re
 
-from modules.text_cleaner.src.types.pattern_and_repl_type import PatternAndRepl
+from libs.regex.src.types.pattern_and_repl_type import PatternAndRepl
 
 GERMAN_ALPHABET = "a-zA-ZäöüÄÖÜß"
 

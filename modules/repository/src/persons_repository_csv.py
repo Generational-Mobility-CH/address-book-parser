@@ -3,8 +3,8 @@ from logging import getLogger
 from pathlib import Path
 from typing import Optional, TypeVar
 
-from modules.shared.models.address_book.address_book_entry import AddressBookEntry
 from modules.repository.src.repository import Repository
+from modules.shared.models.panel_data_entry import PanelDataEntry
 
 T = TypeVar("T")
 
@@ -15,9 +15,7 @@ class CsvPersonRepository(Repository):
     def __init__(self, column_names: Optional[list[str]] = None) -> None:
         self.column_names = column_names
 
-    def save(
-        self, persons_collection: list[AddressBookEntry], output_path: Path
-    ) -> None:
+    def save(self, persons_collection: list[PanelDataEntry], output_path: Path) -> None:
         if not persons_collection:
             raise ValueError("Persons collection must not be empty.")
 

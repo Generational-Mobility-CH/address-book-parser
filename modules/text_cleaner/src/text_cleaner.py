@@ -9,7 +9,7 @@ from modules.text_cleaner.src.parenthesis_cleaner import (
     PARENTHESIS_PATTERNS_AND_REPL,
     remove_unmatched_parenthesis,
 )
-from modules.text_cleaner.src.types.pattern_and_repl_type import PatternAndRepl
+from libs.regex.src.types.pattern_and_repl_type import PatternAndRepl
 from modules.text_cleaner.src.unallowed_strings_remover import (
     UNALLOWED_STRINGS_PATTERNS_AND_REPL,
 )

@@ -8,7 +8,7 @@ from modules.pages_downloader.src.constants.paths import (
 )
 
 from modules.pages_preprocessor.src.paths import PDF_OUTPUT_PATH
-from modules.shared.constants.paths import DATA_PATH
+from modules.shared.common.paths import DATA_PATH
 from modules.shared.constants.years_range import YEARS_RANGE
 
 

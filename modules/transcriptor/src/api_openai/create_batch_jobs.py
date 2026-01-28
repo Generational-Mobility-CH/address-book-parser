@@ -5,7 +5,7 @@ from pathlib import Path
 from openai import OpenAI
 from tenacity import retry, stop_after_attempt, wait_exponential
 
-from modules.shared.constants.paths import CITY
+from modules.shared.common.paths import CITY
 from modules.transcriptor.src.constants.openai_api import API_ENDPOINT
 
 _logger = getLogger(__name__)

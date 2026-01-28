@@ -2,7 +2,7 @@ from logging import getLogger
 
 from fuzzywuzzy import process
 
-from modules.text_parser.src.constants.tags import TAG_NONE_FOUND
+from modules.shared.constants.tags import TAG_NONE_FOUND
 from modules.text_standardizer.src.constants.street_names.corrected_street_names import (
     CORRECTED_STREET_NAMES_MAP,
 )
@@ -23,7 +23,7 @@ from libs.regex.src.substitute_with_map import (
 logger = getLogger(__name__)
 
 
-def standardize_street_name_suffixes_and_prefixes(text: str) -> str:
+def _standardize_street_name_suffixes_and_prefixes(text: str) -> str:
     text = text.replace(".", "").strip().lower()
 
     text = substitute_with_map(
@@ -43,7 +43,7 @@ def standardize_street_name_suffixes_and_prefixes(text: str) -> str:
     return text.title()
 
 
-def get_fuzzy_match(word: str) -> str | None:
+def _get_fuzzy_match(word: str) -> str | None:
     threshold = 70
     word = word.lower()
     match = process.extractOne(
@@ -53,24 +53,24 @@ def get_fuzzy_match(word: str) -> str | None:
     return match[0] if match else None
 
 
-def fix_spelling(text: str) -> str:
+def _fix_spelling(text: str) -> str:
     if text in CORRECTED_STREET_NAMES_MAP:
         return CORRECTED_STREET_NAMES_MAP[text]
 
-    if corrected_text := get_fuzzy_match(text):
+    if corrected_text := _get_fuzzy_match(text):
         return corrected_text
 
     return f"{text}<TODO FIX SPELLING>"
 
 
 def standardize_street_name(text: str) -> str:
-    text = standardize_street_name_suffixes_and_prefixes(text)
+    text = _standardize_street_name_suffixes_and_prefixes(text)
 
     if (
         bool(text)
         and text not in HISTORICAL_STREET_NAMES_BASEL
         and text.lower() != TAG_NONE_FOUND.lower()
     ):
-        return fix_spelling(text)
+        return _fix_spelling(text)
 
     return text

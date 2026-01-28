@@ -1,6 +1,11 @@
-from modules.shared.constants.paths import DATA_PATH
+from pathlib import Path
 
-ADDRESS_BOOKS_INPUT_PATH = DATA_PATH / "transcriptions" / "legacy_json"
-ADDRESS_BOOK_ENTRIES_OUTPUT_PATH = DATA_PATH / "address-books"
-PANEL_DATA_INPUT_PATH = ADDRESS_BOOK_ENTRIES_OUTPUT_PATH / "db"
-PANEL_DATA_OUTPUT_PATH = DATA_PATH / "panel-data"
+
+PROJECT_ROOT_PATH = Path(__file__).resolve().parents[3]
+
+
+CITY = "Basel"
+
+DATA_PATH = PROJECT_ROOT_PATH / "data" / CITY
+INPUT_PATH = DATA_PATH / "transcriptions" / "legacy_json"
+OUTPUT_PATH = DATA_PATH / "db"

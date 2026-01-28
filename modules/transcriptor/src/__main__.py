@@ -10,7 +10,7 @@ import pandas as pd
 from pydantic import ValidationError
 
 from libs.file_handler.src.util.get_year_from_file_name import get_year_from_file
-from modules.shared.constants.paths import DATA_PATH, CITY
+from modules.shared.common.paths import CITY, DATA_PATH
 from modules.transcriptor.src.api_openai.write_batch_files import write_batch_files
 from modules.transcriptor.src.clean_persons import clean_persons_csv
 from modules.transcriptor.src.constants.csv_header import CSV_HEADER

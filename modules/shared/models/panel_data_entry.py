@@ -22,20 +22,21 @@ class PanelDataEntry(AddressBookEntry):
         partner_last_names: Optional[str] = "",
         gender: str = GENDER_UNKNOWN,
         gender_from: Optional[str] = "",
+        original_names: Optional[str] = "",
     ) -> None:
         super().__init__(
-            original_names=original_entry,
+            original_entry=original_entry,
             job=job,
             address=Address(street_name=street_name, house_number=house_number),
             year=year,
             pdf_page_number=pdf_page_number,
+            original_names=original_names,
         )
         self._first_names = first_names
         self._last_names = last_names
         self._partner_last_names = partner_last_names
         self._gender = gender
         self._gender_confidence = gender_from
-        self._original_entry = f"{self._last_names} {self._partner_last_names} {self._first_names}, {self.address}, {self.job}"
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(first_names='{self.first_names}', last_names='{self.last_names}', partner_last_names='{self.partner_last_names}, gender='{self.gender}', gender_confidence={self.gender_confidence}, year={self.year}, {super().__repr__()}"
@@ -47,7 +48,6 @@ class PanelDataEntry(AddressBookEntry):
             self.first_names == other.first_names
             and self.last_names == other.last_names
             and self.partner_last_names == other.partner_last_names
-            and self.original_names == other.original_names
             and self.job == other.job
             and self.address == other.address
             and self.gender == other.gender

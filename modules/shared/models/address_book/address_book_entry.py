@@ -32,7 +32,7 @@ class AddressBookEntry:
     @original_names.setter
     def original_names(self, value: str) -> None:
         if not value:
-            print("original_names cannot be empty.")
+            self._original_names = ""
         self._original_names = value
 
     @property

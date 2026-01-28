@@ -1,5 +1,4 @@
-from modules.shared.constants.paths import DATA_PATH
-
+from modules.shared.common.paths import DATA_PATH
 
 GENERAL_INPUT_PATH = DATA_PATH / "pages-downloader" / "input"
 GENERAL_OUTPUT_PATH = DATA_PATH / "pages-downloader" / "output"

@@ -1,6 +1,6 @@
 import re
 
-from modules.text_cleaner.src.types.pattern_and_repl_type import PatternAndRepl
+from libs.regex.src.types.pattern_and_repl_type import PatternAndRepl
 
 REMOVE_EMPTY_PARENTHESIS_PATTERN = re.compile(r"\(\s*\)")
 CLEAN_WHITESPACE_INSIDE_PARENTHESIS_PATTERN = re.compile(
