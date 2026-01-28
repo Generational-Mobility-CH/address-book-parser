@@ -19,7 +19,7 @@ Books processed so far:
 3. _transcriptor_: Extract the text from the address book pages by using LLM (OpenAI).
 4. _text_parser_: Parse the extracted text and save each person's information into a SQL database. This module also uses the following modules:
   5. _text_cleaner_: All tasks related to data cleaning.
-  6. _text_standardizer_: Standardize the person's information. In the address books the person's information is often abbrebviated. In this module we standardize this information into a uniform format.
+  6. _text_standardizer_: Standardize the person's information. In the address books the person's information is often abbreviated. In this module we standardize this information into a uniform format.
   E.g.: Frdr. Müller, kfm. -> Friedrich Müller, Kaufmann
 
 All relevant data is stored under the `data/` directory.
