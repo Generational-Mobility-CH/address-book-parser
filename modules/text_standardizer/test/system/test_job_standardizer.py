@@ -11,10 +11,8 @@ from modules.shared.test.system_test_template.fixtures.fixtures_dir_path import 
 from modules.shared.utility.assert_csv_files_are_equal import assert_csv_files_are_equal
 
 
-class AddressAtEnfOfPageTestCase(unittest.TestCase):
-    def test_if_address_is_at_page_end_then_first_line_of_next_page_is_not_in_address(
-        self,
-    ) -> None:
+class StandardizeJobTestCase(unittest.TestCase):
+    def test_if_key_not_in_mapping_then_no_wrong_match_is_returned(self) -> None:
         test_resources = FIXTURES_DIR / Path(__file__).name.removeprefix(
             "test_"
         ).removesuffix(".py")
@@ -23,11 +21,7 @@ class AddressAtEnfOfPageTestCase(unittest.TestCase):
         actual = test_resources / "actual.csv"
 
         relevant_columns = [
-            "first_names",
-            "last_names",
-            "partner_last_names",
-            "address__street_name",
-            "address__house_number",
+            "job",
             "original_entry",
         ]
 

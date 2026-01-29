@@ -1,0 +1,32 @@
+from libs.regex.src.substitute_with_map import substitute_with_map
+from modules.shared.models.panel_data_entry import PanelDataEntry
+from modules.text_parser.src.constants.gender_descriptors import GENDER_FEMALE
+from modules.text_standardizer.src.constants.name_abbreviations import (
+    FIRST_NAME_ABBREVIATIONS_MAP_FEMALE,
+    FIRST_NAME_ABBREVIATIONS_MAP_MALE,
+)
+
+ABBREVIATED_NAME_PATTERN = r"\b{PLACEHOLDER}"
+
+
+def standardize_first_names(person: PanelDataEntry) -> PanelDataEntry:
+    """
+    Info: The person is assumed to be male unless explicitly marked as female, since males are overrepresented in the data.
+    In the future, a cleaner implementation would be desirable (i.e. take the variable "GENDER_UNKNOWN" into consideration).
+    """
+    first_names = person.first_names.lower()
+
+    if "." in first_names:
+        map_to_use = (
+            FIRST_NAME_ABBREVIATIONS_MAP_FEMALE
+            if person.gender == GENDER_FEMALE
+            else FIRST_NAME_ABBREVIATIONS_MAP_MALE
+        )
+        cleaned_first_names = substitute_with_map(
+            first_names,
+            map_to_use,
+            ABBREVIATED_NAME_PATTERN,
+        )
+        person.first_names = cleaned_first_names
+
+    return person

@@ -132,6 +132,7 @@ FIRST_NAME_ABBREVIATIONS_MAP_MALE = {
     "jak.": "Jakob",
     "jb.": "Jakob",
     "jh.": "Johannes",
+    "jk.": "Jakob",
     "joach.": "Joachim",
     "joh.": "Johannes",
     "johs.": "Johannes",

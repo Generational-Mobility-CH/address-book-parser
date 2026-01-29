@@ -34,7 +34,11 @@ class CsvPersonRepository(Repository):
                     if col_name not in flattened_person:
                         logger.error(f"Column {col_name} not found in object {person}")
 
-                    row[col_name] = flattened_person[col_name]
+                    row[col_name] = (
+                        flattened_person[col_name].title()
+                        if isinstance(flattened_person[col_name], str)
+                        else flattened_person[col_name]
+                    )
 
                 writer.writerow(row)
 
