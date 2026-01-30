@@ -27,6 +27,7 @@ All relevant data is stored under the `data/` directory.
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+Additionally, you can run the [demo](modules/demo.py) file to see a demo of the pipeline.
 
 ### Project Setup
 - [install uv](https://docs.astral.sh/uv/getting-started/installation/)
