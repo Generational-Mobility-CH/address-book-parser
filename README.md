@@ -5,7 +5,7 @@
 [![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
 
 ## Project Description
-This project processes Swiss address books into a panel dataset containing person per year that can be used for academical research.
+This ongoing project aims to read, transcribe, and transform the content of historical address books from several Swiss cities into structured household- or individual-level panel datasets. 
 
 Books processed so far:
 - [x] 1877 - 1954: [Stadt Basel](https://dls.staatsarchiv.bs.ch/records/hierarchy/1225845?context=%2Frecords%2F1225845)
