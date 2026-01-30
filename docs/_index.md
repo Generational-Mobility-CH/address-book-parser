@@ -2,6 +2,7 @@
 
 ## Index
 - [Basic Usage](basic_usage.md)
+- [Data Models](data_models.md)
 - [Project Description](project_description.md)
 
 ## Pipeline module's descriptions

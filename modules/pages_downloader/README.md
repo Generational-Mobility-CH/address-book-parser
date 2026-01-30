@@ -1,5 +1,4 @@
 # Module Description
-***Careful: Always make sure that the same versions of Chrome and Chrome WebDriver are installed!***
 
 **Main Goal:** To download the pdfs from Basel's city archive
 
@@ -28,3 +27,5 @@
   - --> if rendering fails, it is likely due to updates to the archive's website and the rendering function must me adapted accordingly (e.g. new button names, new pop-up messages, new content hierarchies)
 
 💡 Note: Page rendering and download is a rather slow process, thus we provide a working example with only one book
+
+## Usage

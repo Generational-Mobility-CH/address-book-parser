@@ -11,7 +11,7 @@ The different steps of the pipeline have each their own submodule under `/module
 - [Transcriptor](../modules/transcriptor/README.md)
 
 The resulting dataset is stored as a SQL .db file that looks like the following:
-![Output example](assets/screenshot_pipeline_output_1.png)
+![Output example](assets/pipeline_output.png)
 
 
 Steps performed by the pipeline:
@@ -22,7 +22,7 @@ Steps performed by the pipeline:
    1. Run a fuzzy match on street names to correct transcription mistakes or LLM hallucinations where possible
       1. where this is not possible, the entry is marked with a TODO tag like "<Todo ...>"
    2. Separate the person's spouse and create a separate entry for them:
-   ![Output example](assets/screenshot_pipeline_output_couple.png)
+   ![Output example](assets/pipeline_output_couple.png)
    3. Standardize abbreviations of first names and jobs  
    E.g. see picture above frdr. -> Friedrich; Farbarb. -> Farbarbeiter
    4. Identify a person's gender where possible
