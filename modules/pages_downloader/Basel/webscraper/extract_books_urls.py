@@ -6,8 +6,8 @@ from pathlib import Path
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 
-from modules.pages_downloader.src.common.driver import get_web_driver
-from modules.pages_downloader.src.constants.paths import (
+from modules.pages_downloader.Basel.common.driver import get_web_driver
+from modules.pages_downloader.Basel.constants.paths import (
     ALL_BOOK_LINKS_FILE,
     TEST_BOOK_LINK_FILE,
 )

@@ -4,12 +4,12 @@ from pathlib import Path
 
 import requests
 
-from modules.pages_downloader.src.constants.paths import (
+from modules.pages_downloader.Basel.constants.paths import (
     PDF_OUTPUT_PATH,
     ALL_BOOK_LINKS_FILE,
     PDF_INPUT_PATH,
 )
-from modules.pages_downloader.src.constants.urls import (
+from modules.pages_downloader.Basel.constants.urls import (
     PDF_DOWNLOAD_BASE_URL,
 )
 

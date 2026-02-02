@@ -7,9 +7,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from modules.pages_downloader.src.common.driver import get_web_driver
-from modules.pages_downloader.src.common.web_navigation_tools import click_btn
-from modules.pages_downloader.src.constants.paths import (
+from modules.pages_downloader.Basel.common.driver import get_web_driver
+from modules.pages_downloader.Basel.common.web_navigation_tools import click_btn
+from modules.pages_downloader.Basel.constants.paths import (
     GENERAL_OUTPUT_PATH,
 )
 
