@@ -1,6 +1,9 @@
 from pathlib import Path
 
-from modules.pages_downloader.src.constants.paths import JPG_OUTPUT_PATH, PDF_INPUT_PATH
+from modules.pages_downloader.Basel.constants.paths import (
+    JPG_OUTPUT_PATH,
+    PDF_INPUT_PATH,
+)
 from modules.pages_preprocessor.src.cutter.column_cutter import cut_columns
 from modules.pages_preprocessor.src.cutter.header_cutter import cut_header
 from modules.pages_preprocessor.src.jpg_preprocessing.blackout_page_borders import (

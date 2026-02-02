@@ -1,4 +1,4 @@
-from modules.pages_downloader.src.constants.paths import (
+from modules.pages_downloader.Basel.constants.paths import (
     JSON_OUTPUT_PATH,
     JPG_OUTPUT_PATH,
     GENERAL_INPUT_PATH,

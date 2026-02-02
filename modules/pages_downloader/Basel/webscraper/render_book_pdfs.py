@@ -1,14 +1,14 @@
 import json
 from pathlib import Path
 
-from modules.pages_downloader.src.common.driver import (
+from modules.pages_downloader.Basel.common.driver import (
     get_web_driver,
 )
-from modules.pages_downloader.src.constants.paths import (
+from modules.pages_downloader.Basel.constants.paths import (
     PDF_OUTPUT_PATH,
     ALL_BOOK_LINKS_FILE,
 )
-from modules.pages_downloader.src.webscraper.extract_content_tables import click_btn
+from modules.pages_downloader.Basel.webscraper.extract_content_tables import click_btn
 from typing import Optional, Literal
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait

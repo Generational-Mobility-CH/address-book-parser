@@ -1,21 +1,23 @@
 from pathlib import Path
 
-from modules.pages_downloader.src.constants.paths import (
+from modules.pages_downloader.Basel.constants.paths import (
     ALL_BOOK_LINKS_FILE,
     TEST_BOOK_LINK_FILE,
 )
-from modules.pages_downloader.src.constants.urls import BASEL_ADRESS_BOOKS_OVERVIEW_URLS
-from modules.pages_downloader.src.pdf_downloader.download_entire_book_pdfs import (
+from modules.pages_downloader.Basel.constants.urls import (
+    BASEL_ADRESS_BOOKS_OVERVIEW_URLS,
+)
+from modules.pages_downloader.Basel.download_entire_book_pdfs import (
     download_all_pdfs,
 )
-from modules.pages_downloader.src.webscraper.extract_books_urls import (
+from modules.pages_downloader.Basel.webscraper.extract_books_urls import (
     extract_books_urls_from_overview,
 )
-from modules.pages_downloader.src.webscraper.extract_content_tables import (
+from modules.pages_downloader.Basel.webscraper.extract_content_tables import (
     write_jsons_with_table_of_content,
 )
-from modules.pages_downloader.src.setup import setup
-from modules.pages_downloader.src.webscraper.render_book_pdfs import render_book_pdfs
+from modules.pages_downloader.Basel.setup import setup
+from modules.pages_downloader.Basel.webscraper.render_book_pdfs import render_book_pdfs
 
 
 def main(list_of_urls: Path = ALL_BOOK_LINKS_FILE) -> None:

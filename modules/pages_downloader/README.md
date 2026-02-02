@@ -1,6 +1,15 @@
 # Module Description
 
-**Main Goal:** To download the pdfs from Basel's city archive
+**Goal:** Download the pdfs containing the resident's registry.  
+
+**Usage**: Execute the __main__.py file in each subfolder for getting that cities registries.
+
+**Notes:** 
+- Due to the websites structure, at the moment for downloading the Basel registries we're using Selenium Webdriver.
+- For the Bern registries Selenium is not needed
+
+---
+## Basel
 
 **General**
   - Scraping through the archive's hierarchy to retrieve the links to the corresponding child-records.
@@ -27,5 +36,3 @@
   - --> if rendering fails, it is likely due to updates to the archive's website and the rendering function must me adapted accordingly (e.g. new button names, new pop-up messages, new content hierarchies)
 
 💡 Note: Page rendering and download is a rather slow process, thus we provide a working example with only one book
-
-## Usage

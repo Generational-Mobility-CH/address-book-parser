@@ -2,16 +2,16 @@
 
 import re
 
-from modules.pages_downloader.src.Bern.constants import (
+from modules.pages_downloader.Bern.constants import (
     URL_ARCHIVE_BERN,
     URL_BASE,
     IS_ADDRESS_BOOK_LINK,
     IS_REGISTRY_LINK,
     IS_YEAR_OR_YEAR_RANGE,
 )
-from modules.pages_downloader.src.Bern.download_file import download_file
-from modules.pages_downloader.src.Bern.get_all_page_links import get_all_links
-from modules.pages_downloader.src.model.BookLink import BookLink
+from modules.pages_downloader.Bern.download_file import download_file
+from modules.pages_downloader.Bern.get_all_page_links import get_all_links
+from modules.pages_downloader.Bern.model.BookLink import BookLink
 from modules.shared.common.paths import PROJECT_ROOT_PATH
 
 if __name__ == "__main__":
@@ -47,3 +47,5 @@ if __name__ == "__main__":
     for book in book_links:
         pdf_name = f"Bern-{book.year}.pdf"
         download_file(book.residents_register_pdf_url, output_dir_bern / pdf_name)
+
+    # TODO: convert pdf to images for cutting the pages -> use script from pages_preprocessor
