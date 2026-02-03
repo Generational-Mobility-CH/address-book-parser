@@ -21,7 +21,7 @@ class PanelDataEntry(AddressBookEntry):
         original_entry: str,
         partner_last_names: Optional[str] = "",
         gender: str = GENDER_UNKNOWN,
-        gender_from: Optional[str] = "",
+        gender_confidence: Optional[str] = "",
         original_names: Optional[str] = "",
     ) -> None:
         super().__init__(
@@ -36,7 +36,7 @@ class PanelDataEntry(AddressBookEntry):
         self._last_names = last_names
         self._partner_last_names = partner_last_names
         self._gender = gender
-        self._gender_confidence = gender_from
+        self._gender_confidence = gender_confidence
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(first_names='{self.first_names}', last_names='{self.last_names}', partner_last_names='{self.partner_last_names}, gender='{self.gender}', gender_confidence={self.gender_confidence}, year={self.year}, {super().__repr__()}"

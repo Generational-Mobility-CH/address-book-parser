@@ -42,6 +42,12 @@ class CsvPersonRepository(Repository):
 
                 writer.writerow(row)
 
+    def get_table_entries(
+        self, db_path: Path, table_name: str, entries_filter: Optional[str] = None
+    ) -> list[T]:
+        # TODO: implement get_table_entries() for csv files
+        pass
+
 
 def _get_column_names_from_object(obj: T) -> list[str]:
     result = []

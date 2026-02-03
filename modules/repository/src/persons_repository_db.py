@@ -1,6 +1,7 @@
 import sqlite3
 from logging import getLogger
 from pathlib import Path
+from typing import Optional
 
 from modules.repository.src.constants.table_definitions import (
     PERSONS_TABLE_NAME,
@@ -8,7 +9,7 @@ from modules.repository.src.constants.table_definitions import (
     PERSONS_TABLE_COLUMNS,
 )
 from modules.shared.models.panel_data_entry import PanelDataEntry
-from modules.repository.src.repository import Repository
+from modules.repository.src.repository import Repository, T
 
 _logger = getLogger(__name__)
 
@@ -61,3 +62,35 @@ class PersonsRepositoryDb(Repository):
             )
 
         _logger.info(f"Saved persons to '{output_path}'")
+
+    def get_table_entries(
+        self, db_path: Path, table_name: str, entries_filter: Optional[str] = None
+    ) -> list[T]:
+        result = []
+
+        if not db_path.exists():
+            raise FileNotFoundError(f"File not found: {db_path}")
+
+        with sqlite3.connect(db_path) as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
+                (table_name,),
+            )
+            if not cursor.fetchone():
+                raise ValueError(
+                    f"Table '{table_name}' does not exist in the '{db_path}'."
+                )
+
+            query = f"SELECT * FROM {table_name}" + (
+                entries_filter if entries_filter else ""
+            )
+            cursor.execute(query)
+            rows = cursor.fetchall()
+
+        for row in rows:
+            entry_data = dict(zip(PERSONS_TABLE_COLUMNS_NAMES, row))
+            entry = PanelDataEntry(**entry_data)
+            result.append(entry)
+
+        return result

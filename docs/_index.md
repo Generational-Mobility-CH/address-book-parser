@@ -7,6 +7,7 @@
 - [Project Description](project_description.md)
 
 ## Pipeline module's descriptions
+- [Analysis](../modules/analysis/README.md)
 - [Pages Downloader](../modules/pages_downloader/README.md)
 - [Pages Preprocessor](../modules/pages_preprocessor/README.md)
 - [Text Cleaner](../modules/text_cleaner/README.md)
