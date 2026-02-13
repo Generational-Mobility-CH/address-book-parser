@@ -1,8 +1,7 @@
 import logging
 
-
+from modules.shared.models.address import Address
 from modules.shared.models.panel_data_entry import PanelDataEntry
-from modules.shared.models.address_book.address_book_entry import AddressBookEntry
 
 from modules.text_cleaner.src.words_separator import (
     SEPARATE_WORDS_PATTERNS_AND_REPL,
@@ -155,7 +154,7 @@ def clean_first_names(names: PersonNames) -> PersonNames:
 
 
 def separate_last_and_first_names(
-    persons_collection: list[AddressBookEntry],
+    persons_collection: list[PanelDataEntry],
 ) -> list[PanelDataEntry]:
     updated_persons = []
 
@@ -167,8 +166,11 @@ def separate_last_and_first_names(
             first_names=cleaned_names.first_names,
             last_names=cleaned_names.last_names,
             original_entry=person.original_entry,
-            street_name=person.address.street_name,
-            house_number=person.address.house_number,
+            address=Address(
+                street_name=person.address.street_name,
+                house_number=person.address.house_number,
+                coordinates=None,
+            ),
             job=person.job,
             year=person.year,
             pdf_page_number=person.pdf_page_number,

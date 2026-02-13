@@ -1,5 +1,5 @@
 from modules.shared.models.address import Address
-from modules.shared.models.address_book.address_book_entry import AddressBookEntry
+from modules.shared.models.panel_data_entry import PanelDataEntry
 
 from modules.shared.models.person_data_parts import (
     PersonDataParts,
@@ -9,6 +9,7 @@ from modules.text_parser.src.address_parser import (
     is_address,
     extract_address,
 )
+from modules.text_parser.src.constants.gender_descriptors import GENDER_UNKNOWN
 from modules.text_parser.src.constants.last_name_placeholders import (
     LAST_NAME_PLACEHOLDERS,
 )
@@ -21,12 +22,21 @@ def _is_name(text: str, last_name: str) -> bool:
     )
 
 
-def parse_person(data: PersonDataParts, current_last_name: str) -> AddressBookEntry:
-    person: AddressBookEntry = AddressBookEntry(
+def parse_person(data: PersonDataParts, current_last_name: str) -> PanelDataEntry:
+    person: PanelDataEntry = PanelDataEntry(
         original_names=TAG_NONE_FOUND,
-        address=Address(street_name=TAG_NONE_FOUND, house_number=TAG_NONE_FOUND),
+        first_names=TAG_NONE_FOUND,
+        last_names=TAG_NONE_FOUND,
+        partner_last_names=TAG_NONE_FOUND,
+        address=Address(
+            street_name=TAG_NONE_FOUND, house_number=TAG_NONE_FOUND, coordinates=None
+        ),
         job=TAG_NO_JOB,
+        gender=GENDER_UNKNOWN,
+        gender_confidence="",
         original_entry=f"{data.first}, {data.second}, {data.third}",
+        year=0,
+        pdf_page_number=0,
     )
 
     if (all_names := data.first) and _is_name(all_names, current_last_name):

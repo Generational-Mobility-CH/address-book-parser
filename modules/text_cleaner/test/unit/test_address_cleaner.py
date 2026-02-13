@@ -9,9 +9,18 @@ from modules.shared.models.address import Address
 class CleanAddressTestCase(unittest.TestCase):
     def test_clean_address(self) -> None:
         test_cases = [
-            (Address(". 100Amerbachstr", ""), Address("Amerbachstr", "100")),
-            (Address(".100Amerbachstr", ""), Address("Amerbachstr", "100")),
-            (Address(". 100 Amerbachstr", ""), Address("Amerbachstr", "100")),
+            (
+                Address(". 100Amerbachstr", "", coordinates=None),
+                Address("Amerbachstr", "100", coordinates=None),
+            ),
+            (
+                Address(".100Amerbachstr", "", coordinates=None),
+                Address("Amerbachstr", "100", coordinates=None),
+            ),
+            (
+                Address(". 100 Amerbachstr", "", coordinates=None),
+                Address("Amerbachstr", "100", coordinates=None),
+            ),
         ]
 
         for i, (test_input, expected) in enumerate(test_cases):
@@ -26,9 +35,18 @@ class CleanAddressTestCase(unittest.TestCase):
 
     def test_clean_parenthesis_in_address(self) -> None:
         test_cases = [
-            (Address("Jakobstr (36 Gundloldingerstr)", "1"), Address("Jakobstr", "1")),
-            (Address("(1. OG)  Amerbachstr", "1"), Address("Amerbachstr", "1")),
-            (Address("Amerbachstr (1. OG)", "1"), Address("Amerbachstr", "1")),
+            (
+                Address("Jakobstr (36 Gundloldingerstr)", "1", coordinates=None),
+                Address("Jakobstr", "1", coordinates=None),
+            ),
+            (
+                Address("(1. OG)  Amerbachstr", "1", coordinates=None),
+                Address("Amerbachstr", "1", coordinates=None),
+            ),
+            (
+                Address("Amerbachstr (1. OG)", "1", coordinates=None),
+                Address("Amerbachstr", "1", coordinates=None),
+            ),
         ]
 
         for i, (test_input, expected) in enumerate(test_cases):
@@ -43,10 +61,19 @@ class CleanAddressTestCase(unittest.TestCase):
 
     def test_get_street_name_from_house_nr(self):
         test_cases = [
-            (Address("", "40Wiesenschanzweg"), Address("Wiesenschanzweg", "40")),
-            (Address("", "14Byfangweg"), Address("Byfangweg", "14")),
-            (Address("", "28Rebgasse"), Address("Rebgasse", "28")),
-            (Address("", "28"), Address("", "28")),
+            (
+                Address("", "40Wiesenschanzweg", coordinates=None),
+                Address("Wiesenschanzweg", "40", coordinates=None),
+            ),
+            (
+                Address("", "14Byfangweg", coordinates=None),
+                Address("Byfangweg", "14", coordinates=None),
+            ),
+            (
+                Address("", "28Rebgasse", coordinates=None),
+                Address("Rebgasse", "28", coordinates=None),
+            ),
+            (Address("", "28", coordinates=None), Address("", "28", coordinates=None)),
         ]
 
         for i, (test_input, expected) in enumerate(test_cases):

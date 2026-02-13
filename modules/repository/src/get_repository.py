@@ -1,6 +1,6 @@
 from typing import Optional
 
-from modules.repository.src.persons_repository_csv import CsvPersonRepository
+from modules.repository.src.persons_repository_csv import CsvRepository
 from modules.repository.src.persons_repository_db import PersonsRepositoryDb
 from modules.repository.src.repository import (
     Repository,
@@ -18,4 +18,4 @@ def get_person_repository(
         case SupportedFileTypes.DB.value:
             return PersonsRepositoryDb()
         case SupportedFileTypes.CSV.value:
-            return CsvPersonRepository(csv_column_names)
+            return CsvRepository(csv_column_names)

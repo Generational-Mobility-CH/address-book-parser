@@ -1,10 +1,5 @@
 from logging import getLogger
 
-from modules.shared.models.address_book.address_book_entry import AddressBookEntry
-from modules.shared.models.panel_data_entry import PanelDataEntry
-from modules.text_cleaner.src.text_cleaner import (
-    clean_text,
-)
 from modules.shared.models.address_book.address_book import (
     AddressBook,
 )
@@ -14,8 +9,12 @@ from modules.shared.models.address_book.address_book_page import (
 from modules.shared.models.address_book.name_range import (
     NameRange,
 )
+from modules.shared.models.panel_data_entry import PanelDataEntry
 from modules.shared.models.person_data_parts import (
     PersonDataParts,
+)
+from modules.text_cleaner.src.text_cleaner import (
+    clean_text,
 )
 from modules.text_parser.src.company_parser import (
     is_company,
@@ -54,7 +53,7 @@ def _group_data(data: list[str]) -> list[PersonDataParts]:
     return result
 
 
-def _parse_address_book_page(page: AddressBookPage) -> list[AddressBookEntry]:
+def _parse_address_book_page(page: AddressBookPage) -> list[PanelDataEntry]:
     splitted_lines = [line for text in page.text_content for line in text.split("\n")]
     cleaned_lines = clean_text(splitted_lines)
     page.text_content = cleaned_lines
@@ -62,7 +61,7 @@ def _parse_address_book_page(page: AddressBookPage) -> list[AddressBookEntry]:
     return _parse_persons(page)
 
 
-def _parse_persons(page: AddressBookPage) -> list[AddressBookEntry]:
+def _parse_persons(page: AddressBookPage) -> list[PanelDataEntry]:
     output = []
     current_last_name = ""
     previous_last_name = ""
@@ -96,7 +95,7 @@ def _parse_persons(page: AddressBookPage) -> list[AddressBookEntry]:
 
 
 def parse_address_book(address_book: AddressBook) -> list[PanelDataEntry]:
-    persons_collection: list[AddressBookEntry] = []
+    persons_collection: list[PanelDataEntry] = []
 
     if len(address_book.pages) < 1:
         _logger.warning(f"No pages found. Skipping book for year {address_book.year}.")

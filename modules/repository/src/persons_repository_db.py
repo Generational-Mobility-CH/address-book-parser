@@ -22,6 +22,8 @@ class PersonsRepositoryDb(Repository):
         self.placeholders = ", ".join(["?"] * len(column_names))
 
     def save(self, persons_collection: list[PanelDataEntry], output_path: Path) -> None:
+        # TODO: improve with new @dataclass
+
         Path(output_path).parent.mkdir(parents=True, exist_ok=True)
 
         with sqlite3.connect(output_path) as conn:

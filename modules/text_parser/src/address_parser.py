@@ -23,4 +23,4 @@ def extract_address(content: str) -> Address:
         house_number = house_number_match.group(1).strip()
         street_name = content.replace(house_number, "").strip()
 
-    return Address(street_name=street_name, house_number=house_number)
+    return Address(street_name=street_name, house_number=house_number, coordinates=None)
