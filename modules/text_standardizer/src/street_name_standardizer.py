@@ -2,7 +2,7 @@ from logging import getLogger
 
 from fuzzywuzzy import process
 
-from modules.shared.constants.tags import TAG_NONE_FOUND
+from modules.shared.constants.tags import TAG_NONE_FOUND, TAG_STREET_NAME_NOT_FOUND
 from modules.text_standardizer.src.constants.street_names.corrected_street_names import (
     CORRECTED_STREET_NAMES_MAP,
 )
@@ -60,7 +60,7 @@ def _fix_spelling(text: str) -> str:
     if corrected_text := _get_fuzzy_match(text):
         return corrected_text
 
-    return f"{text}<TODO FIX SPELLING>"
+    return f"{text}{TAG_STREET_NAME_NOT_FOUND}"
 
 
 def standardize_street_name(text: str) -> str:
