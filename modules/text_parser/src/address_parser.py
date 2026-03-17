@@ -1,6 +1,7 @@
 import re
 
-from modules.shared.models.address import Address
+from modules.shared.models.address import Address, Coordinates, CoordinateSystem
+from modules.text_parser.src.constants.coordinates_basel import COORDINATES_MAP_BASEL
 from modules.text_parser.src.constants.street_name_keywords import (
     KEYWORDS_STREET_NAME,
 )
@@ -23,4 +24,22 @@ def extract_address(content: str) -> Address:
         house_number = house_number_match.group(1).strip()
         street_name = content.replace(house_number, "").strip()
 
-    return Address(street_name=street_name, house_number=house_number)
+    return Address(street_name=street_name, house_number=house_number, coordinates=None)
+
+
+def add_coordinates(address: Address) -> Address:
+    if (
+        address.street_name in COORDINATES_MAP_BASEL
+        and address.house_number in COORDINATES_MAP_BASEL[address.street_name]
+    ):
+        address.coordinates = Coordinates(
+            coordinates_system=CoordinateSystem.SwissCoordinateSystem,  # TODO: how to make this dynamic?
+            latitude=COORDINATES_MAP_BASEL[address.street_name][address.house_number][
+                0
+            ],  # TODO: check if latitude is the first or second element in list
+            longitude=COORDINATES_MAP_BASEL[address.street_name][address.house_number][
+                1
+            ],
+        )
+
+    return address

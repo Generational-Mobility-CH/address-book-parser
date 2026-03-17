@@ -5,7 +5,7 @@ from modules.__main__ import main
 from modules.repository.src.supported_file_types import (
     SupportedFileTypes,
 )
-from system.fixtures.fixtures_dir_path import FIXTURES_DIR
+from modules.shared.test_template.system.fixtures.fixtures_dir_path import FIXTURES_DIR
 from modules.shared.utility.assert_csv_files_are_equal import assert_csv_files_are_equal
 
 
@@ -20,8 +20,8 @@ class TemplateBugReproductionTestCase(unittest.TestCase):
 
         relevant_columns = [
             "original_entry",
-            "address__street_name",
-            "address__house_number",
+            "street_name",
+            "house_number",
         ]
 
         main(test_input, actual, SupportedFileTypes.CSV, relevant_columns)

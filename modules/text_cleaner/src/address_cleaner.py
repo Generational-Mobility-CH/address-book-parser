@@ -29,6 +29,7 @@ def clean_address(address: Address) -> Address:
                 house_number=first_group
                 if first_group_starts_with_number
                 else second_group,
+                coordinates=None,
             )
 
     address.street_name = street_name

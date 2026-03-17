@@ -9,15 +9,27 @@ from modules.text_parser.src.address_parser import (
 class AddressParserTest(unittest.TestCase):
     def test_extract_address(self) -> None:
         test_cases = [
-            ("Bahnhofstr. 10", Address(street_name="Bahnhofstr.", house_number="10")),
-            ("23 Gehweg", Address(street_name="Gehweg", house_number="23")),
+            (
+                "Bahnhofstr. 10",
+                Address(street_name="Bahnhofstr.", house_number="10", coordinates=None),
+            ),
+            (
+                "23 Gehweg",
+                Address(street_name="Gehweg", house_number="23", coordinates=None),
+            ),
             (
                 "Wohnblock an der Main 30c",
-                Address(street_name="Wohnblock an der Main", house_number="30c"),
+                Address(
+                    street_name="Wohnblock an der Main",
+                    house_number="30c",
+                    coordinates=None,
+                ),
             ),
             (
                 "30 Homburgerstrasse.",
-                Address(street_name="Homburgerstrasse.", house_number="30"),
+                Address(
+                    street_name="Homburgerstrasse.", house_number="30", coordinates=None
+                ),
             ),
         ]
 

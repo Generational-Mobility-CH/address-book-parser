@@ -14,6 +14,7 @@ from modules.shared.common.paths import (
     INPUT_PATH,
     DATA_PATH,
 )
+from modules.text_parser.src.address_parser import add_coordinates
 from modules.text_parser.src.gender_identifier import identify_gender
 from modules.text_parser.src.parser import (
     parse_address_book,
@@ -44,6 +45,8 @@ def main(
         panel_data = standardize_information(panel_data)
         panel_data = identify_gender(panel_data)
         panel_data = standardize_information(panel_data)
+        for person in panel_data:
+            person.address = add_coordinates(person.address)
 
         repository.save(panel_data, output_path)
 

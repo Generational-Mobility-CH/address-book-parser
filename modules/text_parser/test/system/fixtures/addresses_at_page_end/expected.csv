@@ -1,4 +1,4 @@
-first_names,last_names,partner_last_names,address__street_name,address__house_number,original_entry
+first_names,last_names,partner_last_names,street_name,house_number,original_entry
 Ignore,A,,<Keine Angabe Gefunden>,<Keine Angabe Gefunden>,"A Ignore, Ignore, Ignore"
 Adalbert,Amann,,St. Johanns-Rheinweg,118,"Amann Adalbert, Bahnarb., 118 Johannringweg."
 Friedrich,Amann,Egger,Amerbachstrasse,88,"Amann Egger Friedr., Tagl., 88 Amerbachstr."
