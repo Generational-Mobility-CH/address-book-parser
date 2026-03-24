@@ -13,6 +13,7 @@ from src.shared.common.paths import (
     OUTPUT_PATH,
     INPUT_PATH,
     DATA_PATH,
+    CITY,
 )
 from src.text_parser.src.address_parser import add_coordinates
 from src.text_parser.src.gender_identifier import identify_gender
@@ -65,4 +66,4 @@ if __name__ == "__main__":
         ],
     )
 
-    main(INPUT_PATH, OUTPUT_PATH / f"ALL_BOOKS-{time_stamp}.db")
+    main(INPUT_PATH, OUTPUT_PATH / f"ALL_BOOKS-{CITY}.db")
