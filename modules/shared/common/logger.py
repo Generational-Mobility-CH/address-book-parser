@@ -1,11 +1,13 @@
 from logging import config
 from pathlib import Path
+from colorlog import ColoredFormatter
+
 
 LEVEL = "INFO"
 
 LOGGING_FORMATTERS = {
     "color": {
-        "()": "colorlog.ColoredFormatter",
+        "()": ColoredFormatter,
         "format": (
             "%(log_color)s%(levelname)-8s%(reset)s "
             "%(asctime)s "
