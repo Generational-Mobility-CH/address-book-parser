@@ -65,4 +65,4 @@ if __name__ == "__main__":
         ],
     )
 
-    main(INPUT_PATH, OUTPUT_PATH / f"{time_stamp}.db")
+    main(INPUT_PATH, OUTPUT_PATH / f"ALL_BOOKS-{time_stamp}.db")
