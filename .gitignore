@@ -1,6 +1,4 @@
 .idea
-data/address-books/transcriptions/basel
-data/persons
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -156,4 +154,15 @@ fabric.properties
 .pypirc
 
 /.env.local
-/data/
+/data/demo_data/Basel/db/
+/data/Bern/
+/data/Basel/base64/
+/data/Basel/db/
+/data/Basel/jsonl/
+/data/Basel/logs/
+/data/Basel/pages-downloader/
+/data/Basel/preprocessed-pages/
+/data/Basel/transcriptions/backup/
+/data/Basel/transcriptions/batch_ids/
+/data/Basel/transcriptions/jsonl/
+/data/Basel/transcriptions/persons/
