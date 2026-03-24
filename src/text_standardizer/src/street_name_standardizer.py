@@ -1,0 +1,76 @@
+from logging import getLogger
+
+from fuzzywuzzy import process
+
+from src.shared.constants.tags import TAG_NONE_FOUND, TAG_STREET_NAME_NOT_FOUND
+from src.text_standardizer.src.constants.street_names.corrected_street_names import (
+    CORRECTED_STREET_NAMES_MAP,
+)
+from src.text_standardizer.src.constants.street_names.historical_street_names_basel import (
+    HISTORICAL_STREET_NAMES_BASEL,
+)
+from src.text_standardizer.src.constants.street_names.street_name_prefixes import (
+    STREET_NAME_PREFIXES_ABBREVIATION_MAP,
+)
+from src.text_standardizer.src.constants.street_names.street_name_suffixes import (
+    STREET_NAME_SUFFIXES,
+    STREET_NAME_SUFFIXES_ABBREVIATION_MAP,
+)
+from src.regex.src.substitute_with_map import (
+    substitute_with_map,
+)
+
+logger = getLogger(__name__)
+
+
+def _standardize_street_name_suffixes_and_prefixes(text: str) -> str:
+    text = text.replace(".", "").strip().lower()
+
+    text = substitute_with_map(
+        text, STREET_NAME_PREFIXES_ABBREVIATION_MAP, r"^{PLACEHOLDER}\b"
+    )
+
+    if text.startswith("st "):
+        text = text.replace("st ", "St. ")
+
+    if any(text.endswith(suffix) for suffix in STREET_NAME_SUFFIXES):
+        return text.title()
+
+    text = substitute_with_map(
+        text, STREET_NAME_SUFFIXES_ABBREVIATION_MAP, r"{PLACEHOLDER}$"
+    )
+
+    return text.title()
+
+
+def _get_fuzzy_match(word: str) -> str | None:
+    threshold = 70
+    word = word.lower()
+    match = process.extractOne(
+        word, HISTORICAL_STREET_NAMES_BASEL, score_cutoff=threshold
+    )
+
+    return match[0] if match else None
+
+
+def _fix_spelling(text: str) -> str:
+    if text in CORRECTED_STREET_NAMES_MAP:
+        return CORRECTED_STREET_NAMES_MAP[text]
+
+    if corrected_text := _get_fuzzy_match(text):
+        return corrected_text
+
+    return f"{text}{TAG_STREET_NAME_NOT_FOUND}"
+
+
+def standardize_street_name(text: str) -> str:
+    text = _standardize_street_name_suffixes_and_prefixes(text)
+
+    if (
+        bool(text)
+        and text not in HISTORICAL_STREET_NAMES_BASEL
+        and text.lower() != TAG_NONE_FOUND.lower()
+    ):
+        return _fix_spelling(text)
+
+    return text

@@ -7,10 +7,10 @@
 - [Project Description](project_description.md)
 
 ## Pipeline module's descriptions
-- [Analysis](../modules/analysis/README.md)
-- [Pages Downloader](../modules/pages_downloader/README.md)
-- [Pages Preprocessor](../modules/pages_preprocessor/README.md)
-- [Text Cleaner](../modules/text_cleaner/README.md)
-- [Text Parser](../modules/text_parser/README.md)
-- [Text Standardizer](../modules/text_standardizer/README.md)
-- [Transcriptor](../modules/transcriptor/README.md)
+- [Analysis](../src/analysis/README.md)
+- [Pages Downloader](../src/pages_downloader/README.md)
+- [Pages Preprocessor](../src/pages_preprocessor/README.md)
+- [Text Cleaner](../src/text_cleaner/README.md)
+- [Text Parser](../src/text_parser/README.md)
+- [Text Standardizer](../src/text_standardizer/README.md)
+- [Transcriptor](../src/transcriptor/README.md)

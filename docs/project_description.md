@@ -3,12 +3,12 @@
 This ongoing project aims to read, transcribe, and transform the content of historical address books from several Swiss cities into structured household- or individual-level panel datasets. 
 
 The different steps of the pipeline have each their own submodule under `/modules`:
-- [Pages Downloader](../modules/pages_downloader/README.md)
-- [Pages Preprocessor](../modules/pages_preprocessor/README.md)
-- [Text Cleaner](../modules/text_cleaner/README.md)
-- [Text Parser](../modules/text_parser/README.md)
-- [Text Standardizer](../modules/text_standardizer/README.md)
-- [Transcriptor](../modules/transcriptor/README.md)
+- [Pages Downloader](../src/pages_downloader/README.md)
+- [Pages Preprocessor](../src/pages_preprocessor/README.md)
+- [Text Cleaner](../src/text_cleaner/README.md)
+- [Text Parser](../src/text_parser/README.md)
+- [Text Standardizer](../src/text_standardizer/README.md)
+- [Transcriptor](../src/transcriptor/README.md)
 
 The resulting dataset is stored as a SQL .db file that looks like the following:
 ![Output example](assets/pipeline_output.png)

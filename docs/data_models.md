@@ -21,7 +21,7 @@ And we add the following information:
 - TODO: the coordinates of the address for geo-referencing
 
 In our dataset, we store the person object with these attributes:  
-[Person class definition](../modules/shared/models/panel_data_entry.py)
+[Person class definition](../src/shared/models/panel_data_entry.py)
 ```python
 # person's attributes
 first_names: str
