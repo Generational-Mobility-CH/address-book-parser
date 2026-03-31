@@ -22,7 +22,6 @@ class AddressAtEnfOfPageTestCase(unittest.TestCase):
         expected = test_resources / "expected.csv"
         actual = test_resources / "actual.csv"
 
-        # TODO: fix attribute names for address
         relevant_columns = [
             "first_names",
             "last_names",

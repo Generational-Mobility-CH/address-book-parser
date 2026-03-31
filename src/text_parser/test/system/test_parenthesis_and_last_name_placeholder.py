@@ -24,7 +24,6 @@ class ParenthesisAndLastNamePlaceholderTestCase(unittest.TestCase):
             "first_names",
             "last_names",
             "partner_last_names",
-            "original_names",
             "original_entry",
         ]
 

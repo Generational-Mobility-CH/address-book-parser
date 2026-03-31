@@ -36,7 +36,6 @@ class PanelDataEntry:
             "coordinates": f"{self.address.coordinates.latitude}, {self.address.coordinates.longitude} ({self.address.coordinates.coordinates_system.value})"
             if self.address.coordinates
             else "",
-            "original_names": self.original_names,
         }
 
         return base_dict
