@@ -3,8 +3,8 @@ from pathlib import Path
 
 from pdf2image import convert_from_path
 
-from src.pages_preprocessor.src.paths import GENERAL_INPUT_PATH
-from src.pages_preprocessor.src.pdf_jpg_conversion.find_pagerange_in_table_of_content import (
+from src.pages_preprocessor._legacy.src.paths import GENERAL_INPUT_PATH
+from src.pages_preprocessor._legacy.src.pdf_jpg_conversion.find_pagerange_in_table_of_content import (
     get_register_range,
 )
 

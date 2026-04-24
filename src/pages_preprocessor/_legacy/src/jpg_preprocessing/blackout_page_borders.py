@@ -5,8 +5,8 @@ import cv2
 import numpy as np
 import pandas as pd
 
-from src.pages_preprocessor.src.cutter.line_operations import line_intersection
-from src.pages_preprocessor.src.jpg_preprocessing.get_avg_border_coords import (
+from src.pages_preprocessor._legacy.src.cutter.line_operations import line_intersection
+from src.pages_preprocessor._legacy.src.jpg_preprocessing.get_avg_border_coords import (
     metadata_as_df,
     get_avg_coords,
 )

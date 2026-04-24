@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from src.pages_preprocessor.src.file_handling.read_json import read_json
+from src.pages_preprocessor._legacy.src.file_handling.read_json import read_json
 
 
 def get_entry_by_pos(

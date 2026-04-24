@@ -7,7 +7,7 @@ from src.pages_downloader.Basel.constants.paths import (
     JSON_INPUT_PATH,
 )
 
-from src.pages_preprocessor.src.paths import PDF_OUTPUT_PATH
+from src.pages_preprocessor._legacy.src.paths import PDF_OUTPUT_PATH
 from src.shared.common.paths import DATA_PATH
 from src.shared.constants.years_range import YEARS_RANGE
 

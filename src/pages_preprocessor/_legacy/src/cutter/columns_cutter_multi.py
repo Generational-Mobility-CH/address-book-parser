@@ -4,17 +4,17 @@ import re
 import cv2
 import numpy as np
 
-from src.pages_preprocessor.src.cutter.line_operations import (
+from src.pages_preprocessor._legacy.src.cutter.line_operations import (
     extend_line_to_border,
     connect_lowest_highest_points,
 )
-from src.pages_preprocessor.src.cutter.printed_line_detector import (
+from src.pages_preprocessor._legacy.src.cutter.printed_line_detector import (
     black_white_for_print,
     select_lines_by_angle_and_length,
 )
 from sklearn.linear_model import LinearRegression
 
-from src.pages_preprocessor.src.jpg_preprocessing.get_avg_border_coords import (
+from src.pages_preprocessor._legacy.src.jpg_preprocessing.get_avg_border_coords import (
     get_avg_coords,
 )
 

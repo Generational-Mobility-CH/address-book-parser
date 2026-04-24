@@ -3,11 +3,13 @@ import os
 import cv2
 import numpy as np
 
-from src.pages_preprocessor.src.cutter.line_operations import extend_line_to_border
-from src.pages_preprocessor.src.cutter.printed_line_detector import (
+from src.pages_preprocessor._legacy.src.cutter.line_operations import (
+    extend_line_to_border,
+)
+from src.pages_preprocessor._legacy.src.cutter.printed_line_detector import (
     get_printed_lines,
 )
-from src.pages_preprocessor.src.jpg_preprocessing.blackout_page_borders import (
+from src.pages_preprocessor._legacy.src.jpg_preprocessing.blackout_page_borders import (
     crop_around_polygon,
 )
 
