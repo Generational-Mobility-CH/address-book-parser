@@ -4,7 +4,6 @@ from pathlib import Path
 from typing import Optional
 
 from src.file_handler.src.json.extractor import JsonExtractor
-from src.repository.src.db_repository import DbRepository
 from src.repository.src.get_repository import get_person_repository
 from src.repository.src.supported_file_types import (
     SupportedFileTypes,
@@ -36,7 +35,7 @@ def main(
 
     extractor = JsonExtractor()
     repository = get_person_repository(output_type, csv_column_names)
-    company_repository = DbRepository(table_name="companies")
+    company_repository = get_person_repository(output_type)
     book_paths = [entry for entry in input_path.iterdir() if entry.is_dir()]
 
     for path in book_paths:
@@ -53,7 +52,13 @@ def main(
 
         repository.save(panel_data, output_path)
         if companies:
-            company_repository.save(companies, output_path)
+            if output_type == SupportedFileTypes.CSV:
+                company_output = output_path.with_stem(
+                    output_path.stem + "_companies"
+                )
+            else:
+                company_output = output_path
+            company_repository.save(companies, company_output)
 
     _logger.info("Finished creation of the address books database.")
 

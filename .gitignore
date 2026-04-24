@@ -157,6 +157,7 @@ fabric.properties
 /src/run_books.py
 /src/benchmark_dots_ocr_v15.py
 /src/benchmark_compare_prompts.py
+**/actual*.csv
 /data/demo_data/Basel/db/
 /data/Bern/
 /data/Basel/base64/
