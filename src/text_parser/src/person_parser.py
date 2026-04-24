@@ -10,7 +10,16 @@ from src.text_parser.src.address_parser import (
     extract_address,
 )
 from src.text_parser.src.constants.gender_descriptors import GENDER_UNKNOWN
+from src.text_parser.src.constants.last_name_placeholders import (
+    LAST_NAME_PLACEHOLDERS,
+)
 from src.shared.constants.tags import TAG_NONE_FOUND, TAG_NO_JOB
+
+
+def _is_name(text: str, last_name: str) -> bool:
+    return last_name in text or any(
+        placeholder in text for placeholder in LAST_NAME_PLACEHOLDERS
+    )
 
 
 def parse_person(data: PersonDataParts, current_last_name: str) -> PanelDataEntry:
@@ -30,7 +39,7 @@ def parse_person(data: PersonDataParts, current_last_name: str) -> PanelDataEntr
         pdf_page_number=0,
     )
 
-    if all_names := data.first:
+    if (all_names := data.first) and _is_name(all_names, current_last_name):
         person.original_names = all_names
 
     if len(data) == 2:

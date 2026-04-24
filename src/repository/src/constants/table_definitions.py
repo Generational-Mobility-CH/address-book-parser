@@ -1,6 +1,6 @@
 PERSONS_TABLE_NAME = "persons"
 PERSONS_TABLE_COLUMNS_NAMES = [
-    "pfx",
+    "prefix",
     "first_names",
     "last_names",
     "partner_last_names",

@@ -18,14 +18,14 @@ class PanelDataEntry:
     partner_last_names: Optional[str] = ""
     gender_confidence: Optional[str] = ""
     original_names: Optional[str] = ""
-    pfx: str = ""
+    prefix: Optional[str] = ""
     telephone: bool = False
     postcheck: bool = False
 
     @property
     def __dict__(self):
         base_dict = {
-            "pfx": self.pfx,
+            "prefix": self.prefix,
             "first_names": self.first_names,
             "last_names": self.last_names,
             "partner_last_names": self.partner_last_names,

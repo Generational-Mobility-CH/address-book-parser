@@ -13,9 +13,9 @@ def _extract_title_prefixes(
     persons: list[PanelDataEntry],
 ) -> list[PanelDataEntry]:
     for person in persons:
-        pfx, cleaned = extract_title_prefix(person.first_names)
-        if pfx:
-            person.pfx = pfx
+        prefix, cleaned = extract_title_prefix(person.first_names)
+        if prefix:
+            person.prefix = prefix
             person.first_names = cleaned
     return persons
 

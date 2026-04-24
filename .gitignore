@@ -154,6 +154,9 @@ fabric.properties
 .pypirc
 
 /.env.local
+/src/run_books.py
+/src/benchmark_dots_ocr_v15.py
+/src/benchmark_compare_prompts.py
 /data/demo_data/Basel/db/
 /data/Bern/
 /data/Basel/base64/
