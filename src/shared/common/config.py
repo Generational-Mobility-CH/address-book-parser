@@ -11,6 +11,10 @@ def get_config_info():
     return {
         "selenium-web-driver-path": os.getenv("SELENIUM_WEB_DRIVER_PATH"),
         "openai-api-key": os.getenv("OPENAI_API_KEY"),
+        "dots-ocr-api-key": os.getenv("DOTS_OCR_API_KEY"),
+        "dots-ocr-base-url": os.getenv(
+            "DOTS_OCR_BASE_URL", "https://ai.soziologie.uzh.ch/v1"
+        ),
     }
 
 
@@ -29,6 +33,8 @@ class Config:
             os.getcwd(), str(data["selenium-web-driver-path"])
         )
         self.openai_api_key = data["openai-api-key"]
+        self.dots_ocr_api_key = data["dots-ocr-api-key"]
+        self.dots_ocr_base_url = data["dots-ocr-base-url"]
 
     def __new__(cls):
         if cls.__instance is None:

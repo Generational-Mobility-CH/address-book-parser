@@ -175,6 +175,8 @@ def separate_last_and_first_names(
             year=person.year,
             pdf_page_number=person.pdf_page_number,
             original_names=person.original_names,
+            telephone=person.telephone,
+            postcheck=person.postcheck,
         )
 
         updated_persons.append(new_person)
