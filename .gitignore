@@ -154,6 +154,11 @@ fabric.properties
 .pypirc
 
 /.env.local
+/src/run_books.py
+/src/run_pipeline.py
+/src/benchmark_dots_ocr_v15.py
+/src/benchmark_compare_prompts.py
+**/actual*.csv
 /data/demo_data/Basel/db/
 /data/Bern/
 /data/Basel/base64/
@@ -166,3 +171,5 @@ fabric.properties
 /data/Basel/transcriptions/batch_ids/
 /data/Basel/transcriptions/jsonl/
 /data/Basel/transcriptions/persons/
+/data/Basel/transcriptions/legacy_json/
+/data/Basel/transcriptions/legacy_json/Basel_*/

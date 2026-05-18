@@ -18,10 +18,14 @@ class PanelDataEntry:
     partner_last_names: Optional[str] = ""
     gender_confidence: Optional[str] = ""
     original_names: Optional[str] = ""
+    prefix: Optional[str] = ""
+    telephone: bool = False
+    postcheck: bool = False
 
     @property
     def __dict__(self):
         base_dict = {
+            "prefix": self.prefix,
             "first_names": self.first_names,
             "last_names": self.last_names,
             "partner_last_names": self.partner_last_names,
@@ -30,12 +34,14 @@ class PanelDataEntry:
             "gender_confidence": self.gender_confidence,
             "street_name": self.address.street_name,
             "house_number": self.address.house_number,
-            "year": self.year,
-            "pdf_page_number": self.pdf_page_number,
-            "original_entry": self.original_entry,
             "coordinates": f"{self.address.coordinates.latitude}, {self.address.coordinates.longitude} ({self.address.coordinates.coordinates_system.value})"
             if self.address.coordinates
             else "",
+            "telephone": self.telephone,
+            "postcheck": self.postcheck,
+            "year": self.year,
+            "pdf_page_number": self.pdf_page_number,
+            "original_entry": self.original_entry,
         }
 
         return base_dict
