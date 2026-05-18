@@ -4,6 +4,11 @@ from pathlib import Path
 from typing import Optional
 
 from src.file_handler.src.json.extractor import JsonExtractor
+from src.repository.src.constants.table_definitions import (
+    COMPANIES_TABLE_NAME,
+)
+from src.repository.src.csv_repository import CsvRepository
+from src.repository.src.db_repository import DbRepository
 from src.repository.src.get_repository import get_person_repository
 from src.repository.src.supported_file_types import (
     SupportedFileTypes,
@@ -35,7 +40,10 @@ def main(
 
     extractor = JsonExtractor()
     repository = get_person_repository(output_type, csv_column_names)
-    company_repository = get_person_repository(output_type)
+    if output_type == SupportedFileTypes.DB:
+        company_repository = DbRepository(table_name=COMPANIES_TABLE_NAME)
+    else:
+        company_repository = CsvRepository(csv_column_names)
     book_paths = [entry for entry in input_path.iterdir() if entry.is_dir()]
 
     for path in book_paths:
