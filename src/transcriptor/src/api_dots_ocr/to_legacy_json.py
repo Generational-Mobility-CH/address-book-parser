@@ -15,6 +15,7 @@ from pathlib import Path
 
 from src.transcriptor.src.api_dots_ocr.anomaly_detector import AnomalyDetector
 from src.transcriptor.src.api_dots_ocr.format_converter import count_entries
+from src.transcriptor.src.api_dots_ocr.prompts import YEAR_TO_PROMPT, get_prompt
 from src.transcriptor.src.api_dots_ocr.transcribe import transcribe_image_raw
 
 logger = logging.getLogger(__name__)
@@ -56,8 +57,9 @@ def transcribe_to_legacy_json(
     output_dir: Path,
     api_key: str,
     base_url: str,
+    year: int,
     anomaly_detector: AnomalyDetector | None = None,
-    max_workers: int = 4,
+    max_workers: int = 8,
 ) -> TranscriptionResult:
     """Process all column images in image_dir, write legacy JSON files.
 
@@ -66,8 +68,9 @@ def transcribe_to_legacy_json(
         output_dir: Where to write page_NNNN.json files
         api_key: dots.ocr API key
         base_url: dots.ocr API base URL
+        year: Address book year (used to select the best tuned prompt)
         anomaly_detector: Optional anomaly detector for entry count monitoring
-        max_workers: Number of concurrent transcription threads (default: 4)
+        max_workers: Number of concurrent transcription threads (default: 8)
 
     Returns:
         TranscriptionResult with lists of written files, cached skips,
@@ -77,15 +80,18 @@ def transcribe_to_legacy_json(
     raw_dir = output_dir / "raw"
     raw_dir.mkdir(exist_ok=True)
     pages = _group_images_by_page(image_dir)
+    prompt = get_prompt(year)
     total_pages = len(pages)
     result = TranscriptionResult()
     lock = threading.Lock()
 
     logger.info(
-        "Starting transcription: %d pages from %s (workers=%d)",
+        "Starting transcription: %d pages from %s (workers=%d, year=%d, prompt=%s)",
         total_pages,
         image_dir,
         max_workers,
+        year,
+        YEAR_TO_PROMPT.get(year, "fallback"),
     )
 
     # Filter cached pages before submitting to executor
@@ -112,7 +118,7 @@ def transcribe_to_legacy_json(
 
             try:
                 numbered, converted = transcribe_image_raw(
-                    img_path, api_key, base_url
+                    img_path, api_key, base_url, prompt
                 )
             except Exception as e:
                 error_msg = f"{img_path.name}: {e}"

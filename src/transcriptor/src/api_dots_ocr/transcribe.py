@@ -1,7 +1,7 @@
 """
 Transcribe address book column images using dots.ocr-1.5.
 
-Uses the P10v_minimal_plus prompt, applies postprocessing for known
+Uses year-specific tuned prompts, applies postprocessing for known
 character substitutions, then converts numbered output to raw line
 format compatible with the text_cleaner/text_parser pipeline.
 """
@@ -14,7 +14,6 @@ import requests
 
 from src.transcriptor.src.api_dots_ocr.format_converter import convert_to_raw_lines
 from src.transcriptor.src.api_dots_ocr.postprocessing import postprocess_raw
-from src.transcriptor.src.api_dots_ocr.prompts import ACTIVE_PROMPT
 
 logger = logging.getLogger(__name__)
 
@@ -62,6 +61,7 @@ def _call_api(
         ],
         "max_tokens": 4096,
         "temperature": 0.0,
+        "mm_processor_kwargs": {"max_pixels": 11289600},
     }
 
     for attempt in range(_MAX_RETRIES):
@@ -104,7 +104,7 @@ def transcribe_image(
     image_path: Path,
     api_key: str,
     base_url: str,
-    prompt: str = ACTIVE_PROMPT,
+    prompt: str,
 ) -> str:
     """Transcribe a column image using dots.ocr-1.5.
 
@@ -123,7 +123,7 @@ def transcribe_image_raw(
     image_path: Path,
     api_key: str,
     base_url: str,
-    prompt: str = ACTIVE_PROMPT,
+    prompt: str,
 ) -> tuple[str, str]:
     """Transcribe and return both raw (numbered) and converted text.
 

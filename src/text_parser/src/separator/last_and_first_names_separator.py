@@ -89,6 +89,9 @@ def _split_at_marker(data: str, keyword: str) -> PersonNames:
 
 
 def separate_names_legacy(original_names: str) -> PersonNames:
+    if original_names == TAG_NONE_FOUND:
+        return PersonNames(last_names=TAG_NONE_FOUND, first_names=TAG_NONE_FOUND)
+
     separated_names: PersonNames = PersonNames(
         last_names=TAG_NONE_FOUND, first_names=TAG_NONE_FOUND
     )

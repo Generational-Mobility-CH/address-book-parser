@@ -47,7 +47,8 @@ def _group_data(
     result: list[tuple[PersonDataParts, tuple[bool, bool]]] = []
 
     for line in data:
-        tel, post, cleaned = extract_entry_symbols(line)
+        tel, post, cleaned = extract_entry_symbols(line.strip())
+        cleaned = cleaned.replace("\u2021", "").replace("\u25cf", "")
         content = cleaned.split(",")
         stripped_content = []
         for e in content:
@@ -114,7 +115,7 @@ def _parse_persons(
             person = parse_person(group, current_last_name)
             person.year = page.year
             person.pdf_page_number = page.pdf_page_number
-            person.telephone = meta[0]
+            person.telephone = meta[0] and page.year >= 1885
             person.postcheck = meta[1]
 
             if person not in output:
