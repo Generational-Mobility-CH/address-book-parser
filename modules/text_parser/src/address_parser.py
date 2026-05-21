@@ -1,7 +1,8 @@
 import re
 
-from modules.shared.models.address import Address, Coordinates, CoordinateSystem
+from modules.shared.models.address import Address, Coordinates
 from modules.text_parser.src.constants.coordinates_basel import COORDINATES_MAP_BASEL
+from modules.text_parser.src.coordinate_converter import wgs84_to_lv95
 from modules.text_parser.src.constants.street_name_keywords import (
     KEYWORDS_STREET_NAME,
 )
@@ -32,14 +33,14 @@ def add_coordinates(address: Address) -> Address:
         address.street_name in COORDINATES_MAP_BASEL
         and address.house_number in COORDINATES_MAP_BASEL[address.street_name]
     ):
+        lat = COORDINATES_MAP_BASEL[address.street_name][address.house_number][0]
+        lon = COORDINATES_MAP_BASEL[address.street_name][address.house_number][1]
+        easting, northing = wgs84_to_lv95(lat, lon)
         address.coordinates = Coordinates(
-            coordinates_system=CoordinateSystem.SwissCoordinateSystem,  # TODO: how to make this dynamic?
-            latitude=COORDINATES_MAP_BASEL[address.street_name][address.house_number][
-                0
-            ],  # TODO: check if latitude is the first or second element in list
-            longitude=COORDINATES_MAP_BASEL[address.street_name][address.house_number][
-                1
-            ],
+            latitude_wgs84=lat,
+            longitude_wgs84=lon,
+            easting_lv95=easting,
+            northing_lv95=northing,
         )
 
     return address

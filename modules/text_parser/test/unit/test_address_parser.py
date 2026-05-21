@@ -2,6 +2,7 @@ import unittest
 
 from modules.shared.models.address import Address
 from modules.text_parser.src.address_parser import (
+    add_coordinates,
     extract_address,
 )
 
@@ -41,3 +42,17 @@ class AddressParserTest(unittest.TestCase):
                     expected,
                     f"\nMismatch at test case #{i + 1}: '{actual}' != '{expected}'",
                 )
+
+    def test_add_coordinates_known_address(self):
+        address = Address(street_name="Ackerstrasse", house_number="20", coordinates=None)
+        result = add_coordinates(address)
+        self.assertIsNotNone(result.coordinates)
+        self.assertAlmostEqual(result.coordinates.latitude_wgs84, 47.5783)
+        self.assertAlmostEqual(result.coordinates.longitude_wgs84, 7.589)
+        self.assertAlmostEqual(result.coordinates.easting_lv95, 2611316.782, delta=5.0)
+        self.assertAlmostEqual(result.coordinates.northing_lv95, 1269746.369, delta=5.0)
+
+    def test_add_coordinates_unknown_address(self):
+        address = Address(street_name="Nonexistent", house_number="999", coordinates=None)
+        result = add_coordinates(address)
+        self.assertIsNone(result.coordinates)

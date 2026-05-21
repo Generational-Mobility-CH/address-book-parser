@@ -33,7 +33,16 @@ class PanelDataEntry:
             "year": self.year,
             "pdf_page_number": self.pdf_page_number,
             "original_entry": self.original_entry,
-            "coordinates": f"{self.address.coordinates.latitude}, {self.address.coordinates.longitude} ({self.address.coordinates.coordinates_system.value})"
+            "latitude_wgs84": self.address.coordinates.latitude_wgs84
+            if self.address.coordinates
+            else "",
+            "longitude_wgs84": self.address.coordinates.longitude_wgs84
+            if self.address.coordinates
+            else "",
+            "easting_lv95": self.address.coordinates.easting_lv95
+            if self.address.coordinates
+            else "",
+            "northing_lv95": self.address.coordinates.northing_lv95
             if self.address.coordinates
             else "",
             "original_names": self.original_names,
