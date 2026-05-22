@@ -34,7 +34,16 @@ class PanelDataEntry:
             "gender_confidence": self.gender_confidence,
             "street_name": self.address.street_name,
             "house_number": self.address.house_number,
-            "coordinates": f"{self.address.coordinates.latitude}, {self.address.coordinates.longitude} ({self.address.coordinates.coordinates_system.value})"
+            "latitude_wgs84": self.address.coordinates.latitude_wgs84
+            if self.address.coordinates
+            else "",
+            "longitude_wgs84": self.address.coordinates.longitude_wgs84
+            if self.address.coordinates
+            else "",
+            "easting_lv95": self.address.coordinates.easting_lv95
+            if self.address.coordinates
+            else "",
+            "northing_lv95": self.address.coordinates.northing_lv95
             if self.address.coordinates
             else "",
             "telephone": self.telephone,

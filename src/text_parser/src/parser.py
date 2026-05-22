@@ -9,9 +9,12 @@ from src.shared.models.address_book.address_book_page import (
 from src.shared.models.address_book.name_range import (
     NameRange,
 )
-from src.shared.models.company_entry import (
-    CompanyEntry,
-    extract_company_info,
+from src.shared.models.company_entry import CompanyEntry
+from src.text_parser.src.company_entry_parser import (
+    is_continuation_fragment,
+    is_junk_entry,
+    merge_fragment_into_company,
+    parse_company,
 )
 from src.shared.models.panel_data_entry import PanelDataEntry
 from src.shared.models.person_data_parts import (
@@ -87,19 +90,23 @@ def _parse_persons(
             full_text = f"{group.first}, {group.second}"
             if group.third:
                 full_text += f", {group.third}"
-            tel_num, post_num = extract_company_info(full_text)
-            company = CompanyEntry(
-                company_name=group.first.split(",")[0].strip(),
-                full_text=full_text,
-                original_entry=full_text,
-                year=page.year,
-                pdf_page_number=page.pdf_page_number,
-                telephone_number=tel_num,
-                postcheck_number=post_num,
-            )
+
+            # Discard junk entries (page headers etc.)
+            if is_junk_entry(full_text):
+                continue
+
+            # Merge continuation fragments into previous company
+            if is_continuation_fragment(full_text) and companies:
+                merge_fragment_into_company(companies[-1], full_text)
+                continue
+
+            company = parse_company(group, current_last_name)
+            company.year = page.year
+            company.pdf_page_number = page.pdf_page_number
             companies.append(company)
             continue
 
+        # Track last name context only for person entries
         if len(group) in (2, 3):
             if has_valid_last_names_range:
                 group.first, current_last_name = get_next_last_name(

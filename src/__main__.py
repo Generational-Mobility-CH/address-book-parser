@@ -26,6 +26,7 @@ from src.text_parser.src.parser import (
     parse_address_book,
 )
 from src.text_standardizer.src.standardizer import standardize_information
+from src.text_standardizer.src.street_name_standardizer import standardize_street_name
 
 _logger = getLogger(__name__)
 
@@ -59,6 +60,14 @@ def main(
             person.address = add_coordinates(person.address)
 
         repository.save(panel_data, output_path)
+
+        # Company postprocessing: standardize streets and geocode
+        for company in companies:
+            company.address.street_name = standardize_street_name(
+                company.address.street_name
+            )
+            company.address = add_coordinates(company.address)
+
         if companies:
             if output_type == SupportedFileTypes.CSV:
                 company_output = output_path.with_stem(
