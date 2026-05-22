@@ -173,3 +173,5 @@ fabric.properties
 /data/Basel/transcriptions/persons/
 /data/Basel/transcriptions/legacy_json/
 /data/Basel/transcriptions/legacy_json/Basel_*/
+/data/Basel/transcriptions/validation_cache/
+/data/Basel/benchmark/
