@@ -1,18 +1,13 @@
 from dataclasses import dataclass
-from enum import Enum
 from typing import Optional
-
-
-class CoordinateSystem(Enum):
-    SwissCoordinateSystem = "LV95"
-    WorldGeodeticSystem = "WGS84"
 
 
 @dataclass
 class Coordinates:
-    coordinates_system: CoordinateSystem
-    longitude: float
-    latitude: float
+    latitude_wgs84: float
+    longitude_wgs84: float
+    easting_lv95: float
+    northing_lv95: float
 
 
 @dataclass

@@ -22,10 +22,18 @@ from src.text_cleaner.src.words_separator import (
 from src.regex.src.apply_regex_patterns import (
     apply_regex_patterns,
 )
+import re
+
+_OCR_ARTIFACT_REPLACEMENTS: list[PatternAndRepl] = [
+    (re.compile(r"h浓"), "handlung"),
+    (re.compile(r"H浓"), "Handlung"),
+    (re.compile(r"n浓"), "nhandlung"),
+]
 
 PATTERNS_AND_REPLACEMENTS: list[PatternAndRepl] = []
 PATTERNS_AND_REPLACEMENTS.extend(
-    UNALLOWED_STRINGS_PATTERNS_AND_REPL
+    _OCR_ARTIFACT_REPLACEMENTS
+    + UNALLOWED_STRINGS_PATTERNS_AND_REPL
     + PARENTHESIS_PATTERNS_AND_REPL
     + DASHES_PATTERNS_AND_REPL
     + SEPARATE_WORDS_PATTERNS_AND_REPL
