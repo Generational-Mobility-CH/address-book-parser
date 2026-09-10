@@ -31,4 +31,7 @@ def assert_csv_files_are_equal(expected_file: Path, test_output: Path):
 
             raise AssertionError("CSV files differ")
         else:
-            test_output.unlink()
+            try:
+                test_output.unlink()
+            except PermissionError:
+                pass

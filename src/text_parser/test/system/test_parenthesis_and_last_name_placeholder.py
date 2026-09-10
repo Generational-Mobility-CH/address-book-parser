@@ -21,6 +21,7 @@ class ParenthesisAndLastNamePlaceholderTestCase(unittest.TestCase):
         actual = test_resources / "actual.csv"
 
         relevant_columns = [
+            "prefix",
             "first_names",
             "last_names",
             "partner_last_names",

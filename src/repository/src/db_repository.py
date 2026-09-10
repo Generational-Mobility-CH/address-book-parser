@@ -19,7 +19,7 @@ class DbRepository(Repository):
     def __init__(self, table_name=PERSONS_TABLE_NAME) -> None:
         self.table_name = table_name
 
-    def save(self, data: list[PanelDataEntry], output_path: Path) -> None:
+    def save(self, data: list, output_path: Path) -> None:
         if not data:
             _logger.warning(
                 "No data provided. Exiting without writing to the database."

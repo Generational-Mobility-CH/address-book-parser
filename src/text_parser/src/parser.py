@@ -9,6 +9,13 @@ from src.shared.models.address_book.address_book_page import (
 from src.shared.models.address_book.name_range import (
     NameRange,
 )
+from src.shared.models.company_entry import CompanyEntry
+from src.text_parser.src.company_entry_parser import (
+    is_continuation_fragment,
+    is_junk_entry,
+    merge_fragment_into_company,
+    parse_company,
+)
 from src.shared.models.panel_data_entry import PanelDataEntry
 from src.shared.models.person_data_parts import (
     PersonDataParts,
@@ -31,16 +38,21 @@ from src.text_parser.src.name_range_handler import (
 from src.text_parser.src.person_parser import (
     parse_person,
 )
+from src.text_parser.src.prefix_extractor import extract_entry_symbols
 from src.text_parser.src.separator.separator import separate_information
 
 _logger = getLogger(__name__)
 
 
-def _group_data(data: list[str]) -> list[PersonDataParts]:
-    result: list[PersonDataParts] = []
+def _group_data(
+    data: list[str],
+) -> list[tuple[PersonDataParts, tuple[bool, bool]]]:
+    result: list[tuple[PersonDataParts, tuple[bool, bool]]] = []
 
     for line in data:
-        content = line.split(",")
+        tel, post, cleaned = extract_entry_symbols(line.strip())
+        cleaned = cleaned.replace("\u2021", "").replace("\u25cf", "")
+        content = cleaned.split(",")
         stripped_content = []
         for e in content:
             e = e.strip()
@@ -48,12 +60,14 @@ def _group_data(data: list[str]) -> list[PersonDataParts]:
                 stripped_content.append(e)
 
         if len(stripped_content) in (2, 3):
-            result.append(PersonDataParts.from_list(stripped_content))
+            result.append((PersonDataParts.from_list(stripped_content), (tel, post)))
 
     return result
 
 
-def _parse_address_book_page(page: AddressBookPage) -> list[PanelDataEntry]:
+def _parse_address_book_page(
+    page: AddressBookPage,
+) -> tuple[list[PanelDataEntry], list[CompanyEntry]]:
     splitted_lines = [line for text in page.text_content for line in text.split("\n")]
     cleaned_lines = clean_text(splitted_lines)
     page.text_content = cleaned_lines
@@ -61,17 +75,38 @@ def _parse_address_book_page(page: AddressBookPage) -> list[PanelDataEntry]:
     return _parse_persons(page)
 
 
-def _parse_persons(page: AddressBookPage) -> list[PanelDataEntry]:
+def _parse_persons(
+    page: AddressBookPage,
+) -> tuple[list[PanelDataEntry], list[CompanyEntry]]:
     output = []
+    companies = []
     current_last_name = ""
     previous_last_name = ""
     grouped_information = _group_data(page.text_content)
     has_valid_last_names_range = is_valid_last_name_range(page.last_names_range)
 
-    for group in grouped_information:
+    for group, meta in grouped_information:
         if is_company(group):
+            full_text = f"{group.first}, {group.second}"
+            if group.third:
+                full_text += f", {group.third}"
+
+            # Discard junk entries (page headers etc.)
+            if is_junk_entry(full_text):
+                continue
+
+            # Merge continuation fragments into previous company
+            if is_continuation_fragment(full_text) and companies:
+                merge_fragment_into_company(companies[-1], full_text)
+                continue
+
+            company = parse_company(group, current_last_name)
+            company.year = page.year
+            company.pdf_page_number = page.pdf_page_number
+            companies.append(company)
             continue
 
+        # Track last name context only for person entries
         if len(group) in (2, 3):
             if has_valid_last_names_range:
                 group.first, current_last_name = get_next_last_name(
@@ -87,19 +122,24 @@ def _parse_persons(page: AddressBookPage) -> list[PanelDataEntry]:
             person = parse_person(group, current_last_name)
             person.year = page.year
             person.pdf_page_number = page.pdf_page_number
+            person.telephone = meta[0] and page.year >= 1885
+            person.postcheck = meta[1]
 
             if person not in output:
                 output.append(person)
 
-    return output
+    return output, companies
 
 
-def parse_address_book(address_book: AddressBook) -> list[PanelDataEntry]:
+def parse_address_book(
+    address_book: AddressBook,
+) -> tuple[list[PanelDataEntry], list[CompanyEntry]]:
     persons_collection: list[PanelDataEntry] = []
+    companies_collection: list[CompanyEntry] = []
 
     if len(address_book.pages) < 1:
         _logger.warning(f"No pages found. Skipping book for year {address_book.year}.")
-        return []
+        return [], []
 
     _logger.info(f"Parsing book from year {address_book.year}...")
 
@@ -110,7 +150,9 @@ def parse_address_book(address_book: AddressBook) -> list[PanelDataEntry]:
         start="A", end=find_next_valid_name_range_start_or_end(pages_collection, 1)
     )
 
-    persons_collection.extend(_parse_address_book_page(first_page))
+    persons, companies = _parse_address_book_page(first_page)
+    persons_collection.extend(persons)
+    companies_collection.extend(companies)
 
     for page_index in range(1, len(pages_collection)):
         page = address_book.pages[page_index]
@@ -126,8 +168,10 @@ def parse_address_book(address_book: AddressBook) -> list[PanelDataEntry]:
                     f"Could not approximate 'NameRange' for {address_book.year}-page_{page.pdf_page_number}"
                 )
 
-        persons_collection.extend(_parse_address_book_page(page))
+        persons, companies = _parse_address_book_page(page)
+        persons_collection.extend(persons)
+        companies_collection.extend(companies)
 
     panel_data = separate_information(persons_collection)
 
-    return panel_data
+    return panel_data, companies_collection

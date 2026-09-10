@@ -1,5 +1,6 @@
 PERSONS_TABLE_NAME = "persons"
 PERSONS_TABLE_COLUMNS_NAMES = [
+    "prefix",
     "first_names",
     "last_names",
     "partner_last_names",
@@ -7,9 +8,34 @@ PERSONS_TABLE_COLUMNS_NAMES = [
     "gender_confidence",
     "street_name",
     "house_number",
-    "coordinates",
+    "latitude_wgs84",
+    "longitude_wgs84",
+    "easting_lv95",
+    "northing_lv95",
     "job",
+    "telephone",
+    "postcheck",
     "year",
     "pdf_page_number",
     "original_entry",
+]
+
+COMPANIES_TABLE_NAME = "companies"
+COMPANIES_TABLE_COLUMNS_NAMES = [
+    "company_name",
+    "activity",
+    "street_name",
+    "house_number",
+    "latitude_wgs84",
+    "longitude_wgs84",
+    "easting_lv95",
+    "northing_lv95",
+    "telephone",
+    "postcheck",
+    "telephone_number",
+    "postcheck_number",
+    "year",
+    "pdf_page_number",
+    "original_entry",
+    "full_text",
 ]
